@@ -9,31 +9,31 @@ export const SiderbarInfo = [
     {
         title:'home',
         path:'/',
-        icon:<FcIcons.FcHome className='text-icon'/>,
+        icon:<FcIcons.FcHome />,
         className:'nav-text'
     },
     {
         title:'Gallery',
         path:'/gallery',
-        icon:<FcIcons.FcStart className='text-icon'/>,
+        icon:<FcIcons.FcStart/>,
         className:'nav-text'
     },
     {
         title:'Setting',
         path:'/setting',
-        icon:<FcIcons.FcAutomatic className='text-icon'/>,
+        icon:<FcIcons.FcAutomatic/>,
         className:'nav-text'
     },
     {
         title:'example1',
         path:'/example',
-        icon:<FcIcons.FcNightLandscape className='text-icon'/>,
+        icon:<FcIcons.FcNightLandscape />,
         className:'nav-text'
     },
     {
         title:'example2',
         path:'/',
-        icon:<FcIcons.FcPuzzle className='text-icon'/>,
+        icon:<FcIcons.FcPuzzle/>,
         className:'nav-text'
     },
 ]

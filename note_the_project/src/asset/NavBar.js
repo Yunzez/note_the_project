@@ -12,9 +12,9 @@ function NavBar() {
     const showSidebar = () => setSidebar(!sidebar)
     return (
         <div className='d-flex'>
-            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+            <div className={sidebar ? 'nav-menu active' : 'nav-menu'}>
 
-                <ul className='nav-menu-items' onClick={showSidebar}>
+                <ul className={sidebar ? 'nav-menu-items active' : 'nav-menu-items'} onClick={showSidebar}>
                     <li className='navbar-toggle'>
                         <Link to='/' className='menu-bars'>
                             <BiArrowToTop />
@@ -25,18 +25,19 @@ function NavBar() {
                             <li key={index} className={line.className}>
                                 <Link to={line.path}>
                                     {line.icon}
-                                    <span>{line.title}</span>
+                                    <span className='item-title'>{line.title}</span>
                                 </Link>
                             </li>
                         )
                     })}
                 </ul>
-                <div className='navbar'>
+                {/* <div className='navbar'>
                     <Link to='#' className="project_logo">
-                        <FiMenu className='ms-1 me-1 ' onClick={showSidebar} />
+                        <FiMenu className='ms-1 me-1 ' onMouseOver={showSidebar} />
                     </Link>
-                </div>
-            </nav>
+                </div> */}
+            </div>
+
 
 
 

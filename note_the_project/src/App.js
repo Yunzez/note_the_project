@@ -8,7 +8,7 @@ import Home from './pages/Home'
 import Example_1 from './pages/Example_1';
 function App() {
   return (
-    <>
+    <main>
       <BrowserRouter>
         <NavBar />
         <Routes>
@@ -17,7 +17,7 @@ function App() {
         </Routes>
       </BrowserRouter>
 
-    </>
+    </main>
   );
 }
 
