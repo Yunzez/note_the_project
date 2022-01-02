@@ -4,44 +4,46 @@ import { FiMenu } from "react-icons/fi";
 import { BiArrowToTop } from "react-icons/bi";
 import { SiderbarInfo } from './SidebarInfo';
 import './NavBar.css';
-import { IconContext } from 'react-icons'
-//type rfce to set up the function like this 
-function NavBar() {
-    const [sidebar, setSidebar] = useState(false)
 
+//import Mui and Font awesome, we will be mainly using this ui
+import * as MuiMaterial from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import * as FaiSolid  from '@fortawesome/free-solid-svg-icons'
+//type rfce to set up the function like this 
+
+
+function NavBar(props) {
+    const [sidebar, setSidebar] = useState(false)
     const showSidebar = () => setSidebar(!sidebar)
     return (
-        <div className='d-flex'>
+        <nav>
             <div className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-
-                <ul className={sidebar ? 'nav-menu-items active' : 'nav-menu-items'} onClick={showSidebar}>
-                    <li className='navbar-toggle'>
-                        <Link to='/' className='menu-bars'>
-                            <BiArrowToTop />
+                <div className={sidebar ? 'nav-menu-items active' : 'nav-menu-items'} onMouseLeave={showSidebar} onMouseEnter={showSidebar}>
+                    <div className='navbar-toggle '>
+                        <Link to='/' className='menu-bars d-flex flex-row-reverse mb-2 me-2 mt-2'>
+                        <FontAwesomeIcon id='open-menu-arrow' icon={FaiSolid.faArrowRight} size="md"/>
+                        <FontAwesomeIcon  id='close-menu-arrow' icon={FaiSolid.faArrowLeft}size="md"/>
                         </Link>
-                    </li>
+                    </div>
                     {SiderbarInfo.map((line, index) => {
                         return (
-                            <li key={index} className={line.className}>
+                            <div key={index} className={line.className}>
                                 <Link to={line.path}>
                                     {line.icon}
                                     <span className='item-title'>{line.title}</span>
+                                    <MuiMaterial.Divider />
                                 </Link>
-                            </li>
+
+                            </div>
                         )
                     })}
-                </ul>
-                {/* <div className='navbar'>
-                    <Link to='#' className="project_logo">
-                        <FiMenu className='ms-1 me-1 ' onMouseOver={showSidebar} />
-                    </Link>
-                </div> */}
+                </div>
+
             </div>
 
 
 
-
-        </div>
+        </nav>
     )
 }
 
