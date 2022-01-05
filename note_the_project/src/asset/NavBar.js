@@ -4,7 +4,7 @@ import { FiMenu } from "react-icons/fi";
 import { BiArrowToTop } from "react-icons/bi";
 import { SiderbarInfo } from './SidebarInfo';
 import './NavBar.css';
-
+import { SidebarPages } from './SidebarPages';
 //import Mui and Font awesome, we will be mainly using this ui
 import * as MuiMaterial from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,9 +18,9 @@ function NavBar(props) {
     }
 
     const [sidebar, setSidebar] = useState(false)
-    const showSidebar = async() => {
+    const showSidebar = async () => {
         setSidebar(!sidebar)
-        
+
         // let element = document.getElementsByClassName('nav-menu active')
         // if (element.length == 0) {
         //     let titles = document.querySelectorAll('.item-title');
@@ -30,7 +30,7 @@ function NavBar(props) {
         //         title.classList.add('d-inline');
         //         title.classList.remove('d-none');
         //     })
-            
+
         // } else {
         //     let titles = document.querySelectorAll('.item-title');
         //     titles.forEach((title)=>{
@@ -39,36 +39,62 @@ function NavBar(props) {
         //     })
         // }
     }
+
+    let defaultElement = (
+
+        <div>
+            <div className='navbar-toggle '>
+                <Link to='/' className='menu-bars d-flex flex-row-reverse mb-2 ms-1 me-2 mt-2'>
+                    <FontAwesomeIcon id='open-menu-arrow' icon={FaiSolid.faArrowRight} />
+                    <FontAwesomeIcon id='close-menu-arrow' icon={FaiSolid.faArrowLeft} />
+                </Link>
+                <MuiMaterial.Divider className='mb-1' />
+
+            </div>
+            {SiderbarInfo.map((line, index) => {
+                return (
+                    <div key={index} className={line.className}>
+                        <Link to={line.path} className='d-flex justify-content-start'>
+                            <div className='item-icon'>{line.icon}</div>
+                            <span className='item-title'>{line.title}</span>
+                        </Link>
+
+                    </div>
+                )
+            })}
+            <MuiMaterial.Divider className='mb-1' />
+        </div>
+
+
+    )
+
+    if (!props.login) {
+        var pages =
+            <div>
+                {SidebarPages.map((line, index) => {
+                    return (
+                        <div key={index} className={line.className}>
+                            <Link to={line.path} className='d-flex justify-content-start'>
+                                <div className='item-icon'>{line.icon}</div>
+                                <span className='item-title'>{line.title}</span>
+                            </Link>
+
+                        </div>
+                    )
+                })}
+            </div>
+
+    }
     return (
         <nav>
             <div className={sidebar ? 'nav-menu active' : 'nav-menu'}>
                 <div className={sidebar ? 'nav-menu-items active' : 'nav-menu-items'} onMouseLeave={showSidebar} onMouseEnter={showSidebar}>
-                    <div className='navbar-toggle '>
-                        <Link to='/' className='menu-bars d-flex flex-row-reverse mb-2 me-2 mt-2'>
-                            <FontAwesomeIcon id='open-menu-arrow' icon={FaiSolid.faArrowRight} />
-                            <FontAwesomeIcon id='close-menu-arrow' icon={FaiSolid.faArrowLeft}  />
-                        </Link>
-                        <MuiMaterial.Divider className='mb-3'/>
-                    </div>
-                    {SiderbarInfo.map((line, index) => {
-                        return (
-                            <div key={index} className={line.className}>
-                                <Link to={line.path} className='d-flex justify-content-start'>
-                                    <div className='item-icon'>{line.icon }</div>
-                                    <span className='item-title'>{line.title}</span>
-                                    <div className="item-place-holder"></div>
-                                </Link>
-
-                            </div>
-                        )
-                    })}
+                    {defaultElement}
+                    {pages}
                 </div>
-
             </div>
 
-
-
-        </nav>
+        </nav >
     )
 }
 

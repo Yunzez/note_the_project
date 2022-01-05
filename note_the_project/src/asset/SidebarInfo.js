@@ -1,39 +1,25 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { GiBackstab } from "react-icons/gi";
-import { BiArrowToTop } from "react-icons/bi";
 import * as FcIcons from "react-icons/fc";
-
+import * as RiIcons from "react-icons/ri";
 
 export const SiderbarInfo = [
     {
-        title:'home',
-        path:'/',
-        icon:<FcIcons.FcHome />,
+        title:'login',
+        path:'/login',
+        icon:<FcIcons.FcOk/>,
         className:'nav-text'
     },
     {
-        title:'Gallery',
-        path:'/gallery',
-        icon:<FcIcons.FcStart/>,
-        className:'nav-text'
-    },
-    {
-        title:'Setting',
+        title:'setting',
         path:'/setting',
-        icon:<FcIcons.FcAutomatic/>,
+        icon:<FcIcons.FcSettings />,
         className:'nav-text'
     },
     {
-        title:'example1',
-        path:'/example',
-        icon:<FcIcons.FcNightLandscape />,
-        className:'nav-text'
-    },
-    {
-        title:'example2',
-        path:'/',
-        icon:<FcIcons.FcPuzzle/>,
+        title:'favorite',
+        path:'/favorite',
+        icon:<FcIcons.FcLike/>,
         className:'nav-text'
     },
 ]

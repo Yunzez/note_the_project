@@ -5,17 +5,20 @@ import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom'
 // Switch 在新版本中是 Routes 
 
 import RenderHome from './pages/Home'
-import Example_1 from './pages/Example_1';
+import Favorite from './pages/Favorite';
+import Setting from './pages/Setting';
 function App() {
+  let login = false;
   return (
     <main>
       <BrowserRouter>
       <section className='d-flex '>
-        <NavBar/>
+        <NavBar login={login}/>
         
           <Routes>
             <Route exact path='/' element={<RenderHome />} />
-            <Route exact path='/example' element={ <Example_1 />}/>
+            <Route exact path='/favorite' element={ <Favorite />}/>
+            <Route exact path='/setting' element={ <Setting/>}/>
             
           </Routes>
         </section>
