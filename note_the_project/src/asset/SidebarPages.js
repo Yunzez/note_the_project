@@ -2,8 +2,8 @@ import React from 'react'
 import * as FcIcons from "react-icons/fc";
 export const SidebarPages = [
     {
-        title: 'notes',
-        path: '/login',
+        title: 'Getting Start',
+        path: '/default',
         icon: <FcIcons.FcOk />,
         className: 'nav-text'
     },

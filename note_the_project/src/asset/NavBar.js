@@ -16,11 +16,12 @@ function NavBar(props) {
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
-    var closemenuClass = document.getElementById('close-menu-arrow').classList;
-    var openmenuClass = document.getElementById('open-menu-arrow').classList;
+    
     const [sidebar, setSidebar] = useState(false)
     const showSidebar = async () => {
         setSidebar(!sidebar)
+        var closemenuClass = document.getElementById('close-menu-arrow').classList;
+        var openmenuClass = document.getElementById('open-menu-arrow').classList;
         closemenuClass.toggle('d-none')
         openmenuClass.toggle('d-none')
 
@@ -88,10 +89,10 @@ function NavBar(props) {
                         <span className="d-none d-lg-block">Note the project</span>
                     </Link>
                     <MuiMaterial.Divider className='mb-1' />
-                    <div className='navbar-toggle '>
-                        <Link to='/'  onClick={showSidebar} className='menu-bars d-flex flex-row-reverse mb-2 ms-1 me-2 mt-2'>
+                    <div className='navbar-toggle ' id= 'navbar-toggle'>
+                        <Link to='/'  onClick={showSidebar}  className='menu-bars d-flex flex-row-reverse mb-2 ms-1 me-2 mt-2'>
                             <FontAwesomeIcon id='open-menu-arrow' className='d-none' icon={FaiSolid.faArrowRight}/>
-                            <FontAwesomeIcon id='close-menu-arrow' icon={FaiSolid.faArrowLeft} />
+                            <FontAwesomeIcon id='close-menu-arrow' className='d-inline' icon={FaiSolid.faArrowLeft} />
                         </Link>
 
                     </div>
@@ -102,7 +103,7 @@ function NavBar(props) {
                 <div className={sidebar ? 'nav-menu active' : 'nav-menu'}>
                     <div className={sidebar ? 'nav-menu-items active' : 'nav-menu-items'} >
                         {defaultElement}
-                        <li class="nav-heading">Pages</li>
+                        <li className="nav-heading">Pages</li>
                         {pages}
                     </div>
                 </div>
