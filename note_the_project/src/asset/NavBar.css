@@ -1,133 +1,105 @@
-/* 
+.header {
+    transition: all 0.5s;
+    z-index: 997;
+    height: 60px;
+    box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+    background-color: #fff;
+    padding-left: 20px;
+    /* Toggle Sidebar Button */
+    /* Search Bar */
+}
+
+.header span {
+    font-size: 26px;
+    font-weight: 700;
+    color: #17252A;
+    font-family: "Nunito", sans-serif;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: #17252A;
+    transition: 0.3;
+    background: #f6f9ff;
+    padding: 10px 15px;
+    border-radius: 4px;
+}
+
+.nav-heading {
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #17252A;
+    font-weight: 600;
+    text-align: center;
+}
+
+.navbar-toggle {
+    font-size: 32px;
+    padding-left: 10px;
+    cursor: pointer;
+    color: #17252A;
+}
+
 
 /* auto width 不能被动画 这里用max width */
-.nav-menu{
-    background-color: #DEF2F1;
-    /* width: auto; */
-    /* 这里的width暂时用来当动画，之后需要用js代替，css没办法根据dynamic width做动画 */
-    transition: max-width 3s ease;  
-    width:auto; 
-    max-width:3vw;
-    height: 100vh;
-    top: 0;
-    display: flex;
-    justify-content: center;
-    position:relative;
-}
-.item-icon{
-    font-size:1rem;
-}
-.item-title{
-    font-size: auto;
+
+.nav-menu {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    z-index: 996;
+    transition: all 0.3s;
+    padding: 20px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #aab7cf transparent;
+    box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
+    background-color: #FEFFFF;
 }
 
-.nav-text{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 5%;
+.nav-menu.active {
+    left: -100vh;
+}
+
+.nav-menu-items {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.nav-text {
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
 .nav-text a {
-    /* height: auto; */
-    /* transition: 500ms; */
     text-decoration: none;
-    color:#17252A;
+    color: #17252A;
     width: 100%;
-    /* margin-top: 20%;
-    margin-bottom: 20%; */
     align-items: center;
     justify-content: center;
     padding-left: 0.2rem;
-    font-size: 1rem;
-
 }
-
-
-
-/* change the style of menu bar when hovering */
-
-.nav-menu .item-title{
-    position:relative;
-    /* 不允许自动换行 */
-    white-space:nowrap;
-    margin-right: 0;
-    width: 0px;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 3s, opacity 0.5s ease;
-    transition-delay:1s;
-    
-}
-.nav-menu.active .item-title{
-     width:auto;
-     visibility: visible;
-     opacity: 1;
-     margin-right: 10px;
-
-     /* flex-wrap: wrap;
-     overflow-wrap: normal; */
-}
-
-
-.nav-menu-items #close-menu-arrow{
-    display: none;
-    transition: all 1s ease-in-out;
-}
-
-.nav-menu-items #open-menu-arrow{
-    display:flex;
-    transition: all 1s ease-in-out;
-}
-
-.nav-menu.active{
-    width:auto;
-    max-width:15vw;
-    left:0;
-    /* transition: max-width 3s ease; */
-}
-
-
-.nav-menu.active #close-menu-arrow{
-    display: inline;
-    transition: all 1s ease-in-out;
-}
-
-.nav-menu.active #open-menu-arrow{
-    display: none;
-    transition: all 1s ease-in-out;
-}
-
 
 .nav-text a:hover {
-    /* 上移动画 */
-    /* margin-top: 3px;
-    margin-bottom: 8px; */
-    transition: 0.3s;
-    background-color: #3AAFA9;
+    color: #DEF2F1;
+    background: #f6f9ff;
 }
 
-.nav-menu-items{
-    width: 100%;
+.nav-text a:hover i {
+    color: #DEF2F1;
 }
 
-
-.navbar-toggle{
-    background-color: #DEF2F1;
-    width: 100%;
-    height:auto;
-   
-}
-.menu-bars{
-    background: none;
-}
-
-
-.item-title{
-    font-size: 0.5em;
-    font-weight: 400;
-    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-span{
-    margin-left: 5px;
+.nav-text .item-title {
+    font-size: 15px;
+    text-transform: uppercase;
+    color: #17252A;
+    font-weight: 600;
+    margin: 10px 0 5px 15px;
 }

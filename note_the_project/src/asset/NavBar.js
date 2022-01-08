@@ -16,10 +16,13 @@ function NavBar(props) {
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
-
+    var closemenuClass = document.getElementById('close-menu-arrow').classList;
+    var openmenuClass = document.getElementById('open-menu-arrow').classList;
     const [sidebar, setSidebar] = useState(false)
     const showSidebar = async () => {
         setSidebar(!sidebar)
+        closemenuClass.toggle('d-none')
+        openmenuClass.toggle('d-none')
 
         // let element = document.getElementsByClassName('nav-menu active')
         // if (element.length == 0) {
@@ -43,14 +46,6 @@ function NavBar(props) {
     let defaultElement = (
 
         <div>
-            <div className='navbar-toggle '>
-                <Link to='/' className='menu-bars d-flex flex-row-reverse mb-2 ms-1 me-2 mt-2'>
-                    <FontAwesomeIcon id='open-menu-arrow' icon={FaiSolid.faArrowRight} />
-                    <FontAwesomeIcon id='close-menu-arrow' icon={FaiSolid.faArrowLeft} />
-                </Link>
-                <MuiMaterial.Divider className='mb-1' />
-
-            </div>
             {SiderbarInfo.map((line, index) => {
                 return (
                     <div key={index} className={line.className}>
@@ -86,15 +81,35 @@ function NavBar(props) {
 
     }
     return (
-        <nav>
-            <div className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-                <div className={sidebar ? 'nav-menu-items active' : 'nav-menu-items'} onMouseLeave={showSidebar} onMouseEnter={showSidebar}>
-                    {defaultElement}
-                    {pages}
-                </div>
-            </div>
+        <div>
+            <header className="header fixed-top d-flex align-items-center">
+                <div className="d-flex align-items-center justify-content-between">
+                    <Link to='' className="logo d-flex align-items-center">
+                        <span className="d-none d-lg-block">Note the project</span>
+                    </Link>
+                    <MuiMaterial.Divider className='mb-1' />
+                    <div className='navbar-toggle '>
+                        <Link to='/'  onClick={showSidebar} className='menu-bars d-flex flex-row-reverse mb-2 ms-1 me-2 mt-2'>
+                            <FontAwesomeIcon id='open-menu-arrow' className='d-none' icon={FaiSolid.faArrowRight}/>
+                            <FontAwesomeIcon id='close-menu-arrow' icon={FaiSolid.faArrowLeft} />
+                        </Link>
 
-        </nav >
+                    </div>
+                   
+                </div>
+            </header>
+            <aside>
+                <div className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+                    <div className={sidebar ? 'nav-menu-items active' : 'nav-menu-items'} >
+                        {defaultElement}
+                        <li class="nav-heading">Pages</li>
+                        {pages}
+                    </div>
+                </div>
+
+            </aside >
+        </div>
+
     )
 }
 
