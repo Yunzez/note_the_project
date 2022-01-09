@@ -11,12 +11,6 @@ import Setting from './pages/Setting';
 import DefaultPage from './pages/DefaultPage';
 function App() {
   let login = false;
-
-  const [sidebar, setSidebar] = useState(false)
-    const showSidebar = async () => {
-        setSidebar(!sidebar)
-    }
-    
     
   return (
     <main>

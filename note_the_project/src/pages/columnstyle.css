@@ -1,0 +1,15 @@
+.column{
+    
+}
+
+.column div{
+    height: 80vh;
+    z-index: 996;
+    transition: all 0.3s;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #aab7cf transparent;
+    box-shadow: 5px 0px 5px 0px #aab7cf;
+    background-color: #FEFFFF;
+    margin:3px;
+}
