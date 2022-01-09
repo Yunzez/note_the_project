@@ -19,9 +19,9 @@ function App() {
     
     
   return (
-    <main className={sidebar ? 'main active' : 'main'}>
+    <main>
       <BrowserRouter>
-      <section >
+      <section className='main'>
         <NavBar login={login}/>
         
           <Routes>

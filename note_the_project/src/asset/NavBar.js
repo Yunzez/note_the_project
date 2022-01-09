@@ -24,6 +24,7 @@ function NavBar(props) {
         var openmenuClass = document.getElementById('open-menu-arrow').classList;
         closemenuClass.toggle('d-none')
         openmenuClass.toggle('d-none')
+        document.querySelector('main').classList.toggle('main-close')
 
         // let element = document.getElementsByClassName('nav-menu active')
         // if (element.length == 0) {
@@ -90,10 +91,10 @@ function NavBar(props) {
                     </Link>
                     <MuiMaterial.Divider className='mb-1' />
                     <div className='navbar-toggle ' id= 'navbar-toggle'>
-                        <Link to='/'  onClick={showSidebar}  className='menu-bars d-flex flex-row-reverse mb-2 ms-1 me-2 mt-2'>
+                        <div  onClick={showSidebar}  className='menu-bars d-flex flex-row-reverse mb-2 ms-1 me-2 mt-2'>
                             <FontAwesomeIcon id='open-menu-arrow' className='d-none' icon={FaiSolid.faArrowRight}/>
                             <FontAwesomeIcon id='close-menu-arrow' className='d-inline' icon={FaiSolid.faArrowLeft} />
-                        </Link>
+                        </div>
 
                     </div>
                    
