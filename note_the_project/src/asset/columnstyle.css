@@ -1,0 +1,15 @@
+.column {
+    min-width: auto;
+    max-width: fit-content;
+    transition: all 0.3s;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #aab7cf transparent;
+    box-shadow: 2px 2px 2px 1px #aab7cf;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.heading {
+    text-align: start;
+}

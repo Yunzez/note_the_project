@@ -1,38 +1,21 @@
 import React, { useState } from 'react'
-import './columnstyle.css'
+import RenderColumn from '../asset/RenderColumn'
+
 function DefaultPage() {
     let columnList = []
+
     const [columnlist, setColumnlist] = useState(columnList)
     if (columnlist.length <= 4) {
 
     }
+
+    let name = 'Your first List'
     return (
-        <div className='row'>
-            <div className='col-3 column '>
-                <div>
-                    This is the starting page and this is your first column!
-                </div>
-            </div>
-            <div className='col-3 column '>
-                <div>
-                    This is the starting page and this is your first column!
-                </div>
-            </div>
-            <div className='col-3 column '>
-                <div>
-                    This is the starting page and this is your first column!
-                </div>
-            </div>
-            <div className='col-3 column'>
-                <div>
-                    This is the starting page and this is your first column!
-                </div>
-            </div>
-            <div className='col-3 column'>
-                <div>
-                    This is the starting page and this is your first column!
-                </div>
-            </div>
+        <div className='row ms-1'>
+            <RenderColumn name={name}/>
+            
+            
+            
         </div>
     )
 }
