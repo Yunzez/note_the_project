@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import RenderColumn from '../asset/RenderColumn'
-
+import RenderColumnTrigger from '../asset/RenderColumnTrigger'
 function DefaultPage() {
     let columnList = []
 
@@ -13,7 +13,7 @@ function DefaultPage() {
     return (
         <div className='row ms-1'>
             <RenderColumn name={name}/>
-            
+            <RenderColumnTrigger/>
             
             
         </div>

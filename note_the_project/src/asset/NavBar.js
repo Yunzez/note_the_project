@@ -65,7 +65,7 @@ function NavBar(props) {
 
     )
 
-    if (!props.login) {
+    
         var pages =
             <div>
                 {SidebarPages.map((line, index) => {
@@ -81,7 +81,7 @@ function NavBar(props) {
                 })}
             </div>
 
-    }
+    
     return (
         <div>
             <header className="header fixed-top d-flex align-items-center">
