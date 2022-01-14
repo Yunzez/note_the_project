@@ -12,7 +12,7 @@ import DefaultPage from './pages/DefaultPage';
 import Login from './pages/Login';
 import PublicLoginPage from './pages/PublicLoginPage';
 function App() {
-  let login = false;
+  const [login, setLogin] = useState(false);
 
 
   if (!login) {
@@ -21,14 +21,15 @@ function App() {
 
   return (
     <main>
-      <BrowserRouter>
+      
         <section className='main'>
-          <NavBar login={login} />
+        <BrowserRouter>
+        <NavBar login={login} setLogin={setLogin}/>
 
 
           <Routes>
-            <Route exact path='/public' exact element={<PublicLoginPage />} />
-            <Route exact path='/' exact element={<RenderHome />} />
+            <Route exact path='/' exact element={<PublicLoginPage setLogin={setLogin}/>} />
+            <Route exact path='/home' exact element={<RenderHome />} />
             {/* <Route exact path="/" render={() => (
               login ? (
                  <RenderHome />
@@ -46,8 +47,9 @@ function App() {
             <Route exact path='/default' element={<DefaultPage />} />
 
           </Routes>
+          </BrowserRouter>
         </section>
-      </BrowserRouter>
+      
 
     </main>
   );

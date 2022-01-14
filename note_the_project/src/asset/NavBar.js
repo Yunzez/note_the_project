@@ -13,10 +13,12 @@ import * as FaiSolid from '@fortawesome/free-solid-svg-icons'
 
 
 function NavBar(props) {
+
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
-    
+
+
     const [sidebar, setSidebar] = useState(false)
     const showSidebar = async () => {
         setSidebar(!sidebar)
@@ -45,6 +47,9 @@ function NavBar(props) {
         // }
     }
 
+    // detect login status
+
+
     let defaultElement = (
 
         <div>
@@ -65,54 +70,60 @@ function NavBar(props) {
 
     )
 
-    
-        var pages =
-            <div>
-                {SidebarPages.map((line, index) => {
-                    return (
-                        <div key={index} className={line.className}>
-                            <Link to={line.path} className='d-flex justify-content-start'>
-                                <div className='item-icon'>{line.icon}</div>
-                                <span className='item-title'>{line.title}</span>
-                            </Link>
 
-                        </div>
-                    )
-                })}
-            </div>
-
-    
-    return (
+    var pages =
         <div>
-            <header className="header fixed-top d-flex align-items-center">
-                <div className="d-flex align-items-center justify-content-between">
-                    <Link to='' className="logo d-flex align-items-center">
-                        <span className="d-none d-lg-block">Note the project</span>
-                    </Link>
-                    <MuiMaterial.Divider className='mb-1' />
-                    <div className='navbar-toggle ' id= 'navbar-toggle'>
-                        <div  onClick={showSidebar}  className='menu-bars d-flex flex-row-reverse mb-2 ms-1 me-2 mt-2'>
-                            <FontAwesomeIcon id='open-menu-arrow' className='d-none' icon={FaiSolid.faArrowRight}/>
-                            <FontAwesomeIcon id='close-menu-arrow' className='d-inline' icon={FaiSolid.faArrowLeft} />
-                        </div>
+            {SidebarPages.map((line, index) => {
+                return (
+                    <div key={index} className={line.className}>
+                        <Link to={line.path} className='d-flex justify-content-start'>
+                            <div className='item-icon'>{line.icon}</div>
+                            <span className='item-title'>{line.title}</span>
+                        </Link>
 
                     </div>
-                   
-                </div>
-            </header>
-            <aside>
-                <div className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-                    <div className={sidebar ? 'nav-menu-items active' : 'nav-menu-items'} >
-                        {defaultElement}
-                        <li className="nav-heading">Pages</li>
-                        {pages}
-                    </div>
-                </div>
-
-            </aside >
+                )
+            })}
         </div>
 
-    )
+    if (!props.login) {
+        console.log(props.login)
+        return (<div></div>)
+    } else {
+        console.log(props.login, 'normal sidebar')
+        return (
+            <div>
+                <header className="header fixed-top d-flex align-items-center">
+                    <div className="d-flex align-items-center justify-content-between">
+                        <Link to='' className="logo d-flex align-items-center">
+                            <span className="d-none d-lg-block">Note the project</span>
+                        </Link>
+                        <MuiMaterial.Divider className='mb-1' />
+                        <div className='navbar-toggle ' id='navbar-toggle'>
+                            <div onClick={showSidebar} className='menu-bars d-flex flex-row-reverse mb-2 ms-1 me-2 mt-2'>
+                                <FontAwesomeIcon id='open-menu-arrow' className='d-none' icon={FaiSolid.faArrowRight} />
+                                <FontAwesomeIcon id='close-menu-arrow' className='d-inline' icon={FaiSolid.faArrowLeft} />
+                            </div>
+
+                        </div>
+
+                    </div>
+                </header>
+                <aside>
+                    <div className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+                        <div className={sidebar ? 'nav-menu-items active' : 'nav-menu-items'} >
+                            {defaultElement}
+                            <li className="nav-heading">Pages</li>
+                            {pages}
+                        </div>
+                    </div>
+
+                </aside >
+            </div>
+
+        )
+    }
+
 }
 
 export default NavBar
