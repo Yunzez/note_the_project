@@ -117,7 +117,6 @@ function NavBar(props) {
                             {pages}
                         </div>
                     </div>
-
                 </aside >
             </div>
 
