@@ -18,7 +18,7 @@ function NavBar(props) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
 
-
+    
     const [sidebar, setSidebar] = useState(false)
     const showSidebar = async () => {
         setSidebar(!sidebar)

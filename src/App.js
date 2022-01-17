@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import { Button } from 'reactstrap'
 import NavBar from './asset/NavBar';
 import { BrowserRouter, Routes, Route, Navigate, Link, NavLink } from 'react-router-dom'
@@ -19,8 +19,17 @@ import 'firebase/database';
 
 function App() {
   const [login, setLogin] = useState(false);
+  console.log(login)
 
+  useEffect(() => {
+    var loginStatus = window.localStorage.getItem('login')
+    setLogin(JSON.parse(loginStatus))
+  },[])
 
+  useEffect(() => {
+    window.localStorage.setItem('login', JSON.stringify(login))
+  });
+  
   if (!login) {
     console.log('you are not logged in')
   }
