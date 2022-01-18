@@ -8,17 +8,26 @@ import { SidebarPages } from './SidebarPages';
 //import Mui and Font awesome, we will be mainly using this ui
 import * as MuiMaterial from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
- import * as FaiSolid from '@fortawesome/free-solid-svg-icons'
+import * as FaiSolid from '@fortawesome/free-solid-svg-icons'
+import {
+    Button
+} from 'reactstrap';
 //type rfce to set up the function like this 
 
 
 function NavBar(props) {
-
+    console.log(props.handleSignOut)
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
 
-    
+    //signout function, need to change in the future
+
+
+
+
+    var handleSignOut = props.handleSignOut;
+
     const [sidebar, setSidebar] = useState(false)
     const showSidebar = async () => {
         setSidebar(!sidebar)
@@ -86,8 +95,8 @@ function NavBar(props) {
             })}
         </div>
 
-    if (!props.login) {
-        console.log(props.login)
+    if (!props.user) {
+        console.log(props.user)
         return (<div></div>)
     } else {
         console.log(props.login, 'normal sidebar')
@@ -105,6 +114,11 @@ function NavBar(props) {
                                 <FontAwesomeIcon id='close-menu-arrow' className='d-inline' icon={FaiSolid.faArrowLeft} />
                             </div>
 
+                        </div>
+                        <div>
+                            <Button onClick={handleSignOut} className='menu-bars float-right mb-2 ms-1 me-2 mt-2'>
+                                Sign out
+                            </Button>
                         </div>
 
                     </div>
