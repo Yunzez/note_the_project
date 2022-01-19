@@ -59,7 +59,7 @@ function NavBar(props) {
     let defaultElement = (
 
         <div>
-            <Button onClick={handleSignOut} className='menu-bars mb-2'>Sign out</Button>
+            <Button onClick={handleSignOut} className='menu-bars mb-2'>-- Sign Out --</Button>
             <MuiMaterial.Divider className='mb-1' />
             {SiderbarInfo.map((line, index) => {
                 return (
