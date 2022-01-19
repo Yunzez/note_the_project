@@ -57,10 +57,10 @@ function App() {
 
   // try login 
   useEffect(() => {// run after component loads, listen to the changes of auth state for log in 
-    // determine if it is loged in or not 
+    // determine if it is logged in or not 
     const authUnregisterFunction = firebase.auth().onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
-        console.log("log in ", firebaseUser.displayName)
+        console.log("log in", firebaseUser.displayName)
         setUser(firebaseUser)
         setIsLoading(false)
       } else {
@@ -74,28 +74,27 @@ function App() {
     }
   }, [])
 
-  //signout function
+  //sign out function
   const handleSignOut = () => {
-    console.log("click signout")
+    console.log("click sign out")
     firebase.auth().signOut();
   }
 
-  //sign in function, not being used, sign in functionality is carried out in publichome page
-  const HandleSignIn = (props) => {
+    // sign in function, not being used, sign in functionality is carried out in public home page
+//   const HandleSignIn = (props) => {
 
-    if (props.user != undefined) {
-
-      return (<>
-        <NavBar user={user} handleSignOut={handleSignOut} />
-        <RenderHome user={props.user} handleSignOut={props.handleSignOut} /></>
-      )
-    } else {
-      console.log('no user status')
-      return (
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-      )
-    }
-  }
+//     if (props.user != undefined) {
+//       return (<>
+//         <NavBar user={user} handleSignOut={handleSignOut} />
+//         <RenderHome user={props.user} handleSignOut={props.handleSignOut} /></>
+//       )
+//     } else {
+//       console.log('no user status')
+//       return (
+//         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+//       )
+//     }
+//   }
 
 
   if (isLoading) {

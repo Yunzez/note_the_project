@@ -9,9 +9,8 @@ import { SidebarPages } from './SidebarPages';
 import * as MuiMaterial from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as FaiSolid from '@fortawesome/free-solid-svg-icons'
-import {
-    Button
-} from 'reactstrap';
+import { Button } from 'reactstrap';
+import * as FcIcons from "react-icons/fc";
 //type rfce to set up the function like this 
 
 
@@ -21,9 +20,7 @@ function NavBar(props) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
 
-    //signout function, need to change in the future
-
-
+    //sign out function, need to change in the future
 
 
     var handleSignOut = props.handleSignOut;
@@ -62,6 +59,8 @@ function NavBar(props) {
     let defaultElement = (
 
         <div>
+            <Button onClick={handleSignOut} className='menu-bars mb-2'>Sign out</Button>
+            <MuiMaterial.Divider className='mb-1' />
             {SiderbarInfo.map((line, index) => {
                 return (
                     <div key={index} className={line.className}>
@@ -99,13 +98,26 @@ function NavBar(props) {
         console.log(props.user)
         return (<div></div>)
     } else {
+        var CurrentDate = new Date();
         console.log(props.login, 'normal sidebar')
+        console.log(props.user.displayName, CurrentDate.getHours())
+        let str = null;
+        if (CurrentDate.getHours() >= 5 && CurrentDate.getHours() <= 11) {
+            str = "Good Morning, "
+        } else if (CurrentDate.getHours() >= 12 && CurrentDate.getHours() <= 18) {
+            str = "Good Afternoon, "
+        } else if (CurrentDate.getHours() >= 19 && CurrentDate.getHours() <= 23) {
+            str = "Good Evening, "
+        } else {
+            str = "Good Night, "
+        }
+
         return (
             <div>
                 <header className="header fixed-top d-flex align-items-center">
                     <div className="d-flex align-items-center justify-content-between">
                         <Link to='' className="logo d-flex align-items-center">
-                            <span className="d-none d-lg-block">Note the project</span>
+                            <span className="d-none d-lg-block">Note the Project</span>
                         </Link>
                         <MuiMaterial.Divider className='mb-1' />
                         <div className='navbar-toggle ' id='navbar-toggle'>
@@ -113,12 +125,9 @@ function NavBar(props) {
                                 <FontAwesomeIcon id='open-menu-arrow' className='d-none' icon={FaiSolid.faArrowRight} />
                                 <FontAwesomeIcon id='close-menu-arrow' className='d-inline' icon={FaiSolid.faArrowLeft} />
                             </div>
-
                         </div>
                         <div>
-                            <Button onClick={handleSignOut} className='menu-bars float-right mb-2 ms-1 me-2 mt-2'>
-                                Sign out
-                            </Button>
+                            { str }{ props.user.displayName }. 
                         </div>
 
                     </div>

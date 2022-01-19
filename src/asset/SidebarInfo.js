@@ -5,12 +5,6 @@ import * as RiIcons from "react-icons/ri";
 
 export const SiderbarInfo = [
     {
-        title:'login',
-        path:'/login',
-        icon:<FcIcons.FcOk/>,
-        className:'nav-text'
-    },
-    {
         title:'setting',
         path:'/setting',
         icon:<FcIcons.FcSettings />,
