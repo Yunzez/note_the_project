@@ -59,8 +59,7 @@ function NavBar(props) {
     let defaultElement = (
 
         <div>
-            <Button onClick={handleSignOut} className='menu-bars mb-2'>-- Sign Out --</Button>
-            <MuiMaterial.Divider className='mb-1' />
+            
             {SiderbarInfo.map((line, index) => {
                 return (
                     <div key={index} className={line.className}>
@@ -114,22 +113,26 @@ function NavBar(props) {
 
         return (
             <div>
-                <header className="header fixed-top d-flex align-items-center">
-                    <div className="d-flex align-items-center justify-content-between">
-                        <Link to='' className="logo d-flex align-items-center">
-                            <span className="d-none d-lg-block">Note the Project</span>
-                        </Link>
-                        <MuiMaterial.Divider className='mb-1' />
-                        <div className='navbar-toggle ' id='navbar-toggle'>
-                            <div onClick={showSidebar} className='menu-bars d-flex flex-row-reverse mb-2 ms-1 me-2 mt-2'>
-                                <FontAwesomeIcon id='open-menu-arrow' className='d-none' icon={FaiSolid.faArrowRight} />
-                                <FontAwesomeIcon id='close-menu-arrow' className='d-inline' icon={FaiSolid.faArrowLeft} />
+                <header className="fixed-top header align-items-center">
+                    <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex justify-content-between align-items-center">
+                            <Link to='' className="logo d-flex align-items-center">
+                                <span className="d-none d-lg-block">Note the Project</span>
+                            </Link>
+                            <MuiMaterial.Divider className='mb-1' />
+                            <div className='navbar-toggle ' id='navbar-toggle'>
+                                <div onClick={showSidebar} className='menu-bars d-flex flex-row-reverse mb-2 ms-1 me-2 mt-2'>
+                                    <FontAwesomeIcon id='open-menu-arrow' className='d-none' icon={FaiSolid.faArrowRight} />
+                                    <FontAwesomeIcon id='close-menu-arrow' className='d-inline' icon={FaiSolid.faArrowLeft} />
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            { str }{ props.user.displayName }. 
+                        <div className="d-flex justify-content-between align-items-center">
+                            <div>
+                                { str }<b>{ props.user.displayName }</b>.
+                            </div>
+                            <Button onClick={handleSignOut} className='menu-bars'>Sign Out</Button>
                         </div>
-
                     </div>
                 </header>
                 <aside>

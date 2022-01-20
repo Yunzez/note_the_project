@@ -127,11 +127,10 @@ function App() {
           <NavBar user={user} handleSignOut={handleSignOut} />
 
           <Routes>
-            <Route exact path='' exact element={<PublicLoginPage user={user} handleSignOut={handleSignOut} loginWidget={<StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />} />} />
+            <Route exact path='/' exact element={<PublicLoginPage user={user} handleSignOut={handleSignOut} loginWidget={<StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />} />} />
             <Route exact path='/home' exact element={<RenderHome />} />
-            <Route exact path='/login' element={<Login />} />
-            <Route exact path='/favorite' element={<Favorite />} />
-            <Route exact path='/setting' element={<Setting />} />
+            <Route exact path='/favorite' element={<Favorite user={user} />} />
+            <Route exact path='/setting' element={<Setting user={user} />} />
             <Route exact path='/default' element={<DefaultPage />} />
 
           </Routes>
