@@ -131,7 +131,7 @@ function App() {
             <Route exact path='/home' exact element={<RenderHome />} />
             <Route exact path='/favorite' element={<Favorite user={user} />} />
             <Route exact path='/setting' element={<Setting user={user} />} />
-            <Route exact path='/default' element={<DefaultPage />} />
+            <Route exact path='/pages' element={<DefaultPage />} />
 
           </Routes>
         </BrowserRouter>

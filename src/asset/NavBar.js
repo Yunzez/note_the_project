@@ -131,7 +131,7 @@ function NavBar(props) {
                             <div>
                                 { str }<b>{ props.user.displayName }</b>.
                             </div>
-                            <Button onClick={handleSignOut} className='menu-bars'>Sign Out</Button>
+                            <Button onClick={handleSignOut} size="sm" className='menu-bars ms-3 me-3'>Sign Out</Button>
                         </div>
                     </div>
                 </header>
