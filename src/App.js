@@ -17,6 +17,8 @@ import StyledFirebaseAuth from 'react-firebaseui/FirebaseAuth'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { collection, addDoc } from "firebase/firestore";
+import * as default_page from './asset/SidebarPages';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCCuf5hQVhk0wzVqTze_2l41bIcyUyBtYM",
@@ -61,9 +63,10 @@ function App() {
     // determine if it is logged in or not 
     const authUnregisterFunction = firebase.auth().onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
-        console.log("log in", firebaseUser.displayName)
+        console.log("log in", firebaseUser)
         setUser(firebaseUser)
         setIsLoading(false)
+        updateUserDB(firebaseUser)
       } else {
         setUser(null)
         setIsLoading(false)
@@ -81,21 +84,21 @@ function App() {
     firebase.auth().signOut();
   }
 
-    // sign in function, not being used, sign in functionality is carried out in public home page
-//   const HandleSignIn = (props) => {
+  // sign in function, not being used, sign in functionality is carried out in public home page
+  //   const HandleSignIn = (props) => {
 
-//     if (props.user != undefined) {
-//       return (<>
-//         <NavBar user={user} handleSignOut={handleSignOut} />
-//         <RenderHome user={props.user} handleSignOut={props.handleSignOut} /></>
-//       )
-//     } else {
-//       console.log('no user status')
-//       return (
-//         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-//       )
-//     }
-//   }
+  //     if (props.user != undefined) {
+  //       return (<>
+  //         <NavBar user={user} handleSignOut={handleSignOut} />
+  //         <RenderHome user={props.user} handleSignOut={props.handleSignOut} /></>
+  //       )
+  //     } else {
+  //       console.log('no user status')
+  //       return (
+  //         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+  //       )
+  //     }
+  //   }
 
 
   if (isLoading) {
@@ -105,17 +108,37 @@ function App() {
     )
   }
 
-  //old code that keep user status in local storage 
 
-  // useEffect(() => {
-  //   var loginStatus = window.localStorage.getItem('login')
-  //   setLogin(JSON.parse(loginStatus))
-  // },[])
+  function updateUserDB(user) {
+    //console.log(JSON.parse(default_page))
+    var docRef = db.collection("users").doc(user.uid)
+    docRef.get().then((doc) => {
+      if (!doc.exists) {
+        db.collection("users").doc(user.uid).set({
+          uid: user.uid,
+          displayName: user.displayName
 
-  // useEffect(() => {
-  //   window.localStorage.setItem('login', JSON.stringify(login))
-  // });
+        })
+        db.collection("users").doc(user.uid).collection("pages").add({
+          title: 'Getting Start',
+          path: '/pages',
+          icon: "< FcIcons.FcOk />",
+          className: 'nav-text'
+        })
 
+          .then((docRef) => {
+            console.log("Document written with ID: ", docRef.id);
+          })
+          .catch((error) => {
+            console.error("Error adding document: ", error);
+          });
+      } else {
+        console.log("you already have data")
+      }
+    })
+    console.log("update user data", user.displayName);
+
+  }
 
 
   return (
