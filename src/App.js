@@ -37,7 +37,8 @@ export const uiConfig = {
     {
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
       requireDisplayName: true
-    }
+    },
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
   ],
   signInFlow: 'popup', // show popup when sign in with google
   callbacks: {
