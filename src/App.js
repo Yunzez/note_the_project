@@ -12,13 +12,13 @@ import DefaultPage from './pages/DefaultPage';
 import Login from './pages/Login';
 import PublicLoginPage from './pages/PublicLoginPage';
 import RefreshPlaceHolder from './pages/RefreshPlaceHolder';
+import {getSidebarPages} from './asset/SidebarPages'
+
 //import firebase component 
 import StyledFirebaseAuth from 'react-firebaseui/FirebaseAuth'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { collection, addDoc } from "firebase/firestore";
-import * as default_page from './asset/SidebarPages';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCCuf5hQVhk0wzVqTze_2l41bIcyUyBtYM",
@@ -55,18 +55,22 @@ function App() {
   // declare user and loading page status
   const [user, setUser] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
+  var userID; 
+  var pageList;
   console.log(user)
 
 
-  // try login 
+  // try login and set user status
   useEffect(() => {// run after component loads, listen to the changes of auth state for log in 
     // determine if it is logged in or not 
     const authUnregisterFunction = firebase.auth().onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
-        console.log("log in", firebaseUser)
+        userID = firebaseUser.uid
+        console.log(userID)
         setUser(firebaseUser)
         setIsLoading(false)
         updateUserDB(firebaseUser)
+        pageList = getSidebarPages(userID, db)
       } else {
         setUser(null)
         setIsLoading(false)
@@ -119,7 +123,8 @@ function App() {
           displayName: user.displayName
 
         })
-        db.collection("users").doc(user.uid).collection("pages").add({
+        // adding the first page with an ID of 1, there are errors
+        db.collection("users").doc(user.uid).collection("pages").doc("1").set({
           title: 'Getting Start',
           path: '/pages',
           icon: "< FcIcons.FcOk />",
