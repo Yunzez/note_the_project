@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FiMenu } from "react-icons/fi";
 import { BiArrowToTop } from "react-icons/bi";
@@ -11,15 +11,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as FaiSolid from '@fortawesome/free-solid-svg-icons'
 import { Button } from 'reactstrap';
 import * as FcIcons from "react-icons/fc";
+import 'firebase/compat/firestore';
 //type rfce to set up the function like this 
 
 
 function NavBar(props) {
-    var pageList = getSidebarPages(props.userID, props.db)
-    console.log(getSidebarPages(props.userID, props.db))
-    console.log(pageList)
+    var pageList = props.pageList;    
 
-    console.log(props.handleSignOut)
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
@@ -64,11 +62,11 @@ function NavBar(props) {
 
     )
 
-
-    var pages =
+    
+    console.log(pageList)
+    var pages=
         <div>
             {pageList.map((line, index) => {
-                console.log(pageList)
                 console.log('map test')
                 return (
                     <div key={index} className={line.className}>
@@ -81,6 +79,8 @@ function NavBar(props) {
                 )
             })}
         </div>
+    
+        
 
     if (!props.user) {
         console.log(props.user)

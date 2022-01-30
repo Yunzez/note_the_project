@@ -54,8 +54,9 @@ function App() {
   // declare user and loading page status
   const [user, setUser] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
+  const [pageList, setPageList] =  useState(undefined);
   var userID; 
-  var pageList = getSidebarPages(userID, db);
+
 
 
   // try login and set user status
@@ -66,9 +67,13 @@ function App() {
         userID = firebaseUser.uid
         console.log(userID)
         setUser(firebaseUser)
-        setIsLoading(false)
+        console.log('runing get page')
+        if(!pageList){
+          setPageList(getSidebarPages(userID, db, setPageList)) 
+          console.log(pageList)
+        }
         updateUserDB(firebaseUser)
-        pageList = getSidebarPages(userID, db)
+        setIsLoading(false)
       } else {
         setUser(null)
         setIsLoading(false)
@@ -91,10 +96,8 @@ function App() {
   if (isLoading) {
     return (
       <RefreshPlaceHolder />
-
     )
   }
-
 
   function updateUserDB(user) {
     //console.log(JSON.parse(default_page))
@@ -125,8 +128,8 @@ function App() {
       }
     })
     console.log("update user data", user.displayName);
-
   }
+
 
 
   return (
@@ -136,7 +139,7 @@ function App() {
 
         <BrowserRouter>
 
-          <NavBar user={user} userID={userID} db={db} handleSignOut={handleSignOut} />
+          <NavBar user={user} userID={userID} db={db} pageList={pageList} handleSignOut={handleSignOut} />
 
           <Routes>
             <Route exact path='/' exact element={<PublicLoginPage user={user} handleSignOut={handleSignOut} loginWidget={<StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />} />} />
