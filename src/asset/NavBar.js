@@ -4,7 +4,7 @@ import { FiMenu } from "react-icons/fi";
 import { BiArrowToTop } from "react-icons/bi";
 import { SiderbarInfo } from './SidebarInfo';
 import './NavBar.css';
-import { SidebarPages } from './SidebarPages';
+import { getSidebarPages } from './SidebarPages';
 //import Mui and Font awesome, we will be mainly using this ui
 import * as MuiMaterial from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,6 +15,10 @@ import * as FcIcons from "react-icons/fc";
 
 
 function NavBar(props) {
+    var pageList = getSidebarPages(props.userID, props.db)
+    console.log(getSidebarPages(props.userID, props.db))
+    console.log(pageList)
+
     console.log(props.handleSignOut)
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
@@ -25,7 +29,7 @@ function NavBar(props) {
 
     var handleSignOut = props.handleSignOut;
 
-    const [sidebar, setSidebar] = useState(false)
+    var [sidebar, setSidebar] = useState(false)
     const showSidebar = async () => {
         setSidebar(!sidebar)
         var closemenuClass = document.getElementById('close-menu-arrow').classList;
@@ -34,23 +38,6 @@ function NavBar(props) {
         openmenuClass.toggle('d-none')
         document.querySelector('main').classList.toggle('main-close')
 
-        // let element = document.getElementsByClassName('nav-menu active')
-        // if (element.length == 0) {
-        //     let titles = document.querySelectorAll('.item-title');
-        //     console.log(titles)
-        //     //  await delay(1000);
-        //     titles.forEach((title)=>{
-        //         title.classList.add('d-inline');
-        //         title.classList.remove('d-none');
-        //     })
-
-        // } else {
-        //     let titles = document.querySelectorAll('.item-title');
-        //     titles.forEach((title)=>{
-        //         title.classList.add('d-none');
-        //         title.classList.remove('d-inline');
-        //     })
-        // }
     }
 
     // detect login status
@@ -80,7 +67,9 @@ function NavBar(props) {
 
     var pages =
         <div>
-            {SidebarPages.map((line, index) => {
+            {pageList.map((line, index) => {
+                console.log(pageList)
+                console.log('map test')
                 return (
                     <div key={index} className={line.className}>
                         <Link to={line.path} className='d-flex justify-content-start'>

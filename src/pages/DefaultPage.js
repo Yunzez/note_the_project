@@ -11,11 +11,13 @@ function DefaultPage() {
 
     let name = 'Your first List'
     return (
-        <div className='row ms-1'>
+        <div className='d-flex pageContainer ms-1'>
+            <RenderColumn name={name}/>
+            <RenderColumn name={name}/>
             <RenderColumn name={name}/>
             <RenderColumnTrigger/>
             
-            
+
         </div>
     )
 }

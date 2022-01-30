@@ -9,5 +9,3 @@ body,
 main {
     min-height: calc(100vh - 70px);
 }
-
-body {}

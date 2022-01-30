@@ -9,7 +9,6 @@ import RenderHome from './pages/Home'
 import Favorite from './pages/Favorite';
 import Setting from './pages/Setting';
 import DefaultPage from './pages/DefaultPage';
-import Login from './pages/Login';
 import PublicLoginPage from './pages/PublicLoginPage';
 import RefreshPlaceHolder from './pages/RefreshPlaceHolder';
 import {getSidebarPages} from './asset/SidebarPages'
@@ -56,8 +55,7 @@ function App() {
   const [user, setUser] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
   var userID; 
-  var pageList;
-  console.log(user)
+  var pageList = getSidebarPages(userID, db);
 
 
   // try login and set user status
@@ -88,21 +86,6 @@ function App() {
     firebase.auth().signOut();
   }
 
-  // sign in function, not being used, sign in functionality is carried out in public home page
-  //   const HandleSignIn = (props) => {
-
-  //     if (props.user != undefined) {
-  //       return (<>
-  //         <NavBar user={user} handleSignOut={handleSignOut} />
-  //         <RenderHome user={props.user} handleSignOut={props.handleSignOut} /></>
-  //       )
-  //     } else {
-  //       console.log('no user status')
-  //       return (
-  //         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-  //       )
-  //     }
-  //   }
 
 
   if (isLoading) {
@@ -153,7 +136,7 @@ function App() {
 
         <BrowserRouter>
 
-          <NavBar user={user} handleSignOut={handleSignOut} />
+          <NavBar user={user} userID={userID} db={db} handleSignOut={handleSignOut} />
 
           <Routes>
             <Route exact path='/' exact element={<PublicLoginPage user={user} handleSignOut={handleSignOut} loginWidget={<StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />} />} />
