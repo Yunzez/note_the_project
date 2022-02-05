@@ -13,9 +13,7 @@ function DefaultPage() {
     return (
         <div className='d-flex pageContainer ms-1'>
             <RenderColumn name={name}/>
-            <RenderColumn name={name}/>
-            <RenderColumn name={name}/>
-            <RenderColumnTrigger/>
+            <RenderColumnTrigger />
             
 
         </div>

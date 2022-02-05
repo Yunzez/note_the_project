@@ -16,7 +16,7 @@ import 'firebase/compat/firestore';
 
 
 function NavBar(props) {
-    var pageList = props.pageList;    
+    var pageList = props.pageList;
 
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
@@ -44,7 +44,7 @@ function NavBar(props) {
     let defaultElement = (
 
         <div>
-            
+
             {SiderbarInfo.map((line, index) => {
                 return (
                     <div key={index} className={line.className}>
@@ -62,25 +62,29 @@ function NavBar(props) {
 
     )
 
-    
-    console.log(pageList)
-    var pages=
-        <div>
-            {pageList.map((line, index) => {
-                console.log('map test')
-                return (
-                    <div key={index} className={line.className}>
-                        <Link to={line.path} className='d-flex justify-content-start'>
-                            <div className='item-icon'>{line.icon}</div>
-                            <span className='item-title'>{line.title}</span>
-                        </Link>
 
-                    </div>
-                )
-            })}
-        </div>
-    
-        
+    console.log(pageList)
+    var pages = () => {
+        return (
+            <div>
+                {pageList.map((line, index) => {
+                    console.log('map test')
+                    return (
+                        <div key={index} className={line.className}>
+                            <Link to={line.path} className='d-flex justify-content-start'>
+                                <div className='item-icon'>{line.icon}</div>
+                                <span className='item-title'>{line.title}</span>
+                            </Link>
+
+                        </div>
+                    )
+                })}
+            </div>
+        )
+    }
+
+
+
 
     if (!props.user) {
         console.log(props.user)
@@ -118,7 +122,7 @@ function NavBar(props) {
                         </div>
                         <div className="d-flex justify-content-between align-items-center">
                             <div>
-                                { str }<b>{ props.user.displayName }</b>.
+                                {str}<b>{props.user.displayName}</b>.
                             </div>
                             <Button onClick={handleSignOut} size="sm" className='menu-bars ms-3 me-3'>Sign Out</Button>
                         </div>
@@ -129,7 +133,7 @@ function NavBar(props) {
                         <div className={sidebar ? 'nav-menu-items active' : 'nav-menu-items'} >
                             {defaultElement}
                             <li className="nav-heading">Pages</li>
-                            {pages}
+                            {pages()}
                         </div>
                     </div>
                 </aside >

@@ -27,6 +27,10 @@
     margin: 3px;
 }
 
+.column-trigger:hover {
+    opacity: 0.9;
+}
+
 ::-webkit-scrollbar {
     width: 5px;
 }

@@ -64,6 +64,7 @@ function App() {
     // determine if it is logged in or not 
     const authUnregisterFunction = firebase.auth().onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
+        console.log('user logged in ')
         userID = firebaseUser.uid
         console.log(userID)
         setUser(firebaseUser)
@@ -75,6 +76,7 @@ function App() {
         updateUserDB(firebaseUser)
         setIsLoading(false)
       } else {
+        console.log('no user')
         setUser(null)
         setIsLoading(false)
       }
