@@ -7,7 +7,7 @@ import { Link, NavLink } from 'react-router-dom'
 
 export function getSidebarPages(userID, db, setPageList) {
     var pageList = new Array;
-    console.log('in get side bar ')
+    console.log('in get side bar')
     db.collection("users").doc(userID).collection("pages").get().then((querySnapshot) => {
         var pageList = new Array;
         (querySnapshot.forEach((doc) => {
@@ -18,10 +18,8 @@ export function getSidebarPages(userID, db, setPageList) {
         console.log(pageList)
         setPageList(pageList)
     });
-        return pageList
+    return pageList
 }
-
-
 
 
 export const SidebarPages = [{

@@ -46,6 +46,7 @@ function NavBar(props) {
         <div>
 
             {SiderbarInfo.map((line, index) => {
+                console.log(line.title)
                 return (
                     <div key={index} className={line.className}>
                         <Link to={line.path} className='d-flex justify-content-start'>

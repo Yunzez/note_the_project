@@ -12,6 +12,7 @@ import DefaultPage from './pages/DefaultPage';
 import PublicLoginPage from './pages/PublicLoginPage';
 import RefreshPlaceHolder from './pages/RefreshPlaceHolder';
 import {getSidebarPages} from './asset/SidebarPages'
+import {SidebarPages} from './asset/SidebarPages'
 
 //import firebase component 
 import StyledFirebaseAuth from 'react-firebaseui/FirebaseAuth'
