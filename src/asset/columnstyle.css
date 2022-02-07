@@ -6,7 +6,7 @@
     scrollbar-color: #aab7cf transparent;
     box-shadow: 2px 2px 2px 1px #aab7cf;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: #f2f2f2;
     margin: 3px;
 }
 
@@ -27,8 +27,18 @@
     margin: 3px;
 }
 
+.add-widget {
+    background-color: #c6cede;
+    width: auto;
+    display: block;
+}
+
 .column-trigger:hover {
     opacity: 0.9;
+}
+
+.add-widget:hover {
+    opacity: 0.5;
 }
 
 ::-webkit-scrollbar {

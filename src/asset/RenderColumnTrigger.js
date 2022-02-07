@@ -6,29 +6,57 @@ import RenderColumn from './RenderColumn';
 function RenderColumnTrigger(props) {
     var columnlist = props.columnlist;
     var setColumnlist = props.setColumnlist;
-    var replaceColumn;
+    var replaceColumn = [];
     const [input, setInput] = useState('')
+    // give the window choice a hook
+    const [window, setWindow] = useState(true)
+
+    // create the first window user will see when enter
+    var smallSenseBar = (
+        <button className="btn btn-primary" onClick={handleOnClickExtend} >Add another column</button>
+    )
     
-    console.log(input)
-
-    function handleOnClick(){
-        var newcolumn = <RenderColumn name={input}/>
-        console.log(newcolumn)
-        replaceColumn = [columnlist, newcolumn]
-        setColumnlist(replaceColumn);
-        console.log(replaceColumn + 'last')
-    }
-
-    //setColumnlist(replaceColumn.push(setRet(RenderColumn(document.querySelector('.input-name').value)))) 
-    return (
-        <div className='col-md-4 column-trigger p-1'>
+    // create the second window 
+    var declareWindow = (
+        <div className='column-trigger p-1 col-sm-4 col-md-3'>
                 <div className="form-group">
-                    <p className="mb-1">Start a new column here</p>
-                    <input className="form-control mb-1 input-name" aria-describedby="emailHelp" placeholder="Enter column name" onChange={()=>{setInput(document.querySelector('.input-name').value)}}></input>
+                    <p className="mb-1">New column:</p>
+                    <input className="form-control mb-1 input-name" aria-describedby="emailHelp" placeholder="Column name" onChange={()=>{setInput(document.querySelector('.input-name').value)}}></input>
                 </div>
-                <button className="btn btn-primary" onClick={handleOnClick} >Go</button>
+                <button className="btn btn-primary" onClick={handleOnClickSecond} >Go</button>
         </div>
     )
+
+    // handle first click -- extend the window
+    function handleOnClickExtend(e){
+        e.preventDefault();
+        setWindow(!window); 
+    }
+
+    // handle second click -- shrink the window and add data to the list
+    function handleOnClickSecond(e){
+        e.preventDefault();
+        var newcolumn = <RenderColumn name={input}/>
+        //columnlist = [columnlist, newcolumn]
+        columnlist.map(function(column, index){ 
+            replaceColumn.push(column)
+        })
+        replaceColumn.push(newcolumn)
+        console.log(replaceColumn)
+        setColumnlist(replaceColumn);
+        setWindow(!window);
+    }
+    
+
+    // return trigger
+    if(window){
+        return smallSenseBar;
+    }else{ 
+        return declareWindow;
+    }
+        
+
+    
 }
 
 

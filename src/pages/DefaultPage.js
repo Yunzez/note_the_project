@@ -14,9 +14,9 @@ function DefaultPage() {
         <div className='d-flex pageContainer ms-1'>
             {temp.map((column, index) => {
                 return (
-                    <span className="col-sm-4" key={index}>
+                    <div className="col-sm-4 col-md-3" key={index}>
                         {column}
-                    </span>
+                    </div>
                 )
             })}
             <RenderColumnTrigger columnlist={columnlist} setColumnlist={setColumnlist}/>

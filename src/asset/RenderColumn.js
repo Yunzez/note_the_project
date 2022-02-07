@@ -4,14 +4,13 @@ import * as MuiMaterial from '@mui/material';
 import RenderColumnTrigger from './RenderColumnTrigger';
 function RenderColumn(props) {
     let name = props.name;
-
+    if (name == ''){
+        name = 'Untitle'
+    }
     return (
-        <div className=' column p-1'>
-            <p className='heading'>{name}</p>
-            <MuiMaterial.Divider light />
-            <div>
-                This is a new page!
-            </div>
+        <div className='column p-2'>
+            <p>{name}</p>
+            <a className="btn mx-auto add-widget" >Add a widget</a>
 
         </div>
         
