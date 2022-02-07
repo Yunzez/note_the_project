@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Button } from 'reactstrap'
 import NavBar from './asset/NavBar';
 import { BrowserRouter, Routes, Route, Navigate, Link, NavLink } from 'react-router-dom'
+import * as FcIcons from "react-icons/fc";
 // Switch 在新版本中是 Routes 
 
 import RenderHome from './pages/Home'
@@ -11,8 +12,8 @@ import Setting from './pages/Setting';
 import DefaultPage from './pages/DefaultPage';
 import PublicLoginPage from './pages/PublicLoginPage';
 import RefreshPlaceHolder from './pages/RefreshPlaceHolder';
-import {getSidebarPages} from './asset/SidebarPages'
-import {SidebarPages} from './asset/SidebarPages'
+import { getSidebarPages } from './asset/SidebarPages'
+import { SidebarPages } from './asset/SidebarPages'
 
 //import firebase component 
 import StyledFirebaseAuth from 'react-firebaseui/FirebaseAuth'
@@ -55,8 +56,8 @@ function App() {
   // declare user and loading page status
   const [user, setUser] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
-  const [pageList, setPageList] =  useState(undefined);
-  var userID; 
+  const [pageList, setPageList] = useState(undefined);
+  var userID;
 
 
 
@@ -70,12 +71,14 @@ function App() {
         console.log(userID)
         setUser(firebaseUser)
         console.log('runing get page')
-        if(!pageList){
-          setPageList(getSidebarPages(userID, db, setPageList)) 
-          console.log(pageList)
-        }
         updateUserDB(firebaseUser)
+        if (!pageList) {
+          setPageList(getSidebarPages(userID, db, setPageList))
+          console.log(pageList)
+          
+        }
         setIsLoading(false)
+
       } else {
         console.log('no user')
         setUser(null)
@@ -103,6 +106,7 @@ function App() {
   }
 
   function updateUserDB(user) {
+
     //console.log(JSON.parse(default_page))
     var docRef = db.collection("users").doc(user.uid)
     docRef.get().then((doc) => {
@@ -112,16 +116,32 @@ function App() {
           displayName: user.displayName
 
         })
-        // adding the first page with an ID of 1, there are errors
+          .then(() => {
+            console.log("Document written with ID: ", user.uid);
+          })
+          .catch((error) => {
+            console.log(user.uid)
+            console.error("Error adding document: ", error);
+          });
+      } else {
+        console.log("you already have data")
+      }
+    })
+
+    var defaultIcon = <FcIcons.FcOk/>
+    // adding the first page with an ID of 1, there are errors
+    var docRef = db.collection("users").doc(user.uid).collection("pages").doc("1")
+    docRef.get().then((doc) => {
+      if (!doc.exists) {
         db.collection("users").doc(user.uid).collection("pages").doc("1").set({
           title: 'Getting Start',
           path: '/pages',
-          icon: "< FcIcons.FcOk />",
+          icon: 'Ok',
           className: 'nav-text'
-        })
 
-          .then((docRef) => {
-            console.log("Document written with ID: ", docRef.id);
+        })
+          .then(() => {
+            console.log("Document written with ID: ", user.uid);
           })
           .catch((error) => {
             console.error("Error adding document: ", error);

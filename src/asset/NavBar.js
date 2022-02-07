@@ -66,22 +66,36 @@ function NavBar(props) {
 
     console.log(pageList)
     var pages = () => {
-        return (
-            <div>
-                {pageList.map((line, index) => {
-                    console.log('map test')
-                    return (
-                        <div key={index} className={line.className}>
-                            <Link to={line.path} className='d-flex justify-content-start'>
-                                <div className='item-icon'>{line.icon}</div>
-                                <span className='item-title'>{line.title}</span>
-                            </Link>
+        if (!props.user) {
+            console.log(props.user)
+            return (<div></div>)
+        }
+        else {
+            return (
+                <div>
+                    {pageList.map((line, index) => {
+                        return (
+                            <div key={index} className={line.className}>
+                                <Link to={line.path} className='d-flex justify-content-start'>
+                                    <div className='item-icon'> {<IconDetector name={line.icon}/> } </div>
+                                    <span className='item-title'>{line.title}</span>
+                                </Link>
+                            </div>
+                        )
+                    })}
+                </div>
+            )
+        }
 
-                        </div>
-                    )
-                })}
-            </div>
-        )
+    }
+
+    var IconDetector = ({name}) =>{
+        if (name== 'Ok'){
+            return (
+                <div><FcIcons.FcOk/></div>
+            )
+        }
+        
     }
 
 
