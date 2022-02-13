@@ -75,7 +75,7 @@ function App() {
         if (!pageList) {
           setPageList(getSidebarPages(userID, db, setPageList))
           console.log(pageList)
-          
+
         }
         setIsLoading(false)
 
@@ -128,7 +128,7 @@ function App() {
       }
     })
 
-    var defaultIcon = <FcIcons.FcOk/>
+    var defaultIcon = <FcIcons.FcOk />
     // adding the first page with an ID of 1, there are errors
     var docRef = db.collection("users").doc(user.uid).collection("pages").doc("1")
     docRef.get().then((doc) => {
@@ -157,13 +157,12 @@ function App() {
 
   return (
     <main>
+      <BrowserRouter>
+        <section className='main'>
 
-      <section className='main'>
 
-        <BrowserRouter>
 
-          <NavBar user={user} userID={userID} db={db} pageList={pageList} handleSignOut={handleSignOut} />
-
+          <NavBar user={user} userID={userID} db={db} pageList={pageList} setPageList={setPageList} handleSignOut={handleSignOut} />
           <Routes>
             <Route exact path='/' exact element={<PublicLoginPage user={user} handleSignOut={handleSignOut} loginWidget={<StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />} />} />
             <Route exact path='/home' exact element={<RenderHome />} />
@@ -172,9 +171,9 @@ function App() {
             <Route exact path='/pages' element={<DefaultPage />} />
 
           </Routes>
-        </BrowserRouter>
-      </section>
 
+        </section>
+      </BrowserRouter>
 
     </main>
   );

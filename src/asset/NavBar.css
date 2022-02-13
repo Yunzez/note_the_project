@@ -116,3 +116,23 @@ main {
     margin-left: 0px;
     overflow: auto
 }
+
+.page-yes-button {
+    background-color: #aab7cf;
+}
+
+.page-yes-button:hover {
+    opacity: 0.5;
+}
+
+.page-cancel-button {
+    background-color: #aab7cf;
+}
+
+.page-cancel-button:hover {
+    opacity: 0.5;
+}
+
+.page-input {
+    font-size: smaller;
+}

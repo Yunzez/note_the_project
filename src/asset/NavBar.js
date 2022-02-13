@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Routes, Route, Navigate, Link } from 'react-router-dom'
 import { FiMenu } from "react-icons/fi";
 import { BiArrowToTop } from "react-icons/bi";
 import { SiderbarInfo } from './SidebarInfo';
@@ -11,13 +11,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as FaiSolid from '@fortawesome/free-solid-svg-icons'
 import { Button } from 'reactstrap';
 import * as FcIcons from "react-icons/fc";
+import * as FaIcons from "react-icons/fa";
 import 'firebase/compat/firestore';
 //type rfce to set up the function like this 
-
+import RenderHome from '../pages/Home'
 
 function NavBar(props) {
-    var pageList = props.pageList;
 
+    const [input, setInput] = useState('');
+
+    var pageList = props.pageList;
+    var setPageList = props.setPageList;
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
@@ -35,7 +39,6 @@ function NavBar(props) {
         closemenuClass.toggle('d-none')
         openmenuClass.toggle('d-none')
         document.querySelector('main').classList.toggle('main-close')
-
     }
 
     // detect login status
@@ -77,7 +80,7 @@ function NavBar(props) {
                         return (
                             <div key={index} className={line.className}>
                                 <Link to={line.path} className='d-flex justify-content-start'>
-                                    <div className='item-icon'> {<IconDetector name={line.icon}/> } </div>
+                                    <div className='item-icon'> {<IconDetector name={line.icon} />} </div>
                                     <span className='item-title'>{line.title}</span>
                                 </Link>
                             </div>
@@ -86,18 +89,52 @@ function NavBar(props) {
                 </div>
             )
         }
-
     }
 
-    var IconDetector = ({name}) =>{
-        if (name== 'Ok'){
+    var IconDetector = ({ name }) => {
+        if (name == 'Ok') {
+            console.log('icon ok')
             return (
-                <div><FcIcons.FcOk/></div>
+                <div><FcIcons.FcOk /></div>
             )
+        } else {
+            return (<div><FaIcons.FaFileAlt /></div>)
         }
-        
+
     }
 
+    // export const SidebarPages = [{
+    //     title: 'Getting Start',
+    //     path: '/pages',
+    //     icon: < FcIcons.FcOk />,
+    //     className: 'nav-text'
+    // }]
+    function addNewPage() {
+        console.log(input)
+
+        var newPageList = [];
+        var newPageElement = {
+            title: input,
+            path: '/pages',
+            icon: 'default',
+            className: 'nav-text'
+        }
+
+        console.log(newPageElement)
+        pageList.map((element, index) => {
+            newPageList.push(element)
+        })
+        newPageList.push(newPageElement);
+        setPageList(newPageList)
+        document.getElementsByClassName('add-page-form')[0].classList.add('d-none')
+        document.getElementsByClassName('page-input')[0].value = ''
+    }
+
+
+    function handleAddPage() {
+        var pageElement = document.getElementsByClassName('add-page-form')[0]
+        pageElement.classList.remove('d-none')
+    }
 
 
 
@@ -149,8 +186,22 @@ function NavBar(props) {
                             {defaultElement}
                             <li className="nav-heading">Pages</li>
                             {pages()}
+                            <div className='d-none add-page-form p-1'>
+                                <div className="form-group">
+                                    <input className="form-control mb-1 page-input" aria-describedby="emailHelp" placeholder="Name" onChange={() => { setInput(document.getElementsByClassName('page-input')[0].value) }}></input>
+                                </div>
+                                <div className='d-flex justify-content-around'>
+                                    <button className="btn page-yes-button me-1 w-100" onClick={addNewPage} >< FaIcons.FaRegCheckCircle /></button>
+                                    <button className="btn page-cancel-button w-100" onClick={() => {
+                                        document.getElementsByClassName('add-page-form')[0].classList.add('d-none');
+                                        document.getElementsByClassName('page-input')[0].value = ''
+                                    }} ><FaIcons.FaRegTimesCircle /> </button>
+                                </div>
+                            </div>
                         </div>
+                        <a className='position-absolute fixed-bottom m-2 btn btn-primary add-page-button' onClick={handleAddPage}>+ new page</a>
                     </div>
+
                 </aside >
             </div>
 

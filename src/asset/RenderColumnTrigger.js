@@ -18,10 +18,11 @@ function RenderColumnTrigger(props) {
     
     // create the second window 
     var declareWindow = (
-        <div className='column-trigger p-1 col-sm-4 col-md-3'>
+        <div className='column-trigger p-1'>
                 <div className="form-group">
                     <p className="mb-1">New column:</p>
-                    <input className="form-control mb-1 input-name" aria-describedby="emailHelp" placeholder="Column name" onChange={()=>{setInput(document.querySelector('.input-name').value)}}></input>
+                    <input className="form-control mb-1 input-name" aria-describedby="emailHelp" placeholder="Column name" onChange={
+                        ()=>{setInput(document.getElementsByClassName('input-name')[0].value)}}></input>
                 </div>
                 <button className="btn btn-primary" onClick={handleOnClickSecond} >Go</button>
         </div>
@@ -32,10 +33,11 @@ function RenderColumnTrigger(props) {
         e.preventDefault();
         setWindow(!window); 
     }
-
+  
     // handle second click -- shrink the window and add data to the list
     function handleOnClickSecond(e){
         e.preventDefault();
+       
         var newcolumn = <RenderColumn name={input}/>
         //columnlist = [columnlist, newcolumn]
         columnlist.map(function(column, index){ 

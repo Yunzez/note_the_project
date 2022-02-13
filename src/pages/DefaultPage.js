@@ -19,7 +19,7 @@ function DefaultPage() {
                     </div>
                 )
             })}
-            <RenderColumnTrigger columnlist={columnlist} setColumnlist={setColumnlist}/>
+            <RenderColumnTrigger  className="col-sm-4 col-md-3"  columnlist={columnlist} setColumnlist={setColumnlist}/>
 
 
         </div>
