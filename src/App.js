@@ -73,8 +73,8 @@ function App() {
         console.log('runing get page')
         updateUserDB(firebaseUser)
         if (!pageList) {
-          setPageList(getSidebarPages(userID, db, setPageList))
           getSidebarPages(userID, db, setPageList)
+          setPageList(getSidebarPages(userID, db, setPageList))
           console.log(pageList)
 
         }

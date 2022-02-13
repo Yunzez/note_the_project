@@ -7,7 +7,7 @@ function DefaultPage() {
     let start = [<RenderColumn name={name} />]
 
     const [columnlist, setColumnlist] = useState(start)
-    console.log(typeof(columnlist))
+    console.log(typeof (columnlist))
     var temp = columnlist
     console.log(temp)
     return (
@@ -18,11 +18,13 @@ function DefaultPage() {
                         {column}
                     </div>
                 )
-            })}
-            <RenderColumnTrigger  className="col-sm-4 col-md-3"  columnlist={columnlist} setColumnlist={setColumnlist}/>
-
-
-        </div>
+                })
+            }
+            
+            <div className=" col-sm-4 col-md-3 ms-1 mt-1">
+            <RenderColumnTrigger  columnlist={columnlist} setColumnlist={setColumnlist} />
+            </div>
+         </div>
     )
 }
 

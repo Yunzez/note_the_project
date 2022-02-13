@@ -14,7 +14,6 @@ export function getSidebarPages(userID, db, setPageList) {
             console.log(doc.id, " => ", doc.data());
             pageList.push(doc.data())
         }));
-        console.log(pageList)
         setPageList(pageList)
     });
     return pageList
