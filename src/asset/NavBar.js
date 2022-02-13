@@ -103,15 +103,7 @@ function NavBar(props) {
 
     }
 
-    // export const SidebarPages = [{
-    //     title: 'Getting Start',
-    //     path: '/pages',
-    //     icon: < FcIcons.FcOk />,
-    //     className: 'nav-text'
-    // }]
     function addNewPage() {
-        console.log(input)
-
         var newPageList = [];
         var newPageElement = {
             title: input,
@@ -120,7 +112,6 @@ function NavBar(props) {
             className: 'nav-text'
         }
 
-        console.log(newPageElement)
         pageList.map((element, index) => {
             newPageList.push(element)
         })

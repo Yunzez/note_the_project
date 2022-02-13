@@ -74,6 +74,7 @@ function App() {
         updateUserDB(firebaseUser)
         if (!pageList) {
           setPageList(getSidebarPages(userID, db, setPageList))
+          getSidebarPages(userID, db, setPageList)
           console.log(pageList)
 
         }
@@ -133,13 +134,14 @@ function App() {
     var docRef = db.collection("users").doc(user.uid).collection("pages").doc("1")
     docRef.get().then((doc) => {
       if (!doc.exists) {
-        db.collection("users").doc(user.uid).collection("pages").doc("1").set({
+        var defaultElement = {
           title: 'Getting Start',
           path: '/pages',
           icon: 'Ok',
           className: 'nav-text'
-
-        })
+        }
+        db.collection("users").doc(user.uid).collection("pages").doc("1").set(defaultElement)
+        setPageList(defaultElement)
           .then(() => {
             console.log("Document written with ID: ", user.uid);
           })
