@@ -16,7 +16,7 @@ export function getSidebarPages(userID, db, setPageList) {
         }));
         setPageList(pageList)
     });
-    return pageList
+   
 
     // var getPageListData = async () => {
     //     var newPageList = await pageListData;

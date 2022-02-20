@@ -3,7 +3,7 @@ import RenderColumn from '../asset/RenderColumn'
 import RenderColumnTrigger from '../asset/RenderColumnTrigger'
 function DefaultPage() {
 
-    let name = 'Your first List'
+    let name = 'Let\'s get started'
     let start = [<RenderColumn name={name} />]
 
     const [columnlist, setColumnlist] = useState(start)

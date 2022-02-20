@@ -14,6 +14,7 @@ import PublicLoginPage from './pages/PublicLoginPage';
 import RefreshPlaceHolder from './pages/RefreshPlaceHolder';
 import { getSidebarPages } from './asset/SidebarPages'
 import { SidebarPages } from './asset/SidebarPages'
+import RenderSelectedPage from './pages/RenderSelectedPage';
 
 //import firebase component 
 import StyledFirebaseAuth from 'react-firebaseui/FirebaseAuth'
@@ -57,6 +58,9 @@ function App() {
   const [user, setUser] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
   const [pageList, setPageList] = useState(undefined);
+  const [pageID, setPageID] = useState(1);
+  const [columnID, setcolumnID] = useState(0);
+
   var userID;
 
 
@@ -74,8 +78,6 @@ function App() {
         updateUserDB(firebaseUser)
         if (!pageList) {
           getSidebarPages(userID, db, setPageList)
-          setPageList(getSidebarPages(userID, db, setPageList))
-          console.log(pageList)
 
         }
         setIsLoading(false)
@@ -134,13 +136,20 @@ function App() {
     var docRef = db.collection("users").doc(user.uid).collection("pages").doc("1")
     docRef.get().then((doc) => {
       if (!doc.exists) {
+
         var defaultElement = {
+          id: 0,
           title: 'Getting Start',
           path: '/pages',
           icon: 'Ok',
-          className: 'nav-text'
+          className: 'nav-text',
+          0: {
+            name: 'Getting Started here',
+            widgets: []
+          }
         }
-        db.collection("users").doc(user.uid).collection("pages").doc("1").set(defaultElement)
+
+        db.collection("users").doc(user.uid).collection("pages").doc("0").set(defaultElement)
         setPageList(defaultElement)
           .then(() => {
             console.log("Document written with ID: ", user.uid);
@@ -155,6 +164,16 @@ function App() {
     console.log("update user data", user.displayName);
   }
 
+  var routeSets = [
+    <Route exact path='/' exact element={<PublicLoginPage user={user} 
+    handleSignOut={handleSignOut} 
+    loginWidget={<StyledFirebaseAuth uiConfig={uiConfig} 
+    firebaseAuth={firebase.auth()} />} />} />,
+    <Route exact path='/home' exact element={<RenderHome />} />,
+    <Route exact path='/favorite' element={<Favorite user={user} />} />,
+    <Route exact path='/setting' element={<Setting user={user} />} />,
+    <Route path='/pages' element={<DefaultPage />} />
+  ]
 
 
   return (
@@ -164,14 +183,15 @@ function App() {
 
 
 
-          <NavBar user={user} userID={userID} db={db} pageList={pageList} setPageList={setPageList} handleSignOut={handleSignOut} />
-          <Routes>
-            <Route exact path='/' exact element={<PublicLoginPage user={user} handleSignOut={handleSignOut} loginWidget={<StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />} />} />
-            <Route exact path='/home' exact element={<RenderHome />} />
-            <Route exact path='/favorite' element={<Favorite user={user} />} />
-            <Route exact path='/setting' element={<Setting user={user} />} />
-            <Route exact path='/pages' element={<DefaultPage />} />
+          <NavBar
+            user={user} userID={userID} db={db} pageList={pageList}
+            setPageList={setPageList} handleSignOut={handleSignOut}
+            pageID={pageID} setPageID={setPageID}
+          />
 
+          <Routes>
+            {routeSets}
+          
           </Routes>
 
         </section>

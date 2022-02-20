@@ -15,6 +15,7 @@ import * as FaIcons from "react-icons/fa";
 import 'firebase/compat/firestore';
 //type rfce to set up the function like this 
 import RenderHome from '../pages/Home'
+import RenderSelectedPage from '../pages/RenderSelectedPage';
 
 function NavBar(props) {
 
@@ -22,6 +23,8 @@ function NavBar(props) {
 
     var pageList = props.pageList;
     var setPageList = props.setPageList;
+    var pageID = props.pageID;
+    var setPageID = props.setPageID;
     function delay(time) {
         return new Promise(resolve => setTimeout(resolve, time));
     }
@@ -74,21 +77,31 @@ function NavBar(props) {
             return (<div></div>)
         }
         else {
-            return (
-                <div>
-                    {pageList.map((line, index) => {
-                        return (
-                            <div key={index} className={line.className}>
-                                <Link to={line.path} className='d-flex justify-content-start'>
-                                    <div className='item-icon'> {<IconDetector name={line.icon} />} </div>
-                                    <span className='item-title'>{line.title}</span>
-                                </Link>
-                            </div>
-                        )
-                    })}
-                </div>
-            )
+            if (pageList) {
+                return (
+                    <div>
+                        {pageList.map((line, index) => {
+                            return (
+                                <div key={index} className={line.className}>
+                                    <Link to={line.path}  className='d-flex justify-content-start'>
+                                        <div className='item-icon'> {<IconDetector name={line.icon} />} </div>
+                                        <span className='item-title'>{line.title}</span>
+                                    </Link>
+                                </div>
+                            )
+                        })}
+                    </div>
+                )
+            }
         }
+    }
+    // onClick={<RenderSelectedPage id={line.id} pageList={pageList}/>}
+
+    function handlePageRedirect(id) {
+        console.log('you clicked a icon of id' + id)
+        
+        RenderSelectedPage(id, pageList)
+       
     }
 
     var IconDetector = ({ name }) => {
@@ -106,11 +119,18 @@ function NavBar(props) {
     function addNewPage() {
         var newPageList = [];
         var newPageElement = {
+            id: pageID,
             title: input,
-            path: '/pages',
+            path: '/pages' + pageID,
             icon: 'default',
-            className: 'nav-text'
+            className: 'nav-text',
+            0: {
+                name: 'Getting Started here',
+                widgets: []
+            }
         }
+
+        setPageID(pageID + 1)
 
         pageList.map((element, index) => {
             newPageList.push(element)
