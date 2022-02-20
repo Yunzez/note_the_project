@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Routes, Route, Navigate, Link } from 'react-router-dom'
+import { Routes, Route, Navigate, Link, NavLink } from 'react-router-dom'
 import { FiMenu } from "react-icons/fi";
 import { BiArrowToTop } from "react-icons/bi";
 import { SiderbarInfo } from './SidebarInfo';
@@ -55,10 +55,10 @@ function NavBar(props) {
                 console.log(line.title)
                 return (
                     <div key={index} className={line.className}>
-                        <Link to={line.path} className='d-flex justify-content-start'>
+                        <NavLink to={line.path} className='d-flex justify-content-start'>
                             <div className='item-icon'>{line.icon}</div>
                             <span className='item-title'>{line.title}</span>
-                        </Link>
+                        </NavLink>
 
                     </div>
                 )
@@ -70,7 +70,7 @@ function NavBar(props) {
     )
 
 
-    console.log(pageList)
+    
     var pages = () => {
         if (!props.user) {
             console.log(props.user)
@@ -78,15 +78,16 @@ function NavBar(props) {
         }
         else {
             if (pageList) {
+                console.log(pageList)
                 return (
                     <div>
                         {pageList.map((line, index) => {
                             return (
                                 <div key={index} className={line.className}>
-                                    <Link to={line.path}  className='d-flex justify-content-start'>
+                                    <NavLink to={line.path}  className='d-flex justify-content-start'>
                                         <div className='item-icon'> {<IconDetector name={line.icon} />} </div>
                                         <span className='item-title'>{line.title}</span>
-                                    </Link>
+                                    </NavLink>
                                 </div>
                             )
                         })}
@@ -121,7 +122,7 @@ function NavBar(props) {
         var newPageElement = {
             id: pageID,
             title: input,
-            path: '/pages' + pageID,
+            path: '/pages/' + pageID,
             icon: 'default',
             className: 'nav-text',
             0: {

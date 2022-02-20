@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import RenderColumn from '../asset/RenderColumn'
 import RenderColumnTrigger from '../asset/RenderColumnTrigger'
+import {useParams } from 'react-router'
 function DefaultPage() {
-
+    const {currentPageID} = useParams()
     let name = 'Let\'s get started'
     let start = [<RenderColumn name={name} />]
 

@@ -2,7 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from 'react'
 import { Button } from 'reactstrap'
 import NavBar from './asset/NavBar';
-import { BrowserRouter, Routes, Route, Navigate, Link, NavLink } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, Link, NavLink, useParams } from 'react-router-dom'
 import * as FcIcons from "react-icons/fc";
 // Switch 在新版本中是 Routes 
 
@@ -59,7 +59,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [pageList, setPageList] = useState(undefined);
   const [pageID, setPageID] = useState(1);
-  const [columnID, setcolumnID] = useState(0);
 
   var userID;
 
@@ -78,7 +77,6 @@ function App() {
         updateUserDB(firebaseUser)
         if (!pageList) {
           getSidebarPages(userID, db, setPageList)
-
         }
         setIsLoading(false)
 
@@ -99,6 +97,8 @@ function App() {
     console.log("click sign out")
     firebase.auth().signOut();
   }
+
+
 
 
 
@@ -164,16 +164,8 @@ function App() {
     console.log("update user data", user.displayName);
   }
 
-  var routeSets = [
-    <Route exact path='/' exact element={<PublicLoginPage user={user} 
-    handleSignOut={handleSignOut} 
-    loginWidget={<StyledFirebaseAuth uiConfig={uiConfig} 
-    firebaseAuth={firebase.auth()} />} />} />,
-    <Route exact path='/home' exact element={<RenderHome />} />,
-    <Route exact path='/favorite' element={<Favorite user={user} />} />,
-    <Route exact path='/setting' element={<Setting user={user} />} />,
-    <Route path='/pages' element={<DefaultPage />} />
-  ]
+
+
 
 
   return (
@@ -190,8 +182,17 @@ function App() {
           />
 
           <Routes>
-            {routeSets}
-          
+            <Route exact path='/' exact element={<PublicLoginPage user={user}
+              handleSignOut={handleSignOut}
+              loginWidget={<StyledFirebaseAuth uiConfig={uiConfig}
+                firebaseAuth={firebase.auth()} />} />} />
+            <Route exact path='/home' exact element={<RenderHome />} />
+            <Route exact path='/favorite' element={<Favorite user={user} />} />
+            <Route exact path='/setting' element={<Setting user={user} />} />
+            <Route path='/pages' element={<RenderSelectedPage />} > 
+              <Route path=':currentPageID' element={DefaultPage}/>
+            </Route>
+
           </Routes>
 
         </section>
