@@ -57,9 +57,9 @@ function App() {
   // declare user and loading page status
   const [user, setUser] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
-  const [pageList, setPageList] = useState(undefined);
+  const [pageList, setPageList] = useState([]);
   const [pageID, setPageID] = useState(1);
-
+  const [output, setOutput] = useState([])
   var userID;
 
 
@@ -131,7 +131,7 @@ function App() {
       }
     })
 
-    var defaultIcon = <FcIcons.FcOk />
+    
     // adding the first page with an ID of 1, there are errors
     var docRef = db.collection("users").doc(user.uid).collection("pages").doc("1")
     docRef.get().then((doc) => {
@@ -140,17 +140,17 @@ function App() {
         var defaultElement = {
           id: 0,
           title: 'Getting Start',
-          path: '/pages',
+          path: '/pages/0',
           icon: 'Ok',
           className: 'nav-text',
           0: {
-            name: 'Getting Started here',
+            name: 'Getting Start',
             widgets: []
           }
         }
-
+        setPageList([defaultElement])
         db.collection("users").doc(user.uid).collection("pages").doc("0").set(defaultElement)
-        setPageList(defaultElement)
+       
           .then(() => {
             console.log("Document written with ID: ", user.uid);
           })
@@ -165,7 +165,7 @@ function App() {
   }
 
 
-
+  console.log(output)
 
 
   return (
@@ -189,8 +189,8 @@ function App() {
             <Route exact path='/home' exact element={<RenderHome />} />
             <Route exact path='/favorite' element={<Favorite user={user} />} />
             <Route exact path='/setting' element={<Setting user={user} />} />
-            <Route path='/pages' element={<RenderSelectedPage />} > 
-              <Route path=':currentPageID' element={DefaultPage}/>
+            <Route path='/pages' element={<DefaultPage pageList={pageList} output={output} setOutput={setOutput}/>} > 
+              <Route path=':currentPageID' element={<RenderSelectedPage pageList={pageList} setPageList={setPageList} output={output} setOutput={setOutput}/>}/>
             </Route>
 
           </Routes>

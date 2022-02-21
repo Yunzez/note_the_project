@@ -25,10 +25,8 @@ function NavBar(props) {
     var setPageList = props.setPageList;
     var pageID = props.pageID;
     var setPageID = props.setPageID;
-    function delay(time) {
-        return new Promise(resolve => setTimeout(resolve, time));
-    }
-
+    
+    console.log(pageList)
     //sign out function, need to change in the future
 
 
@@ -52,13 +50,12 @@ function NavBar(props) {
         <div>
 
             {SiderbarInfo.map((line, index) => {
-                console.log(line.title)
                 return (
                     <div key={index} className={line.className}>
-                        <NavLink to={line.path} className='d-flex justify-content-start'>
+                        <Link to={line.path} className='d-flex justify-content-start'>
                             <div className='item-icon'>{line.icon}</div>
                             <span className='item-title'>{line.title}</span>
-                        </NavLink>
+                        </Link>
 
                     </div>
                 )
@@ -78,16 +75,19 @@ function NavBar(props) {
         }
         else {
             if (pageList) {
-                console.log(pageList)
+                console.log(pageList[0])
+                
                 return (
                     <div>
                         {pageList.map((line, index) => {
+                            
+                            console.log(line)
                             return (
                                 <div key={index} className={line.className}>
-                                    <NavLink to={line.path}  className='d-flex justify-content-start'>
+                                    <Link to={line.path}  className='d-flex justify-content-start'>
                                         <div className='item-icon'> {<IconDetector name={line.icon} />} </div>
                                         <span className='item-title'>{line.title}</span>
-                                    </NavLink>
+                                    </Link>
                                 </div>
                             )
                         })}
@@ -126,7 +126,7 @@ function NavBar(props) {
             icon: 'default',
             className: 'nav-text',
             0: {
-                name: 'Getting Started here',
+                name: 'hello',
                 widgets: []
             }
         }
