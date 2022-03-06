@@ -66,3 +66,7 @@
  ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+.widget {
+    background: #f1f1f1;
+}
