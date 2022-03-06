@@ -4,6 +4,11 @@ import * as MuiMaterial from '@mui/material';
 import RenderColumnTrigger from './RenderColumnTrigger';
 function RenderColumn(props) {
     let name = props.name;
+    let pos = props.pos; 
+    console.log(pos)
+    if(!pos){
+        pos = 0
+    }
     const [titleInput, setTitleInput] = useState('')
     const [widgetList, setWidgetList] = useState([])
 
@@ -13,12 +18,12 @@ function RenderColumn(props) {
 
     function handleAddWidget() {
         console.log('adding widget')
-        document.getElementsByClassName('addWidgetButton')[0].classList.toggle('d-none')
-        document.getElementsByClassName('widgetTitle')[0].classList.toggle('d-none')
+        document.getElementsByClassName('addWidgetButton')[pos].classList.toggle('d-none')
+        document.getElementsByClassName('widgetTitle')[pos].classList.toggle('d-none')
     }
 
     function handleGoWidget() {
-        setTitleInput(document.getElementsByClassName('input-title')[0].value)
+        setTitleInput(document.getElementsByClassName('input-title')[pos].value)
         console.log('creating widget', titleInput)
         var newWidget = {
             title: titleInput,
@@ -37,9 +42,9 @@ function RenderColumn(props) {
         }
         setWidgetList(temp)
         setTitleInput('')
-        document.getElementsByClassName('input-title')[0].value = ''
-        document.getElementsByClassName('addWidgetButton')[0].classList.toggle('d-none')
-        document.getElementsByClassName('widgetTitle')[0].classList.toggle('d-none')
+        document.getElementsByClassName('input-title')[pos].value = ''
+        document.getElementsByClassName('addWidgetButton')[pos].classList.toggle('d-none')
+        document.getElementsByClassName('widgetTitle')[pos].classList.toggle('d-none')
         
     }
 
@@ -66,7 +71,7 @@ function RenderColumn(props) {
                 <div className="form-group ">
                     <input className="form-control mb-1 input-title" aria-describedby="title" placeholder="Widget Title"
                         onChange={
-                            () => { setTitleInput(document.getElementsByClassName('input-title')[0].value) }}></input>
+                            () => { setTitleInput(document.getElementsByClassName('input-title')[pos].value) }}></input>
                 </div>
                 <button className="btn btn-primary" onClick={() => { handleGoWidget() }}>Go</button>
             </div>
