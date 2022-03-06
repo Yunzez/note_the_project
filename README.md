@@ -1,6 +1,8 @@
 # Note_The_Project
 (skeleton and in progress)
 
+Developed by Fred Zhao and Jason Li, current students of Univeristy of Washington. 
+
 A practice project of note taking created for online-synced note taking, inspired by existing online note taking applications.
 
 ## Features
@@ -18,4 +20,4 @@ This project consists of the front-end including react, bootstrap, and JavaScrip
 ...
 
 ## User Interface Demo
-...
+https://project-n.web.app/
