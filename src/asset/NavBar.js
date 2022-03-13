@@ -12,10 +12,12 @@ import * as FaiSolid from '@fortawesome/free-solid-svg-icons'
 import { Button } from 'reactstrap';
 import * as FcIcons from "react-icons/fc";
 import * as FaIcons from "react-icons/fa";
+import * as BsIcons from "react-icons/bs";
 import 'firebase/compat/firestore';
 //type rfce to set up the function like this 
 import RenderHome from '../pages/Home'
 import RenderSelectedPage from '../pages/RenderSelectedPage';
+import { Dropdown } from 'react-bootstrap';
 
 function NavBar(props) {
 
@@ -25,7 +27,7 @@ function NavBar(props) {
     var setPageList = props.setPageList;
     var pageID = props.pageID;
     var setPageID = props.setPageID;
-    
+
     console.log(pageList)
     //sign out function, need to change in the future
 
@@ -66,8 +68,13 @@ function NavBar(props) {
 
     )
 
+    function showDropDown(index) {
 
-    
+        document.getElementById(index).classList.toggle('d-none')
+
+
+    }
+
     var pages = () => {
         if (!props.user) {
             console.log(props.user)
@@ -76,18 +83,42 @@ function NavBar(props) {
         else {
             if (pageList) {
                 console.log(pageList[0])
-                
                 return (
                     <div>
                         {pageList.map((line, index) => {
-                            
+
                             console.log(line)
                             return (
                                 <div key={index} className={line.className}>
-                                    <Link to={line.path}  className='d-flex justify-content-start'>
-                                        <div className='item-icon'> {<IconDetector name={line.icon} />} </div>
-                                        <span className='item-title'>{line.title}</span>
+                                    <Link to={line.path} className='d-flex justify-content-between'>
+                                        <div className='d-flex'>
+                                            <div className='item-icon'> {<IconDetector name={line.icon} />} </div>
+                                            <span className='item-title'>{line.title}</span>
+                                        </div>
+                                        <div>
+                                            <div className='sub-menu' onClick={() => { showDropDown(index) }}><BsIcons.BsThreeDotsVertical /></div>
+                                        </div>
+
+                                        {/* <div></div>
+                                        <div></div>
+                                        <div><FaIcons.FaTrash /></div> */}
                                     </Link>
+                                    <div id={index} className="dropdown-content d-none position-absolute">
+                                        <div href="#/action-1" className='dropdown-option d-flex justify-content-start m-1'>
+                                            
+                                            <FaIcons.FaPenSquare className='m-1' />
+                                            <span className='font-weight-bold'>Edit</span>
+                                        </div>
+                                        <div href="#/action-2" className='dropdown-option d-flex justify-content-start m-1'>
+                                            
+                                            <BsIcons.BsHeart className='m-1' />
+                                            <span>Favorite</span>
+                                        </div>
+                                        <div href="#/action-3" className='dropdown-option d-flex justify-content-start m-1'>
+                                            <FaIcons.FaTrash className='m-1'/>
+                                            <span>Delete</span>
+                                        </div>
+                                    </div>
                                 </div>
                             )
                         })}
@@ -100,9 +131,9 @@ function NavBar(props) {
 
     function handlePageRedirect(id) {
         console.log('you clicked a icon of id' + id)
-        
+
         RenderSelectedPage(id, pageList)
-       
+
     }
 
     var IconDetector = ({ name }) => {

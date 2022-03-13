@@ -88,12 +88,33 @@
 }
 
 .nav-text a:hover {
-    color: #DEF2F1;
     background: #f6f9ff;
 }
 
 .nav-text a:hover i {
-    color: #DEF2F1;
+    background: #DEF2F1;
+}
+
+.sub-menu:hover {
+    background-color: darkgray;
+    border-radius: 10%;
+    padding-bottom: 2px;
+}
+
+.dropdown-content {
+    margin-left: 50%;
+    box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
+    background-color: #FEFFFF;
+    width: 8vw;
+    transform: all, 1s;
+    border-radius: 10%;
+    border-color: lightgray;
+}
+
+.dropdown-option:hover {
+    background-color: #aab7cf;
+    opacity: 0.8;
+    border-radius: 10%;
 }
 
 .nav-text .item-title {
