@@ -182,11 +182,11 @@ function App() {
           />
 
           <Routes>
-            <Route exact path='/' exact element={<PublicLoginPage user={user}
+            <Route exact path='/' element={<PublicLoginPage user={user}
               handleSignOut={handleSignOut}
               loginWidget={<StyledFirebaseAuth uiConfig={uiConfig}
                 firebaseAuth={firebase.auth()} />} />} />
-            <Route exact path='/home' exact element={<RenderHome />} />
+            <Route exact path='/home' element={<RenderHome />} />
             <Route exact path='/favorite' element={<Favorite user={user} />} />
             <Route exact path='/setting' element={<Setting user={user} />} />
             <Route path='/pages' element={<DefaultPage pageList={pageList} output={output} setOutput={setOutput}/>} > 

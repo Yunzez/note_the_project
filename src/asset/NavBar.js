@@ -89,37 +89,41 @@ function NavBar(props) {
 
                             console.log(line)
                             return (
-                                <div key={index} className={line.className}>
-                                    <Link to={line.path} className='d-flex justify-content-between'>
-                                        <div className='d-flex'>
-                                            <div className='item-icon'> {<IconDetector name={line.icon} />} </div>
-                                            <span className='item-title'>{line.title}</span>
-                                        </div>
+                                <div>
+                                    <div key={index} className={line.className + ' ' + 'd-flex'} >
+                                        <Link to={line.path} className='d-flex justify-content-between'>
+                                            <div className='d-flex'>
+                                                <div className='item-icon'> {<IconDetector name={line.icon} />} </div>
+                                                <span className='item-title'>{line.title}</span>
+                                            </div>
+
+                                            {/* <div></div>
+                                        <div></div>
+                                        <div><FaIcons.FaTrash /></div> */}
+                                        </Link>
                                         <div>
                                             <div className='sub-menu' onClick={() => { showDropDown(index) }}><BsIcons.BsThreeDotsVertical /></div>
                                         </div>
 
-                                        {/* <div></div>
-                                        <div></div>
-                                        <div><FaIcons.FaTrash /></div> */}
-                                    </Link>
+                                    </div>
                                     <div id={index} className="dropdown-content d-none position-absolute">
-                                        <div href="#/action-1" className='dropdown-option d-flex justify-content-start m-1'>
-                                            
+                                        <a onClick={()=>{edit(index)}} className='dropdown-option d-flex justify-content-start m-1'>
+
                                             <FaIcons.FaPenSquare className='m-1' />
                                             <span className='font-weight-bold'>Edit</span>
-                                        </div>
-                                        <div href="#/action-2" className='dropdown-option d-flex justify-content-start m-1'>
-                                            
+                                        </a>
+                                        <a onClick={()=>{like(index)}} className='dropdown-option d-flex justify-content-start m-1'>
+
                                             <BsIcons.BsHeart className='m-1' />
                                             <span>Favorite</span>
-                                        </div>
-                                        <div href="#/action-3" className='dropdown-option d-flex justify-content-start m-1'>
-                                            <FaIcons.FaTrash className='m-1'/>
+                                        </a>
+                                        <a onClick={()=>{deleteItem(index)}} className='dropdown-option d-flex justify-content-start m-1'>
+                                            <FaIcons.FaTrash className='m-1' />
                                             <span>Delete</span>
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
+
                             )
                         })}
                     </div>
@@ -127,6 +131,29 @@ function NavBar(props) {
             }
         }
     }
+
+    function edit(index){
+        console.log('in edit  ', index)
+        
+    }
+
+    function like(index){
+        console.log('in like  ', index)
+    }
+
+    function deleteItem(num){
+        console.log('in deleteItem  ', num )
+        console.log(pageList)
+        var temp = []
+        pageList.map((item, index)=>{
+            if(index!=num){
+                temp.push(item)
+            }
+        })
+
+        setPageList(temp)
+    }
+
     // onClick={<RenderSelectedPage id={line.id} pageList={pageList}/>}
 
     function handlePageRedirect(id) {

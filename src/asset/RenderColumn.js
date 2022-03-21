@@ -5,7 +5,7 @@ import RenderColumnTrigger from './RenderColumnTrigger';
 function RenderColumn(props) {
     let name = props.name;
     let pos = props.pos; 
-    console.log(pos)
+    console.log('position   ',pos)
     if(!pos){
         pos = 0
     }
