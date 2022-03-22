@@ -9,7 +9,8 @@ import { getSidebarPages } from './SidebarPages';
 import * as MuiMaterial from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as FaiSolid from '@fortawesome/free-solid-svg-icons'
-import { Button } from 'reactstrap';
+import { Button, Modal, closeButton } from 'react-bootstrap';
+
 import * as FcIcons from "react-icons/fc";
 import * as FaIcons from "react-icons/fa";
 import * as BsIcons from "react-icons/bs";
@@ -20,9 +21,9 @@ import RenderSelectedPage from '../pages/RenderSelectedPage';
 import { Dropdown } from 'react-bootstrap';
 
 function NavBar(props) {
-
+    const [show, setShow] = useState(false);
     const [input, setInput] = useState('');
-
+    const [rename, setRename] = useState('')
     var pageList = props.pageList;
     var setPageList = props.setPageList;
     var pageID = props.pageID;
@@ -30,7 +31,8 @@ function NavBar(props) {
 
     console.log(pageList)
     //sign out function, need to change in the future
-
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     var handleSignOut = props.handleSignOut;
 
@@ -107,21 +109,40 @@ function NavBar(props) {
 
                                     </div>
                                     <div id={index} className="dropdown-content d-none position-absolute">
-                                        <a onClick={()=>{edit(index)}} className='dropdown-option d-flex justify-content-start m-1'>
+                                        <a onClick={() => { edit(index) }} className='dropdown-option d-flex justify-content-start m-1'>
 
                                             <FaIcons.FaPenSquare className='m-1' />
-                                            <span className='font-weight-bold'>Edit</span>
+                                            <span className='font-weight-bold' data-toggle="modal" data-target="#exampleModal">Edit</span>
                                         </a>
-                                        <a onClick={()=>{like(index)}} className='dropdown-option d-flex justify-content-start m-1'>
+                                        <a onClick={() => { like(index) }} className='dropdown-option d-flex justify-content-start m-1'>
 
                                             <BsIcons.BsHeart className='m-1' />
                                             <span>Favorite</span>
                                         </a>
-                                        <a onClick={()=>{deleteItem(index)}} className='dropdown-option d-flex justify-content-start m-1'>
+                                        <a onClick={() => { deleteItem(index) }} className='dropdown-option d-flex justify-content-start m-1'>
                                             <FaIcons.FaTrash className='m-1' />
                                             <span>Delete</span>
                                         </a>
                                     </div>
+
+                                    <Modal show={show} onHide={handleClose}>
+                                        <Modal.Header closeButton>
+                                            <h5>Rename page: <strong>{line.title}</strong></h5>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <div className="form-group">
+                                                <input className="form-control rename-box" aria-describedby="emailHelp" placeholder="Name" onChange={() => { setRename(document.getElementsByClassName('rename-box')[0].value) }}></input>
+                                            </div>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                            <Button variant="secondary" onClick={handleClose}>
+                                                Close
+                                            </Button>
+                                            <div variant="primary" onClick={()=>{handleNewName(index)}}>
+                                                Save
+                                            </div>
+                                        </Modal.Footer>
+                                    </Modal>
                                 </div>
 
                             )
@@ -129,24 +150,42 @@ function NavBar(props) {
                     </div>
                 )
             }
+            
         }
     }
 
-    function edit(index){
+    function handleNewName(num){
+        handleClose()
+        var temp = []
+        console.log(pageList)
+        pageList.map((item, index) => {
+           if(index==num){
+               item.title=rename
+           }
+           temp.push(item)
+        })
+
+        setPageList(temp)
+    }
+
+    console.log(rename)
+
+    function edit(index) {
         console.log('in edit  ', index)
+        handleShow()
         
     }
 
-    function like(index){
+    function like(index) {
         console.log('in like  ', index)
     }
 
-    function deleteItem(num){
-        console.log('in deleteItem  ', num )
-        console.log(pageList)
+    function deleteItem(num) {
+        console.log('in deleteItem  ', num)
+        
         var temp = []
-        pageList.map((item, index)=>{
-            if(index!=num){
+        pageList.map((item, index) => {
+            if (index != num) {
                 temp.push(item)
             }
         })
