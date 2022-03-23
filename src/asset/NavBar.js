@@ -32,56 +32,6 @@ function NavBar(props) {
     var db = props.db
 
 
-    function contectServer(newPageElement) {
-        if (user) {
-            var currentID = 0;
-            db.collection("users").doc(user.uid).collection("pages")
-                .get()
-                .then(function (querySnapshot) {
-                    querySnapshot.forEach(function (doc) {
-                        console.log(doc.id)
-                        if (parseInt(doc.id) >= parseInt(currentID)) {
-                            console.log('in if', doc.id)
-                            currentID = parseInt(doc.id)
-                            currentID = parseInt(currentID) + 1;
-                        }
-                    });
-                    console.log(currentID)
-                    var docRef = db.collection("users").doc(user.uid).collection("pages").doc(currentID.toString())
-                    docRef.get().then((doc) => {
-                        if (!doc.exists) {
-
-                            db.collection("users").doc(user.uid).collection("pages").doc(currentID.toString()).set(newPageElement)
-
-                                .then(() => {
-                                    console.log("Document written with ID: ", user.uid);
-                                })
-                                .catch((error) => {
-                                    console.error("Error adding document: ", error);
-                                });
-                        } else {
-                            console.log("you already have data")
-                        }
-                    })
-                })
-                .catch(function (error) {
-                    console.log("Error getting documents: ", error);
-                });
-
-
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
     //sign out function, need to change in the future
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -233,6 +183,25 @@ function NavBar(props) {
 
     function deleteItem(num) {
         console.log('in deleteItem  ', num)
+        var pageIDTracker = 0;
+        var pageID = pageList[num].id;
+        db.collection("users").doc(user.uid).collection("pages")
+            .get()
+            .then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    console.log(doc.id, pageID)
+                    if (doc.id == pageID) {
+                        console.log('found same')
+                        db.collection("users").doc(user.uid).collection("pages").doc( pageIDTracker.toString()).delete().then(() => {
+                            console.log("Document successfully deleted!");
+                        }).catch((error) => {
+                            console.error("Error removing document: ", error);
+                        });
+                    }else{
+                        pageIDTracker = pageIDTracker + 1
+                    }
+                })
+            });
 
         var temp = []
         pageList.map((item, index) => {
@@ -258,26 +227,66 @@ function NavBar(props) {
 
     function addNewPage() {
         var newPageList = [];
-        var newPageElement = {
-            id: pageID,
-            title: input,
-            path: '/pages/' + pageID,
-            icon: 'default',
-            className: 'nav-text',
-            0: {
-                name: 'hello',
-                widgets: []
-            }
+       
+        // connect server
+        if (user) {
+            var currentID = 0;
+            db.collection("users").doc(user.uid).collection("pages")
+                .get()
+                // check the current id with database
+                .then(function (querySnapshot) {
+                    querySnapshot.forEach(function (doc) {
+                        console.log(doc.id)
+                        if (parseInt(doc.id) >= parseInt(currentID)) {
+                            console.log('in if', doc.id)
+                            currentID = parseInt(doc.id)
+                            currentID = parseInt(currentID) + 1;
+                        }
+                    });
+                    
+                    // create a new element and add it to the local page list 
+                    console.log(currentID)
+                    var newPageElement = {
+                        id: currentID,
+                        title: input,
+                        path: '/pages/' + currentID,
+                        icon: 'default',
+                        className: 'nav-text',
+                        0: {
+                            name: 'hello',
+                            widgets: []
+                        }
+                    }
+                    pageList.map((element, index) => {
+                        newPageList.push(element)
+                    })
+                    newPageList.push(newPageElement);
+                    setPageList(newPageList)
+
+                    // set the new element with the current ID
+                    var docRef = db.collection("users").doc(user.uid).collection("pages").doc(currentID.toString())
+                    docRef.get().then((doc) => {
+                        if (!doc.exists) {
+
+                            db.collection("users").doc(user.uid).collection("pages").doc(currentID.toString()).set(newPageElement)
+
+                                .then(() => {
+                                    console.log("Document written with ID: ", user.uid);
+                                })
+                                .catch((error) => {
+                                    console.error("Error adding document: ", error);
+                                });
+                        } else {
+                            console.log("you already have data")
+                        }
+                    })
+                })
+                .catch(function (error) {
+                    console.log("Error getting documents: ", error);
+                });
         }
-        contectServer(newPageElement)
 
         setPageID(pageID + 1)
-
-        pageList.map((element, index) => {
-            newPageList.push(element)
-        })
-        newPageList.push(newPageElement);
-        setPageList(newPageList)
         document.getElementsByClassName('add-page-form')[0].classList.add('d-none')
         document.getElementsByClassName('page-input')[0].value = ''
     }
