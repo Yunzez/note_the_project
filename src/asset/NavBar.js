@@ -9,7 +9,7 @@ import { getSidebarPages } from './SidebarPages';
 import * as MuiMaterial from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as FaiSolid from '@fortawesome/free-solid-svg-icons'
-import { Button, Modal, closeButton } from 'react-bootstrap';
+import { Button, Modal, closeButton, Toast } from 'react-bootstrap';
 
 import * as FcIcons from "react-icons/fc";
 import * as FaIcons from "react-icons/fa";
@@ -19,6 +19,7 @@ import 'firebase/compat/firestore';
 import RenderHome from '../pages/Home'
 import RenderSelectedPage from '../pages/RenderSelectedPage';
 import { Dropdown } from 'react-bootstrap';
+import { ToastHeader } from 'reactstrap';
 
 function NavBar(props) {
 
@@ -26,6 +27,8 @@ function NavBar(props) {
     const [show, setShow] = useState(false);
     const [input, setInput] = useState('');
     const [rename, setRename] = useState('')
+    const [toast, setToast] = useState(false)
+    const [flow, setFlow] = useState('')
     var pageList = props.pageList;
     var setPageList = props.setPageList;
     var pageID = props.pageID;
@@ -147,6 +150,7 @@ function NavBar(props) {
                                             </div>
                                         </Modal.Footer>
                                     </Modal>
+
                                 </div>
 
                             )
@@ -174,7 +178,7 @@ function NavBar(props) {
         setPageList(temp)
     }
 
-    
+
     // callback for edit button, it shows the modal for name change
     function edit(index) {
         console.log('in edit  ', index)
@@ -197,8 +201,10 @@ function NavBar(props) {
                     console.log(doc.id, pageID)
                     if (doc.id == pageID) {
                         console.log('found same')
-                        db.collection("users").doc(user.uid).collection("pages").doc( pageID.toString()).delete().then(() => {
+                        db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString()).delete().then(() => {
                             console.log("Document successfully deleted!");
+                            setFlow(pageList[num].title)
+                            setToast(true)
                         }).catch((error) => {
                             console.error("Error removing document: ", error);
                         });
@@ -216,6 +222,7 @@ function NavBar(props) {
         setPageList(temp)
     }
 
+    
     // detect the icon the page uses
     var IconDetector = ({ name }) => {
         if (name == 'Ok') {
@@ -233,7 +240,7 @@ function NavBar(props) {
     // add a new page to pageList and update to the server
     function addNewPage() {
         var newPageList = [];
-       
+
         // connect server
         if (user) {
             var currentID = 0;
@@ -249,7 +256,7 @@ function NavBar(props) {
                             currentID = parseInt(currentID) + 1;
                         }
                     });
-                    
+
                     // create a new element and add it to the local page list 
                     console.log(currentID)
                     var newPageElement = {
@@ -368,8 +375,14 @@ function NavBar(props) {
                         </div>
                         <a className='position-absolute fixed-bottom m-2 btn btn-primary add-page-button' onClick={handleAddPage}>+ new page</a>
                     </div>
-
-                </aside >
+                    <Toast onClose={() => setToast(false)} show={toast} delay={2000} autohide className='position-absolute bottom-0 end-0'>
+                    <Toast.Header>
+                        <strong className="me-auto">Delete Page: {flow}</strong>
+                        <small>Seconds ago</small>
+                    </Toast.Header>
+                    <Toast.Body>Successfully Deleted!</Toast.Body>
+                </Toast>
+                </aside>
             </div>
 
         )
