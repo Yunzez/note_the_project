@@ -183,7 +183,6 @@ function NavBar(props) {
 
     function deleteItem(num) {
         console.log('in deleteItem  ', num)
-        var pageIDTracker = 0;
         var pageID = pageList[num].id;
         db.collection("users").doc(user.uid).collection("pages")
             .get()
@@ -192,13 +191,11 @@ function NavBar(props) {
                     console.log(doc.id, pageID)
                     if (doc.id == pageID) {
                         console.log('found same')
-                        db.collection("users").doc(user.uid).collection("pages").doc( pageIDTracker.toString()).delete().then(() => {
+                        db.collection("users").doc(user.uid).collection("pages").doc( pageID.toString()).delete().then(() => {
                             console.log("Document successfully deleted!");
                         }).catch((error) => {
                             console.error("Error removing document: ", error);
                         });
-                    }else{
-                        pageIDTracker = pageIDTracker + 1
                     }
                 })
             });
