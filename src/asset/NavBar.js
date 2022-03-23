@@ -28,8 +28,60 @@ function NavBar(props) {
     var setPageList = props.setPageList;
     var pageID = props.pageID;
     var setPageID = props.setPageID;
+    var user = props.user
+    var db = props.db
 
-    console.log(pageList)
+
+    function contectServer(newPageElement) {
+        if (user) {
+            var currentID = 0;
+            db.collection("users").doc(user.uid).collection("pages")
+                .get()
+                .then(function (querySnapshot) {
+                    querySnapshot.forEach(function (doc) {
+                        console.log(doc.id)
+                        if (parseInt(doc.id) >= parseInt(currentID)) {
+                            console.log('in if', doc.id)
+                            currentID = parseInt(doc.id)
+                            currentID = parseInt(currentID) + 1;
+                        }
+                    });
+                    console.log(currentID)
+                    var docRef = db.collection("users").doc(user.uid).collection("pages").doc(currentID.toString())
+                    docRef.get().then((doc) => {
+                        if (!doc.exists) {
+
+                            db.collection("users").doc(user.uid).collection("pages").doc(currentID.toString()).set(newPageElement)
+
+                                .then(() => {
+                                    console.log("Document written with ID: ", user.uid);
+                                })
+                                .catch((error) => {
+                                    console.error("Error adding document: ", error);
+                                });
+                        } else {
+                            console.log("you already have data")
+                        }
+                    })
+                })
+                .catch(function (error) {
+                    console.log("Error getting documents: ", error);
+                });
+
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
     //sign out function, need to change in the future
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -108,20 +160,19 @@ function NavBar(props) {
                                         </div>
 
                                     </div>
-                                    <div id={index} className="dropdown-content d-none position-absolute">
-                                        <a onClick={() => { edit(index) }} className='dropdown-option d-flex justify-content-start m-1'>
+                                    <div id={index} className="dropdown-content d-flex d-none position-absolute">
+                                        <a onClick={() => { edit(index) }} data-toggle="modal" data-target="#exampleModal" className='dropdown-option d-flex justify-content-start m-1'>
 
                                             <FaIcons.FaPenSquare className='m-1' />
-                                            <span className='font-weight-bold' data-toggle="modal" data-target="#exampleModal">Edit</span>
+
                                         </a>
                                         <a onClick={() => { like(index) }} className='dropdown-option d-flex justify-content-start m-1'>
 
                                             <BsIcons.BsHeart className='m-1' />
-                                            <span>Favorite</span>
+
                                         </a>
                                         <a onClick={() => { deleteItem(index) }} className='dropdown-option d-flex justify-content-start m-1'>
                                             <FaIcons.FaTrash className='m-1' />
-                                            <span>Delete</span>
                                         </a>
                                     </div>
 
@@ -138,7 +189,7 @@ function NavBar(props) {
                                             <Button variant="secondary" onClick={handleClose}>
                                                 Close
                                             </Button>
-                                            <div variant="primary" onClick={()=>{handleNewName(index)}}>
+                                            <div variant="primary" onClick={() => { handleNewName(index) }}>
                                                 Save
                                             </div>
                                         </Modal.Footer>
@@ -150,19 +201,19 @@ function NavBar(props) {
                     </div>
                 )
             }
-            
+
         }
     }
 
-    function handleNewName(num){
+    function handleNewName(num) {
         handleClose()
         var temp = []
         console.log(pageList)
         pageList.map((item, index) => {
-           if(index==num){
-               item.title=rename
-           }
-           temp.push(item)
+            if (index == num) {
+                item.title = rename
+            }
+            temp.push(item)
         })
 
         setPageList(temp)
@@ -173,7 +224,7 @@ function NavBar(props) {
     function edit(index) {
         console.log('in edit  ', index)
         handleShow()
-        
+
     }
 
     function like(index) {
@@ -182,7 +233,7 @@ function NavBar(props) {
 
     function deleteItem(num) {
         console.log('in deleteItem  ', num)
-        
+
         var temp = []
         pageList.map((item, index) => {
             if (index != num) {
@@ -191,15 +242,6 @@ function NavBar(props) {
         })
 
         setPageList(temp)
-    }
-
-    // onClick={<RenderSelectedPage id={line.id} pageList={pageList}/>}
-
-    function handlePageRedirect(id) {
-        console.log('you clicked a icon of id' + id)
-
-        RenderSelectedPage(id, pageList)
-
     }
 
     var IconDetector = ({ name }) => {
@@ -227,6 +269,7 @@ function NavBar(props) {
                 widgets: []
             }
         }
+        contectServer(newPageElement)
 
         setPageID(pageID + 1)
 

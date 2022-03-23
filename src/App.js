@@ -131,12 +131,13 @@ function App() {
       }
     })
 
-    
-    // adding the first page with an ID of 1, there are errors
-    var docRef = db.collection("users").doc(user.uid).collection("pages").doc("1")
-    docRef.get().then((doc) => {
-      if (!doc.exists) {
 
+    // adding the first page with an ID of 1, there are errors
+    var docRef = db.collection("users").doc(user.uid).collection("pages")
+
+    docRef.get().then(function (querySnapshot) {
+      console.log(querySnapshot)
+      if (querySnapshot.empty) {
         var defaultElement = {
           id: 0,
           title: 'Getting Start',
@@ -150,22 +151,36 @@ function App() {
         }
         setPageList([defaultElement])
         db.collection("users").doc(user.uid).collection("pages").doc("0").set(defaultElement)
-       
+
           .then(() => {
             console.log("Document written with ID: ", user.uid);
           })
           .catch((error) => {
             console.error("Error adding document: ", error);
           });
-      } else {
-        console.log("you already have data")
+      }else{
+        var temp=[]
+        querySnapshot.forEach((doc)=>{
+          console.log(doc.data())
+          temp.push(doc.data())
+        })
+        setPageList(temp)
+        
+        
+          
       }
+
+      
     })
+      .catch(function (error) {
+        console.log("Error getting documents: ", error);
+      });
+
     console.log("update user data", user.displayName);
   }
 
 
-  console.log(output)
+  console.log(pageList)
 
 
   return (
@@ -189,8 +204,8 @@ function App() {
             <Route exact path='/home' element={<RenderHome />} />
             <Route exact path='/favorite' element={<Favorite user={user} />} />
             <Route exact path='/setting' element={<Setting user={user} />} />
-            <Route path='/pages' element={<DefaultPage pageList={pageList} output={output} setOutput={setOutput}/>} > 
-              <Route path=':currentPageID' element={<RenderSelectedPage pageList={pageList} setPageList={setPageList} output={output} setOutput={setOutput}/>}/>
+            <Route path='/pages' element={<DefaultPage pageList={pageList} output={output} setOutput={setOutput} />} >
+              <Route path=':currentPageID' element={<RenderSelectedPage pageList={pageList} setPageList={setPageList} output={output} setOutput={setOutput} />} />
             </Route>
 
           </Routes>

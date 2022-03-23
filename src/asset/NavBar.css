@@ -102,10 +102,10 @@
 }
 
 .dropdown-content {
-    margin-left: 50%;
+    right: 10px;
     box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
     background-color: #FEFFFF;
-    width: 8vw;
+    width: auto;
     transform: all, 1s;
     border-radius: 10%;
     border-color: lightgray;
