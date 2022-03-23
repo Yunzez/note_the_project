@@ -21,6 +21,8 @@ import RenderSelectedPage from '../pages/RenderSelectedPage';
 import { Dropdown } from 'react-bootstrap';
 
 function NavBar(props) {
+
+    // initializing 
     const [show, setShow] = useState(false);
     const [input, setInput] = useState('');
     const [rename, setRename] = useState('')
@@ -72,13 +74,14 @@ function NavBar(props) {
 
     )
 
+    // show the dropdown menu after the user click the three dots
     function showDropDown(index) {
 
         document.getElementById(index).classList.toggle('d-none')
-
-
     }
 
+    // pages are the element in the final return
+    // initialize here to map all pages with defined appearence
     var pages = () => {
         if (!props.user) {
             console.log(props.user)
@@ -155,6 +158,8 @@ function NavBar(props) {
         }
     }
 
+
+    // process new name got from rename, the edit button from the dropdown
     function handleNewName(num) {
         handleClose()
         var temp = []
@@ -169,8 +174,8 @@ function NavBar(props) {
         setPageList(temp)
     }
 
-    console.log(rename)
-
+    
+    // callback for edit button, it shows the modal for name change
     function edit(index) {
         console.log('in edit  ', index)
         handleShow()
@@ -181,6 +186,7 @@ function NavBar(props) {
         console.log('in like  ', index)
     }
 
+    // connect with the server and delete a page in the pagelist
     function deleteItem(num) {
         console.log('in deleteItem  ', num)
         var pageID = pageList[num].id;
@@ -210,6 +216,7 @@ function NavBar(props) {
         setPageList(temp)
     }
 
+    // detect the icon the page uses
     var IconDetector = ({ name }) => {
         if (name == 'Ok') {
             console.log('icon ok')
@@ -222,6 +229,8 @@ function NavBar(props) {
 
     }
 
+
+    // add a new page to pageList and update to the server
     function addNewPage() {
         var newPageList = [];
        
@@ -295,7 +304,7 @@ function NavBar(props) {
     }
 
 
-
+    // final return, check user status and return all output 
     if (!props.user) {
         console.log(props.user)
         return (<div></div>)
