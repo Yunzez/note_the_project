@@ -105,22 +105,25 @@
     right: 10px;
     box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
     background-color: #FEFFFF;
-    width: auto;
     transform: all, 1s;
-    border-radius: 10%;
     border-color: lightgray;
+    padding: 2%;
 }
 
 .dropdown-option {
+    cursor: pointer;
     color: black;
     text-decoration: none;
+    font-size: small;
+    margin-right: 5%;
 }
 
 .dropdown-option:hover {
+    cursor: "pointer";
     color: black;
     background-color: #aab7cf;
     opacity: 0.8;
-    border-radius: 10%;
+    border-radius: 5%;
 }
 
 .nav-text .item-title {
@@ -129,6 +132,10 @@
     color: #17252A;
     font-weight: 600;
     margin: 10px 0 5px 15px;
+}
+
+button:focus {
+    outline: none;
 }
 
 main {

@@ -1,12 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import './columnstyle.css'
+import './NavBar.css'
 import * as MuiMaterial from '@mui/material';
-import RenderColumnTrigger from './RenderColumnTrigger';
+import RenderWidget from './RenderWidget';
+import { Overlay } from 'react-bootstrap';
+import * as BsIcons from "react-icons/bs";
+import * as FcIcons from "react-icons/fc";
+import * as FaIcons from "react-icons/fa";
 function RenderColumn(props) {
+    const target = useRef(null);
+    const [columnToggle, setColumnToggle] = useState(false)
     let name = props.name;
-    let pos = props.pos; 
-    console.log('position   ',pos)
-    if(!pos){
+    let pos = props.pos;
+    console.log('position   ', pos)
+    if (!pos) {
         pos = 0
     }
     const [titleInput, setTitleInput] = useState('')
@@ -45,23 +52,60 @@ function RenderColumn(props) {
         document.getElementsByClassName('input-title')[pos].value = ''
         document.getElementsByClassName('addWidgetButton')[pos].classList.toggle('d-none')
         document.getElementsByClassName('widgetTitle')[pos].classList.toggle('d-none')
-        
+
     }
 
 
-    console.log(widgetList)
 
-
+    console.log(columnToggle)
+    console.log('rendering widgets')
     return (
         <div className='column p-2'>
-            <p>{name}</p>
+            <div className='d-flex justify-content-between'>
+                <p>{name}</p>
+                <div>
+                    <div className='sub-menu pe-1 ps-1' ref={target} onClick={() => { setColumnToggle(!columnToggle) }}><BsIcons.BsThreeDots /></div>
+                </div>
+            </div>
+            <Overlay target={target.current} show={columnToggle} placement="bottom">
+                {({ placement, arrowProps, show: _show, popper, ...props }) => (
+                    <div
+                        {...props}
+                        style={{
+                            position: 'absolute',
+                            color: 'white',
+                            paddingLeft: '5%',
+                            borderRadius: 3,
+                            ...props.style,
+                        }}
+                    >
+                        <div className="dropdown-content">
+                            <a data-toggle="modal" data-target="#exampleModal" className='dropdown-option d-flex justify-content-start m-1'>
+
+                                <FaIcons.FaPenSquare className='column-menuicon' />
+                                <p className='mb-1'>Edit</p>
+                            </a>
+                            <a className='dropdown-option d-flex m-1 pe-1'>
+
+                                <BsIcons.BsPinFill className='column-menuicon' />
+                                <p className='mb-1'>Pin</p>
+                            </a>
+                            <a className='dropdown-option d-flex justify-content-start m-1 pe-1'>
+                                <FaIcons.FaTrash className='column-menuicon' />
+                                <p className='mb-1 me-3'>Delete</p>
+                            </a>
+                        </div>
+                    </div>
+                )}
+            </Overlay>
+
+
             <div>
                 {widgetList.map((item, index) => {
                     console.log('updae widget')
                     return (
-                        <div className='widget bg-white p-1 rounded mb-2'>
-                            <p>{item.title}</p>
-                        </div>
+                        <RenderWidget item={item} index={index}/>
+                        
                     )
                 })}
             </div>
@@ -76,7 +120,7 @@ function RenderColumn(props) {
                 <button className="btn btn-primary" onClick={() => { handleGoWidget() }}>Go</button>
             </div>
 
-           
+
         </div>
 
 

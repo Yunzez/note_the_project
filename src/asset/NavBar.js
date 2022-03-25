@@ -376,11 +376,11 @@ function NavBar(props) {
                         <a className='position-absolute fixed-bottom m-2 btn btn-primary add-page-button' onClick={handleAddPage}>+ new page</a>
                     </div>
                     <Toast onClose={() => setToast(false)} show={toast} delay={2000} autohide className='position-absolute bottom-0 end-0'>
-                    <Toast.Header>
-                        <strong className="me-auto">Delete Page: {flow}</strong>
+                    <Toast.Header >
+                        <small className="me-auto">Delete Page: <strong>{flow}</strong> </small>
                         <small>Seconds ago</small>
                     </Toast.Header>
-                    <Toast.Body>Successfully Deleted!</Toast.Body>
+                    <Toast.Body>Success</Toast.Body>
                 </Toast>
                 </aside>
             </div>
