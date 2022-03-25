@@ -9,6 +9,8 @@ function RenderColumnTrigger(props) {
     var setPageList = props.setPageList;
     var columnlist = props.columnlist;
     var setColumnlist = props.setColumnlist;
+    var db = props.db;
+    var user = props.user;
 
     const [input, setInput] = useState('')
     // give the window choice a hook
@@ -58,6 +60,7 @@ function RenderColumnTrigger(props) {
             replacePageList[page.id] = page
         })
 
+        var pageID;
         replacePageList.map((page, index)=>{
              var columnCount = 0
             if (page.id == props.id) {
@@ -69,15 +72,38 @@ function RenderColumnTrigger(props) {
                     name: input,
                     widgets: []
                 }
-                console.log(page.id)
                 replacePageList[page.id] = page
+                pageID = page.id;
             }
         })
+
+        // connect server
+        var updateTarget = replacePageList[pageID]
+        db.collection("users").doc(user.uid).collection("pages")
+            .get()
+            .then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    console.log(doc.id, pageID)
+                    if (doc.id == pageID) {
+                        console.log('found page')
+                        db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString()).set(updateTarget).then(() => {
+                            console.log("column successfully added!");
+                            
+                        }).catch((error) => {
+                            console.error("Error removing document: ", error);
+                        });
+                    }
+                })
+            });
+
+     
         console.log(replacePageList)
         setPageList(replacePageList);
 
         setInput('')
         setWindow(!window);
+
+
     }
 
 

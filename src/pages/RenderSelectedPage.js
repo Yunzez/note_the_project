@@ -9,7 +9,8 @@ import { useParams } from 'react-router'
 function RenderSelectedPage(props) {
     const { currentPageID } = useParams()
     console.log(props.pageList)
-
+    var user = props.user
+    var db = props.db
     var output = props.output;
     var setOutput = props.setOutput;
     var pageList = props.pageList;
@@ -45,7 +46,10 @@ function RenderSelectedPage(props) {
         while (page[columnCount]) {
             console.log(page[columnCount])
             let name = page[columnCount].name
-            let newColumn = <RenderColumn name={name} />
+
+            // to match with render column trigger, which also has a pos to define the location of each column 
+            var pos=columnCount + 1
+            let newColumn = <RenderColumn name={name} db={db} pageID={page.id} user={user} pageList={pageList} setPageList={setPageList} pos={pos}/>
             temp.push(newColumn)
             columnCount = columnCount + 1;
         }
@@ -82,7 +86,7 @@ function RenderSelectedPage(props) {
                     }
 
                     <div className=" col-sm-4 col-md-3 ms-1 mt-1">
-                        <RenderColumnTrigger pageList={pageList} setPageList={setPageList} columnlist={columnlist} setColumnlist={setColumnlist} id={page.id} />
+                        <RenderColumnTrigger pageList={pageList} setPageList={setPageList} columnlist={columnlist} setColumnlist={setColumnlist} id={page.id} db={db} user={user}/>
                     </div>
                 </div>
             </div>
