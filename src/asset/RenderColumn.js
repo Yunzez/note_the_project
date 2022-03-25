@@ -25,21 +25,21 @@ function RenderColumn(props) {
     const [widgetList, setWidgetList] = useState([])
 
     var currentPage;
-    if(pageList){
-        pageList.map((item)=>{
-            if(item.id == pageID){
+    if (pageList) {
+        pageList.map((item) => {
+            if (item.id == pageID) {
                 currentPage = item
                 // since pos starts at 1
-                if(currentPage[pos-1].widgets != widgetList){
-                    setWidgetList(currentPage[pos-1].widgets)
+                if (currentPage[pos - 1].widgets != widgetList) {
+                    setWidgetList(currentPage[pos - 1].widgets)
                 }
-                
+
             }
         })
-        
+
     }
-    
-    
+
+
 
 
 
@@ -50,12 +50,12 @@ function RenderColumn(props) {
 
     function handleAddWidget() {
         console.log('adding widget')
-        document.getElementsByClassName('addWidgetButton')[pos-1].classList.toggle('d-none')
-        document.getElementsByClassName('widgetTitle')[pos-1].classList.toggle('d-none')
+        document.getElementsByClassName('addWidgetButton')[pos - 1].classList.toggle('d-none')
+        document.getElementsByClassName('widgetTitle')[pos - 1].classList.toggle('d-none')
     }
 
     function handleGoWidget() {
-        setTitleInput(document.getElementsByClassName('input-title')[pos-1].value)
+        setTitleInput(document.getElementsByClassName('input-title')[pos - 1].value)
         console.log('creating widget', titleInput)
         var newWidget = {
             title: titleInput,
@@ -76,42 +76,46 @@ function RenderColumn(props) {
         setTitleInput('')
         var temp = []
         var targetPage;
-        pageList.map((item) => {
-            if (item.id == pageID) {
-                targetPage = item;
-                targetPage[pos-1].widgets.push(newWidget)
-                temp.push(targetPage)
+        if (pageList) {
+            pageList.map((item) => {
+                if (item.id == pageID) {
+                    targetPage = item;
+                    targetPage[pos - 1].widgets.push(newWidget)
+                    temp.push(targetPage)
 
-            } else {
-                temp.push(item)
-            }
-        })
-        setPageList(temp)
+                } else {
+                    temp.push(item)
+                }
+            })
+            setPageList(temp)
 
+            
         // connect server
-        console.log(temp, pageID)
-        console.log(temp[pageID.toString()])
+        
         db.collection("users").doc(user.uid).collection("pages")
-            .get()
-            .then(function (querySnapshot) {
-                querySnapshot.forEach(function (doc) {
-                    console.log(doc.id, pageID)
-                    if (doc.id == pageID) {
-                        console.log('found page')
-                        db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString()).set(targetPage).then(() => {
-                            console.log("widget successfully added!");
+        .get()
+        .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                console.log(doc.id, pageID)
+                if (doc.id == pageID) {
+                    console.log('found page')
+                    db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString()).set(targetPage).then(() => {
+                        console.log("widget successfully added!");
 
-                        }).catch((error) => {
-                            console.error("Error removing document: ", error);
-                        });
-                    }
-                })
-            });
+                    }).catch((error) => {
+                        console.error("Error removing document: ", error);
+                    });
+                }
+            })
+        });
+
+        }
 
 
-        document.getElementsByClassName('input-title')[pos-1].value = ''
-        document.getElementsByClassName('addWidgetButton')[pos-1].classList.toggle('d-none')
-        document.getElementsByClassName('widgetTitle')[pos-1].classList.toggle('d-none')
+
+        document.getElementsByClassName('input-title')[pos - 1].value = ''
+        document.getElementsByClassName('addWidgetButton')[pos - 1].classList.toggle('d-none')
+        document.getElementsByClassName('widgetTitle')[pos - 1].classList.toggle('d-none')
 
     }
 
@@ -175,7 +179,7 @@ function RenderColumn(props) {
                 <div className="form-group ">
                     <input className="form-control mb-1 input-title" aria-describedby="title" placeholder="Widget Title"
                         onChange={
-                            () => { setTitleInput(document.getElementsByClassName('input-title')[pos-1].value) }}></input>
+                            () => { setTitleInput(document.getElementsByClassName('input-title')[pos - 1].value) }}></input>
                 </div>
                 <button className="btn btn-primary" onClick={() => { handleGoWidget() }}>Go</button>
             </div>

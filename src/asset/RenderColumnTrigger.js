@@ -46,7 +46,7 @@ function RenderColumnTrigger(props) {
         //update new column
         var replaceColumn = [];
         var pos= columnlist.length
-        var newcolumn = <RenderColumn name={input} pos={pos}/>
+        var newcolumn = <RenderColumn name={input} pos={pos+1}/>
         columnlist.map(function (column, index) {
             replaceColumn.push(column)
         })
