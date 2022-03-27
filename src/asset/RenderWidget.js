@@ -2,7 +2,7 @@
 import React, { useState, useRef } from 'react'
 import './columnstyle.css'
 import './NavBar.css'
-import { Overlay } from 'react-bootstrap';
+import { Overlay, Modal, Button } from 'react-bootstrap';
 import * as BsIcons from "react-icons/bs";
 import * as FaIcons from "react-icons/fa";
 
@@ -10,7 +10,9 @@ import * as FaIcons from "react-icons/fa";
 function RenderWidget(props) {
     var item = props.item;
     const target = useRef(null);
-    const [toggle, setToggle] = useState(false)
+    const [toggle, setToggle] = useState(false);
+    const handleClose = () => setToggle(false);
+    const handleShow = () => setToggle(true);
 
     return (
         <div>
@@ -19,10 +21,40 @@ function RenderWidget(props) {
                     <p>{item.title}</p>
                 </div>
                 <div>
-                    <div className='sub-menu pe-1 ps-1' ref={target} onClick={() => { setToggle(!toggle) }}><BsIcons.BsFillCaretDownFill/></div>
+                    <div className='sub-menu pe-1 ps-1' onClick={handleShow}><BsIcons.BsFillCaretDownFill /></div>
                 </div>
             </div>
-            <Overlay target={target.current} show={toggle} placement="bottom">
+
+            <Modal show={toggle} onHide={handleClose}
+                {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Editing Widget {item.title}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='row'>
+                        <div className='col-8'>
+                            Content:
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Example textarea</label>
+                                <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            </div>
+                            <div className='add-widget m-2 rounded widget-button p-2'>Update Content</div>
+                        </div>
+                        <div className='col-4'>
+                            Option
+                        </div>
+                    </div>
+
+                </Modal.Body>
+                <Modal.Footer>
+                    Your changes are saved automatically
+                </Modal.Footer>
+            </Modal>
+            {/* <Overlay target={target.current} show={toggle} placement="bottom">
                 {({ placement, arrowProps, show: _show, popper, ...props }) => (
                     <div
                         {...props}
@@ -31,7 +63,7 @@ function RenderWidget(props) {
                             color: 'white',
                             paddingLeft: '5%',
                             paddingTop: '5px',
-                            borderRadius: 3,
+                            borderRadius: "3%",
                             ...props.style,
                         }}
                     >
@@ -53,8 +85,7 @@ function RenderWidget(props) {
                         </div>
                     </div>
                 )}
-            </Overlay>
-
+            </Overlay> */}
         </div>
     )
 }

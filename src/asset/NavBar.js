@@ -18,8 +18,6 @@ import 'firebase/compat/firestore';
 //type rfce to set up the function like this 
 import RenderHome from '../pages/Home'
 import RenderSelectedPage from '../pages/RenderSelectedPage';
-import { Dropdown } from 'react-bootstrap';
-import { ToastHeader } from 'reactstrap';
 
 function NavBar(props) {
 
