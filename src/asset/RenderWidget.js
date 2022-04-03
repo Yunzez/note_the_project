@@ -68,9 +68,9 @@ function RenderWidget(props) {
                             <div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getText() }}> <BsIcons.BsFileEarmarkFontFill className='me-2' />Normal Text </div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getTodoList() }}> <BsIcons.BsCheckSquareFill className='me-2' />Todo List</div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { }}> <BsIcons.BsFillBookmarkFill className='me-2' />Web Bookmark</div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { }}> <BsIcons.BsFillCalendarEventFill className='me-2' />Calendar </div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { }}> <BsIcons.BsDiscFill className='me-2' />Music</div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { getWebBookmark() }}> <BsIcons.BsFillBookmarkFill className='me-2' />Web Bookmark</div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { getCalendar()}}> <BsIcons.BsFillCalendarEventFill className='me-2' />Calendar </div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { getMusicPlayer()}}> <BsIcons.BsDiscFill className='me-2' />Music</div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { }}> <BsIcons.BsPaletteFill className='me-2' />Cover</div>
                             </div>
                         </div>
@@ -78,8 +78,6 @@ function RenderWidget(props) {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <div className='add-widget m-2 rounded widget-button p-2'> Save</div>
-                    <div className='add-widget m-2 rounded widget-button p-2'> Cancel</div>
                 </Modal.Footer>
             </Modal>
         </div>
@@ -90,9 +88,7 @@ function RenderWidget(props) {
     function getText() {
         var newComp = <RenderNormalTextComponent pos={position}/>;
         var output = [];
-        component.map((item, index) => {
-            output.push(item);
-        })
+        component.map((item, index) => ( output.push(item)));
         output.push(newComp)
         setComponent(output)
 
@@ -101,11 +97,33 @@ function RenderWidget(props) {
 
 
     function getTodoList() {
-        var newComp = RenderTodoListComponent();
+        var newComp = <RenderTodoListComponent pos={position}/>;
         var output = [];
-        component.map((item, index) => {
-            output.push(item);
-        })
+        component.map((item, index) => ( output.push(item)));
+        output.push(newComp)
+        setComponent(output)
+    }
+
+    function getWebBookmark() {
+        var newComp = <RenderTodoListComponent pos={position}/>;
+        var output = [];
+        component.map((item, index) => ( output.push(item)));
+        output.push(newComp)
+        setComponent(output)
+    }
+
+    function getCalendar() {
+        var newComp = <RenderTodoListComponent pos={position}/>;
+        var output = [];
+        component.map((item, index) => ( output.push(item)));
+        output.push(newComp)
+        setComponent(output)
+    }
+
+    function getMusicPlayer() {
+        var newComp = <RenderTodoListComponent pos={position}/>;
+        var output = [];
+        component.map((item, index) => ( output.push(item)));
         output.push(newComp)
         setComponent(output)
     }

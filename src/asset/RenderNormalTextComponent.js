@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import * as FaIcons from "react-icons/fa";
 
 function RenderNormalTextComponent(props) {
     const [normalInput, setNormalInput] = useState();
@@ -6,7 +7,8 @@ function RenderNormalTextComponent(props) {
     var setupID = 'normaltext-setup' + pos;
     var showID = 'normaltext-show' + pos;
     var inputID = 'component-normal-textinput' + pos;
-
+    
+    
     return (
         <div>
             <div id={setupID} >
@@ -19,8 +21,11 @@ function RenderNormalTextComponent(props) {
                     <button onClick={() => { setupTextBox() }} className='btn add-widget mt-2'>Save</button>
                 </div>
             </div>
-            <div id={showID} className='d-none'>
+            <div id={showID} className='d-none '>
                 <p>{normalInput}</p>
+                <div className='d-flex flex-row-reverse'>
+                    <button className='btn mt-2'><FaIcons.FaPenSquare className='column-menuicon' /></button>
+                </div>
             </div>
         </div>
     )
@@ -28,9 +33,6 @@ function RenderNormalTextComponent(props) {
     function setupTextBox() {
         document.getElementById(setupID).classList.add('d-none')
         document.getElementById(showID).classList.remove('d-none')
-        //setNormalInput('')
-
-        
     }
 }
 
