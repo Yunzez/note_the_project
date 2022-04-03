@@ -38,6 +38,7 @@
     background-color: #c6cede;
     width: auto;
     display: block;
+    cursor: pointer;
 }
 
 .column-trigger:hover {
@@ -52,6 +53,7 @@
     background-color: #c6cede;
     border-style: none;
     transition: 0.3s;
+    cursor: pointer;
 }
 
 .widget-input:hover {
