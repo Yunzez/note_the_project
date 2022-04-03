@@ -45,7 +45,18 @@
 }
 
 .add-widget:hover {
-    opacity: 0.5;
+    opacity: 0.8;
+}
+
+.widget-input {
+    background-color: #c6cede;
+    border-style: none;
+    transition: 0.3s;
+}
+
+.widget-input:hover {
+    opacity: 0.8;
+    color: #555;
 }
 
 ::-webkit-scrollbar {

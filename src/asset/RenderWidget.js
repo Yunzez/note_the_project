@@ -6,6 +6,11 @@ import { Overlay, Modal, Button } from 'react-bootstrap';
 import * as BsIcons from "react-icons/bs";
 import * as FaIcons from "react-icons/fa";
 
+// import component widgets
+import RenderNormalTextComponent from './RenderNormalTextComponent';
+import RenderTodoListComponent from './RenderTodoListComponent';
+
+
 // this function generate single widget as a functional element
 function RenderWidget(props) {
     var item = props.item;
@@ -13,6 +18,8 @@ function RenderWidget(props) {
     const [toggle, setToggle] = useState(false);
     const handleClose = () => setToggle(false);
     const handleShow = () => setToggle(true);
+    const [component, setComponent] = useState(['']);
+    const [position, setPosition] = useState(0)
 
     return (
         <div>
@@ -32,62 +39,78 @@ function RenderWidget(props) {
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Editing Widget {item.title}</Modal.Title>
+                    <p>{item.title}</p>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='row'>
                         <div className='col-8'>
-                            Content:
-                            <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Example textarea</label>
-                                <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            <div>
+                                <p>Description</p>
+                                <div>
+                                    <input className="form-control widget-input" type="text" placeholder="Give your widget a more detailed description" disabled></input>
+                                    <input className="form-control d-none" type="text" placeholder="Give your widget a more detailed description" ></input>
+                                </div>
                             </div>
-                            <div className='add-widget m-2 rounded widget-button p-2'>Update Content</div>
+                            {component.map((item, index) => {
+                                console.log('in component mapping')
+                                return (
+                                    <div key={index}>
+                                        {item}    
+                                        <hr></hr>           
+                                    </div>)
+                            })}
+                            
                         </div>
                         <div className='col-4'>
-                            Option
+                            <p>Add to Widget:</p>
+                            <div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { getText() }}> <BsIcons.BsFileEarmarkFontFill className='me-2' />Normal Text </div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { getTodoList() }}> <BsIcons.BsCheckSquareFill className='me-2' />Todo List</div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { }}> <BsIcons.BsFillBookmarkFill className='me-2' />Web Bookmark</div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { }}> <BsIcons.BsFillCalendarEventFill className='me-2' />Calendar </div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { }}> <BsIcons.BsDiscFill className='me-2' />Music</div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { }}> <BsIcons.BsPaletteFill className='me-2' />Cover</div>
+                            </div>
                         </div>
                     </div>
 
                 </Modal.Body>
                 <Modal.Footer>
-                    Your changes are saved automatically
+                    <div className='add-widget m-2 rounded widget-button p-2'> Save</div>
+                    <div className='add-widget m-2 rounded widget-button p-2'> Cancel</div>
                 </Modal.Footer>
             </Modal>
-            {/* <Overlay target={target.current} show={toggle} placement="bottom">
-                {({ placement, arrowProps, show: _show, popper, ...props }) => (
-                    <div
-                        {...props}
-                        style={{
-                            position: 'absolute',
-                            color: 'white',
-                            paddingLeft: '5%',
-                            paddingTop: '5px',
-                            borderRadius: "3%",
-                            ...props.style,
-                        }}
-                    >
-                        <div className="dropdown-content">
-                            <a data-toggle="modal" data-target="#exampleModal" className='dropdown-option d-flex justify-content-start m-1'>
-
-                                <FaIcons.FaPenSquare className='column-menuicon' />
-                                <p className='mb-1'>Edit</p>
-                            </a>
-                            <a className='dropdown-option d-flex m-1 pe-1'>
-
-                                <BsIcons.BsPinFill className='column-menuicon' />
-                                <p className='mb-1'>Pin</p>
-                            </a>
-                            <a className='dropdown-option d-flex justify-content-start m-1 pe-1'>
-                                <FaIcons.FaTrash className='column-menuicon' />
-                                <p className='mb-1 me-3'>Delete</p>
-                            </a>
-                        </div>
-                    </div>
-                )}
-            </Overlay> */}
         </div>
     )
+
+
+    // action function to add comp
+    function getText() {
+        var newComp = <RenderNormalTextComponent pos={position}/>;
+        var output = [];
+        component.map((item, index) => {
+            output.push(item);
+        })
+        output.push(newComp)
+        setComponent(output)
+
+        setPosition(position+1);
+    }
+
+
+    function getTodoList() {
+        var newComp = RenderTodoListComponent();
+        var output = [];
+        component.map((item, index) => {
+            output.push(item);
+        })
+        output.push(newComp)
+        setComponent(output)
+    }
 }
+
+
+
+
 
 export default RenderWidget

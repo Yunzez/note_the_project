@@ -18,6 +18,7 @@ import 'firebase/compat/firestore';
 //type rfce to set up the function like this 
 import RenderHome from '../pages/Home'
 import RenderSelectedPage from '../pages/RenderSelectedPage';
+import { display } from '@mui/system';
 
 function NavBar(props) {
 
@@ -94,7 +95,12 @@ function NavBar(props) {
                 return (
                     <div>
                         {pageList.map((line, index) => {
-
+                            var displayName;
+                            if(line.title.length > 20){
+                                displayName = line.title.substring(0,17) + ' ...'
+                            } else {
+                                displayName = line.title;
+                            }
                             console.log(line)
                             return (
                                 <div>
@@ -102,12 +108,8 @@ function NavBar(props) {
                                         <Link to={line.path} className='d-flex justify-content-between'>
                                             <div className='d-flex'>
                                                 <div className='item-icon'> {<IconDetector name={line.icon} />} </div>
-                                                <span className='item-title'>{line.title}</span>
+                                                <span className='item-title'>{displayName}</span>
                                             </div>
-
-                                            {/* <div></div>
-                                        <div></div>
-                                        <div><FaIcons.FaTrash /></div> */}
                                         </Link>
                                         <div>
                                             <div className='sub-menu' onClick={() => { showDropDown(index) }}><BsIcons.BsThreeDotsVertical /></div>
