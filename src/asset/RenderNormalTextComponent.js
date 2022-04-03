@@ -7,9 +7,6 @@ function RenderNormalTextComponent(props) {
     var showID = 'normaltext-show' + pos;
     var inputID = 'component-normal-textinput' + pos;
 
-
-
-
     return (
         <div>
             <div id={setupID} >

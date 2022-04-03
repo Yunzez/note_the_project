@@ -47,7 +47,9 @@ function RenderWidget(props) {
                             <div>
                                 <p>Description</p>
                                 <div>
-                                    <input className="form-control widget-input" type="text" placeholder="Give your widget a more detailed description" disabled></input>
+                                    <button className="widget-input text-wrap rounded ps-2 pe-2">
+                                        <p>Give your widget a more detailed description</p>
+                                    </button>
                                     <input className="form-control d-none" type="text" placeholder="Give your widget a more detailed description" ></input>
                                 </div>
                             </div>
