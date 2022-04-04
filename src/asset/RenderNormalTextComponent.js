@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import * as FaIcons from "react-icons/fa";
-
+import EditableInput from './EditableInput';
 function RenderNormalTextComponent(props) {
     const [normalInput, setNormalInput] = useState();
     var pos = props.pos
@@ -22,10 +22,7 @@ function RenderNormalTextComponent(props) {
                 </div>
             </div>
             <div id={showID} className='d-none '>
-                <p>{normalInput}</p>
-                <div className='d-flex flex-row-reverse'>
-                    <button className='btn mt-2'><FaIcons.FaPenSquare className='column-menuicon' /></button>
-                </div>
+                <EditableInput text={normalInput.value}/>
             </div>
         </div>
     )

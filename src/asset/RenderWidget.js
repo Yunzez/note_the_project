@@ -9,7 +9,7 @@ import * as FaIcons from "react-icons/fa";
 // import component widgets
 import RenderNormalTextComponent from './RenderNormalTextComponent';
 import RenderTodoListComponent from './RenderTodoListComponent';
-
+import EditableInput from './EditableInput';
 
 // this function generate single widget as a functional element
 function RenderWidget(props) {
@@ -47,8 +47,8 @@ function RenderWidget(props) {
                             <div>
                                 <p>Description</p>
                                 <div>
-                                    <div className="widget-input text-wrap rounded ps-2 pe-2">
-                                        <p>Give your widget a more detailed description</p>
+                                    <div  className="widget-input text-wrap rounded">
+                                        <EditableInput className="widget-input text-wrap p-4" text='Give your widget a more detailed description' />
                                     </div>
                                     <input className="form-control d-none" type="text" placeholder="Give your widget a more detailed description" ></input>
                                 </div>
@@ -57,11 +57,11 @@ function RenderWidget(props) {
                                 console.log('in component mapping')
                                 return (
                                     <div key={index}>
-                                        {item}    
-                                        <hr></hr>           
+                                        {item}
+                                        <hr></hr>
                                     </div>)
                             })}
-                            
+
                         </div>
                         <div className='col-4'>
                             <p>Add to Widget:</p>
@@ -69,8 +69,8 @@ function RenderWidget(props) {
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getText() }}> <BsIcons.BsFileEarmarkFontFill className='me-2' />Normal Text </div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getTodoList() }}> <BsIcons.BsCheckSquareFill className='me-2' />Todo List</div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getWebBookmark() }}> <BsIcons.BsFillBookmarkFill className='me-2' />Web Bookmark</div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { getCalendar()}}> <BsIcons.BsFillCalendarEventFill className='me-2' />Calendar </div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { getMusicPlayer()}}> <BsIcons.BsDiscFill className='me-2' />Music</div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { getCalendar() }}> <BsIcons.BsFillCalendarEventFill className='me-2' />Calendar </div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { getMusicPlayer() }}> <BsIcons.BsDiscFill className='me-2' />Music</div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { }}> <BsIcons.BsPaletteFill className='me-2' />Cover</div>
                             </div>
                         </div>
@@ -86,44 +86,44 @@ function RenderWidget(props) {
 
     // action function to add comp
     function getText() {
-        var newComp = <RenderNormalTextComponent pos={position}/>;
+        var newComp = <RenderNormalTextComponent pos={position} />;
         var output = [];
-        component.map((item, index) => ( output.push(item)));
+        component.map((item, index) => (output.push(item)));
         output.push(newComp)
         setComponent(output)
 
-        setPosition(position+1);
+        setPosition(position + 1);
     }
 
 
     function getTodoList() {
-        var newComp = <RenderTodoListComponent pos={position}/>;
+        var newComp = <RenderTodoListComponent pos={position} />;
         var output = [];
-        component.map((item, index) => ( output.push(item)));
+        component.map((item, index) => (output.push(item)));
         output.push(newComp)
         setComponent(output)
     }
 
     function getWebBookmark() {
-        var newComp = <RenderTodoListComponent pos={position}/>;
+        var newComp = <RenderTodoListComponent pos={position} />;
         var output = [];
-        component.map((item, index) => ( output.push(item)));
+        component.map((item, index) => (output.push(item)));
         output.push(newComp)
         setComponent(output)
     }
 
     function getCalendar() {
-        var newComp = <RenderTodoListComponent pos={position}/>;
+        var newComp = <RenderTodoListComponent pos={position} />;
         var output = [];
-        component.map((item, index) => ( output.push(item)));
+        component.map((item, index) => (output.push(item)));
         output.push(newComp)
         setComponent(output)
     }
 
     function getMusicPlayer() {
-        var newComp = <RenderTodoListComponent pos={position}/>;
+        var newComp = <RenderTodoListComponent pos={position} />;
         var output = [];
-        component.map((item, index) => ( output.push(item)));
+        component.map((item, index) => (output.push(item)));
         output.push(newComp)
         setComponent(output)
     }

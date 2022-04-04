@@ -27,8 +27,8 @@ const EditableInput = props => {
 
   return (
     <React.Fragment>
-      {inputVisible ? (
-        <input className="form-control-todo"
+      {inputVisible ? ( 
+        <textarea className="form-control-todo" row='1'
           ref={inputRef} // Set the Ref
           value={text} // Now input value uses local state
           onChange={e => {
