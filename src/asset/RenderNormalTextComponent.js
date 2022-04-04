@@ -22,7 +22,8 @@ function RenderNormalTextComponent(props) {
                 </div>
             </div>
             <div id={showID} className='d-none '>
-                <EditableInput text={normalInput.value}/>
+                {/* <EditableInput text={normalInput.value}/> */}
+                <p>{normalInput}</p>
             </div>
         </div>
     )
