@@ -111,6 +111,7 @@ function RenderWidget(props) {
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
         setComponent(output)
+        setPosition(position + 1);
     }
 
     function getCalendar() {
@@ -119,6 +120,7 @@ function RenderWidget(props) {
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
         setComponent(output)
+        setPosition(position + 1);
     }
 
     function getMusicPlayer() {
@@ -127,6 +129,7 @@ function RenderWidget(props) {
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
         setComponent(output)
+        setPosition(position + 1);
     }
 }
 
