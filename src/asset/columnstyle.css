@@ -39,6 +39,29 @@
     width: auto;
     display: block;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-widget:hover {
+    box-shadow: 1px 1px #aab7cf;
+    opacity: 0.9;
+}
+
+.add-widget-small {
+    background-color: #c6cede;
+    border-radius: 5%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.pointer-icon {
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.add-widget-small:hover {
+    box-shadow: 1px 1px #aab7cf;
+    opacity: 0.9;
 }
 
 .column-trigger:hover {
@@ -117,4 +140,15 @@
     appearance: none;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+textarea.note {
+    overflow: hidden;
+    width: 100%;
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 3px;
+    transition: box-shadow 0.5s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

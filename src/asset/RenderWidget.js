@@ -102,6 +102,7 @@ function RenderWidget(props) {
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
         setComponent(output)
+        setPosition(position + 1);
     }
 
     function getWebBookmark() {

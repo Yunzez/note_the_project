@@ -1,3 +1,4 @@
+import { maxHeight } from "@mui/system";
 import React, { useState, useRef, useEffect } from "react";
 import './columnstyle.css'
 const EditableInput = props => {
@@ -23,12 +24,19 @@ const EditableInput = props => {
     return () => {
       document.removeEventListener("mousedown", onClickOutSide);
     };
-  });
+  }, [text]);
+
+ 
+  const style = {
+    minWidth: "100%",
+    minHeight: '15vh'
+  };
 
   return (
     <React.Fragment>
-      {inputVisible ? ( 
-        <textarea className="form-control-todo" row='1'
+      {inputVisible ? (
+        <textarea className="ms-2" 
+          style={style}
           ref={inputRef} // Set the Ref
           value={text} // Now input value uses local state
           onChange={e => {
@@ -36,7 +44,7 @@ const EditableInput = props => {
           }}
         />
       ) : (
-        <label className='finger-pointer' onClick={() => setInputVisible(true)}>{text}</label>
+        <label className='finger-pointer ps-2 pe-2' onClick={() => setInputVisible(true)}>{text}</label>
       )}
     </React.Fragment>
   );
