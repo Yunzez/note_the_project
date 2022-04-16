@@ -9,6 +9,8 @@ import * as FaIcons from "react-icons/fa";
 // import component widgets
 import RenderNormalTextComponent from './RenderNormalTextComponent';
 import RenderTodoListComponent from './RenderTodoListComponent';
+import RenderMusicPlayerComponent from './RenderMusicPlayerComponent';
+import RenderCalendarComponent from './RenderCalendarComponent';
 import EditableInput from './EditableInput';
 
 // this function generate single widget as a functional element
@@ -106,7 +108,7 @@ function RenderWidget(props) {
     }
 
     function getWebBookmark() {
-        var newComp = <RenderTodoListComponent pos={position} />;
+        var newComp = <RenderBookMarkComponent pos={position} />;
         var output = [];
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
@@ -115,7 +117,7 @@ function RenderWidget(props) {
     }
 
     function getCalendar() {
-        var newComp = <RenderTodoListComponent pos={position} />;
+        var newComp = <RenderCalendarComponent pos={position} />;
         var output = [];
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
@@ -124,7 +126,7 @@ function RenderWidget(props) {
     }
 
     function getMusicPlayer() {
-        var newComp = <RenderTodoListComponent pos={position} />;
+        var newComp = <RenderMusicPlayerComponent pos={position} />;
         var output = [];
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
