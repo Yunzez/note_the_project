@@ -11,6 +11,7 @@ import RenderNormalTextComponent from './RenderNormalTextComponent';
 import RenderTodoListComponent from './RenderTodoListComponent';
 import RenderMusicPlayerComponent from './RenderMusicPlayerComponent';
 import RenderCalendarComponent from './RenderCalendarComponent';
+import RenderBookMarkComponent from './RenderBookMarkComponent';
 import EditableInput from './EditableInput';
 
 // this function generate single widget as a functional element
