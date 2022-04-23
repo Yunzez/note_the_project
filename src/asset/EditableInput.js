@@ -1,4 +1,3 @@
-import { maxHeight } from "@mui/system";
 import React, { useState, useRef, useEffect } from "react";
 import './columnstyle.css'
 const EditableInput = props => {

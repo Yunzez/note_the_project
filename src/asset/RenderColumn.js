@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react'
 import './columnstyle.css'
 import './NavBar.css'
-import * as MuiMaterial from '@mui/material';
 import RenderWidget from './RenderWidget';
 import { Overlay } from 'react-bootstrap';
 import * as BsIcons from "react-icons/bs";

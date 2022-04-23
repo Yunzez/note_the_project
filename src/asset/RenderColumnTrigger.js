@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './columnstyle.css'
-import * as MuiMaterial from '@mui/material';
+
 import RenderColumn from './RenderColumn';
 
 function RenderColumnTrigger(props) {

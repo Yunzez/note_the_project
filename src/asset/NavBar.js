@@ -6,7 +6,7 @@ import { SiderbarInfo } from './SidebarInfo';
 import './NavBar.css';
 import { getSidebarPages } from './SidebarPages';
 //import Mui and Font awesome, we will be mainly using this ui
-import * as MuiMaterial from '@mui/material';
+// import * as MuiMaterial from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as FaiSolid from '@fortawesome/free-solid-svg-icons'
 import { Button, Modal, closeButton, Toast } from 'react-bootstrap';
@@ -18,7 +18,6 @@ import 'firebase/compat/firestore';
 //type rfce to set up the function like this 
 import RenderHome from '../pages/Home'
 import RenderSelectedPage from '../pages/RenderSelectedPage';
-import { display } from '@mui/system';
 
 function NavBar(props) {
 
@@ -70,7 +69,7 @@ function NavBar(props) {
                     </div>
                 )
             })}
-            <MuiMaterial.Divider className='mb-1' />
+            {/* <MuiMaterial.Divider className='mb-1' /> */}
         </div>
 
 
@@ -338,7 +337,7 @@ function NavBar(props) {
                             <Link to='' className="logo d-flex align-items-center">
                                 <span className="d-none d-lg-block">Note the Project</span>
                             </Link>
-                            <MuiMaterial.Divider className='mb-1' />
+                            {/* <MuiMaterial.Divider className='mb-1' /> */}
                             <div className='navbar-toggle ' id='navbar-toggle'>
                                 <div onClick={showSidebar} className='menu-bars d-flex flex-row-reverse mb-2 ms-1 me-2 mt-2'>
                                     <FontAwesomeIcon id='open-menu-arrow' className='d-none' icon={FaiSolid.faArrowRight} />
