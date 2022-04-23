@@ -20,6 +20,7 @@
         "firebase": "^9.6.3",
         "fortawesome": "0.0.1-security",
         "html-react-parser": "^1.4.5",
+        "metascraper": "^5.29.3",
         "mini-css-extract-plugin": "2.4.5",
         "react": "^17.0.2",
         "react-bootstrap": "^2.2.2",

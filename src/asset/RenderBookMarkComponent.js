@@ -11,8 +11,6 @@ function RenderBookMarkComponent(props) {
     var inputID = 'component-normal-textinput' + pos;
 
 
-   
-
 
 
     return (
@@ -29,7 +27,7 @@ function RenderBookMarkComponent(props) {
     function GetWebData() {
         var currInput = input;
         setPureURL(currInput.replace('', ' '));
-        console.log(currInput);
+
         
 
     }
