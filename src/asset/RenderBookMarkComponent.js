@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
 import ClipLoader from "react-spinners/ClipLoader";
+import './columnstyle.css'
 function RenderBookMarkComponent(props) {
 
     const [input, setInput] = useState('');
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [pureURL, setPureURL] = useState('')
-
+    var fulllink = "https://note-the-project-n.herokuapp.com/user/getwebmeta?url="
     var pos = props.pos
     var setupID = 'normaltext-setup' + pos;
     var spinID = 'spin' + pos;
@@ -24,20 +24,32 @@ function RenderBookMarkComponent(props) {
     return (
         <React.Fragment>
             {isLoaded ? (
-                <div>{items.des}</div>
+                <div className="card p-2">
+                    <div className='row'>
+                        <div className='col-6'>
+                        <img className='web-image' src={items.image}></img>
+                        </div>
+                        <div className='col-6'>
+                            <div className='mb-2'><h5>{items.title}</h5></div>
+                        </div>
+                        <div>{items.des}</div>
+                            {/* <div className='d-flex'><p>keywords:  </p><strong> {items.keywords[0] == null? (items.keywords[0], items.keywords[1], items.keywords[2]):("no key word")}</strong></div> */}
+                    </div>
+                </div>
+
             ) : (
                 <div className="card p-2">
-                <label for="basic-url">Website URL:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id={inputID} input={input} onChange={() => { setInput(document.getElementById(inputID).value) }} aria-describedby="basic-addon3"></input>
-                </div>
-                <div className='btn btn-primary mt-1' onClick={() => { GetWebData() }}>
-                    <div id={spinID} className="d-none">
-                        <ClipLoader size={50} />
+                    <label for="basic-url">Website URL:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id={inputID} input={input} onChange={() => { setInput(fulllink + document.getElementById(inputID).value); console.log(input) }} aria-describedby="basic-addon3"></input>
                     </div>
-                    <p id={hidetextID}>Generate Bookmark</p></div>
-            </div>
-                
+                    <div className='btn btn-primary mt-1' onClick={() => { GetWebData() }}>
+                        <div id={spinID} className="d-none">
+                            <ClipLoader size={50} />
+                        </div>
+                        <p id={hidetextID}>Generate Bookmark</p></div>
+                </div>
+
             )}
 
         </React.Fragment>
@@ -47,19 +59,17 @@ function RenderBookMarkComponent(props) {
     function GetWebData() {
         document.getElementById(spinID).classList.toggle('d-none')
         document.getElementById(hidetextID).classList.toggle('d-none')
-        var currInput = input;
-        setPureURL(currInput.replace(' ', ''));
-        var fulllink = "http://localhost:3001/user/getwebmeta/?url=" + pureURL
-        // var fulllink= "https://note-the-project-n.herokuapp.com/user/getwebmeta?url=" + pureURL
-        fulllink = fulllink.replace(' ', '')
-        console.log(fulllink)
-        fetch(fulllink)
+        // var fulllink = "http://localhost:3001/user/getwebmeta/?url=" + pureURL
+        var currInput = input
+        currInput = currInput.replace('', ' ')
+        console.log(currInput)
+        fetch(currInput)
             .then(res => res.json())
             .then(
                 (result) => {
                     setIsLoaded(true);
                     setItems(result);
-                    console.log(items)
+                    console.log(result)
                     document.getElementById(hidetextID).classList.toggle('d-none')
                     document.getElementById(spinID).classList.toggle('d-none')
                 },
