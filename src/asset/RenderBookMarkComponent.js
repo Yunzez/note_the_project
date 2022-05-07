@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import ClipLoader from "react-spinners/ClipLoader";
+import BeatLoader from "react-spinners/BeatLoader";
 import './columnstyle.css'
 function RenderBookMarkComponent(props) {
 
@@ -26,28 +26,32 @@ function RenderBookMarkComponent(props) {
             {isLoaded ? (
                 <div className="card p-2">
                     <div className='row'>
-                        <div className='col-6'>
-                        <img className='web-image' src={items.image}></img>
+                        <div className='col-4'>
+                            <img className='web-image' src={items.image}></img>
                         </div>
-                        <div className='col-6'>
-                            <div className='mb-2'><h5>{items.title}</h5></div>
+                        <div className='col-8'>
+                            <div className='mb-1 webbookmark-title' ><a target="_blank" href={items.url}>{items.title}</a></div>
+                            <div><p class="text-muted webbookmark-des">{items.des}</p></div>
                         </div>
-                        <div>{items.des}</div>
-                            {/* <div className='d-flex'><p>keywords:  </p><strong> {items.keywords[0] == null? (items.keywords[0], items.keywords[1], items.keywords[2]):("no key word")}</strong></div> */}
                     </div>
                 </div>
 
             ) : (
                 <div className="card p-2">
                     <label for="basic-url">Website URL:</label>
+                    
                     <div class="input-group">
                         <input type="text" class="form-control" id={inputID} input={input} onChange={() => { setInput(fulllink + document.getElementById(inputID).value); console.log(input) }} aria-describedby="basic-addon3"></input>
                     </div>
+                    
                     <div className='btn btn-primary mt-1' onClick={() => { GetWebData() }}>
                         <div id={spinID} className="d-none">
-                            <ClipLoader size={50} />
+                            <BeatLoader size={15} margin={4}/>
                         </div>
-                        <p id={hidetextID}>Generate Bookmark</p></div>
+                        <p id={hidetextID}>Generate Bookmark</p>
+                        
+                        </div>
+                    
                 </div>
 
             )}
@@ -70,8 +74,8 @@ function RenderBookMarkComponent(props) {
                     setIsLoaded(true);
                     setItems(result);
                     console.log(result)
-                    document.getElementById(hidetextID).classList.toggle('d-none')
-                    document.getElementById(spinID).classList.toggle('d-none')
+                    // document.getElementById(hidetextID).classList.toggle('d-none')
+                    // document.getElementById(spinID).classList.toggle('d-none')
                 },
                 // Note: it's important to handle errors here
                 // instead of a catch() block so that we don't swallow

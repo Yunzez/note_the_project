@@ -159,3 +159,11 @@ textarea.note {
     /* max-height: 30vh; */
     height: auto;
 }
+
+.webbookmark-des {
+    font-size: 50%;
+}
+
+.webbookmark-title {
+    font-size: 70%;
+}
