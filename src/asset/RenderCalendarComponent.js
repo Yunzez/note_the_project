@@ -23,29 +23,30 @@ function RenderCalendarComponent(props) {
     return (
         <div>
             <div id={setupID}>
-                <div>Start Time:
-                    <DatePicker
-                        selected={startDate}
-                        onChange={(date) => setStartDate(date)}
-                        showTimeSelect
-                        timeFormat="p"
-                        timeIntervals={15}
-                        dateFormat="Pp"
-                    />
-                </div>
-                <div>End Time:
-                    <DatePicker
-                        selected={endDate}
-                        onChange={(date) => setEndDate(date)}
-                        minDate={startDate}
-                        minTime={startDate}
-                        maxTime={setHours(setMinutes(new Date(), 59), 23)}
-                        showTimeSelect
-                        timeFormat="p"
-                        timeIntervals={15}
-                        dateFormat="Pp"
-                    />
-                    {/* minTime={() => { 
+                <div className='d-flex justify-content-between'>
+                    <div>Start Time:
+                        <DatePicker
+                            selected={startDate}
+                            onChange={(date) => setStartDate(date)}
+                            showTimeSelect
+                            timeFormat="p"
+                            timeIntervals={15}
+                            dateFormat="Pp"
+                        />
+                    </div>
+                    <div>End Time:
+                        <DatePicker
+                            selected={endDate}
+                            onChange={(date) => setEndDate(date)}
+                            minDate={startDate}
+                            minTime={startDate}
+                            maxTime={setHours(setMinutes(new Date(), 59), 23)}
+                            showTimeSelect
+                            timeFormat="p"
+                            timeIntervals={15}
+                            dateFormat="Pp"
+                        />
+                        {/* minTime={() => { 
                         if (startDate.getFullYear() == endDate.getFullYear() && startDate.getMonth() == endDate.getMonth() && startDate.getDay() == endDate.getDay()) {
                             console.log(startDate.getFullYear(), startDate.getMonth(), startDate.getDay())
                             return setHours(setMinutes(new Date(), startDate.getMinutes()), startDate.getHours())
@@ -53,6 +54,7 @@ function RenderCalendarComponent(props) {
                             return setHours(setMinutes(new Date(), 0), 0)
                         }
                     }} */}
+                    </div>
                 </div>
                 <div>Event: <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput} /></div>
 
@@ -61,19 +63,21 @@ function RenderCalendarComponent(props) {
                 </div>
             </div>
             <div id={showID} className='d-none '>
-                {/* <EditableInput text={normalInput}/> */}
+
                 <div>
-                    <div>
-                        Start Time: {startDate.toDateString()} {startDate.toLocaleTimeString()}
+                    <div>{normalInput}: </div>
+                    <div className='d-flex'>
+                        <div className='calendar-displaytime'>
+                            <p>From <b>{startDate.toISOString().split('T')[0]} {startDate.toLocaleTimeString()}</b></p>
+                        </div>
+                        <div className='calendar-displaytime ms-1'>
+                            <p>to <b>{endDate.toISOString().split('T')[0]} {endDate.toLocaleTimeString()}</b></p>
+                        </div>
+                        <div className='btn float-end' onClick={() => {
+                            document.getElementById(setupID).classList.remove("d-none")
+                            document.getElementById(showID).classList.add('d-none')
+                        }}><BsIcons.BsPencilSquare /></div>
                     </div>
-                    <div>
-                        End Time: {endDate.toDateString()} {endDate.toLocaleTimeString()}
-                    </div>
-                    <div>Event: {normalInput}</div>
-                    <div className='btn' onClick={() => {
-                        document.getElementById(setupID).classList.remove("d-none")
-                        document.getElementById(showID).classList.add('d-none')
-                    }}><BsIcons.BsPencilSquare /></div>
                 </div>
             </div>
         </div>
