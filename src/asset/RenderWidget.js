@@ -46,7 +46,7 @@ function RenderWidget(props) {
                 </Modal.Header>
                 <Modal.Body>
                     <div className='row'>
-                        <div className='col-8'>
+                        <div className='col-9'>
                             <div>
                                 <p>Description</p>
                                 <div>
@@ -66,7 +66,7 @@ function RenderWidget(props) {
                             })}
 
                         </div>
-                        <div className='col-4'>
+                        <div className='col-3'>
                             <p>Add to Widget:</p>
                             <div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getText() }}> <BsIcons.BsFileEarmarkFontFill className='me-2' />Normal Text </div>

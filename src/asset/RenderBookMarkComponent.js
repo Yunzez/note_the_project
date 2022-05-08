@@ -26,10 +26,10 @@ function RenderBookMarkComponent(props) {
             {isLoaded ? (
                 <div className="card p-2">
                     <div className='row'>
-                        <div className='col-4'>
+                        <div className='col-2'>
                             <img className='web-image' src={items.image}></img>
                         </div>
-                        <div className='col-8'>
+                        <div className='col-10'>
                             <div className='mb-1 webbookmark-title' ><a target="_blank" href={items.url}>{items.title}</a></div>
                             <div><p class="text-muted webbookmark-des">{items.des}</p></div>
                         </div>

@@ -122,6 +122,10 @@
     margin-right: 5%
 }
 
+.modal-dialog {
+    min-width: 80vw;
+}
+
 .finger-pointer {
     cursor: pointer;
 }
@@ -161,11 +165,11 @@ textarea.note {
 }
 
 .webbookmark-des {
-    font-size: 50%;
+    font-size: 70%;
 }
 
 .webbookmark-title {
-    font-size: 70%;
+    font-size: 80%;
 }
 
 .calendar-displaytime {
