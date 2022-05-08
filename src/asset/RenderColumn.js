@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import './columnstyle.css'
 import './NavBar.css'
 import RenderWidget from './RenderWidget';
@@ -9,6 +9,7 @@ import * as FaIcons from "react-icons/fa";
 function RenderColumn(props) {
     const target = useRef(null);
     const [columnToggle, setColumnToggle] = useState(false)
+    const [widgetPos, setWidgetPos] = useState(0)
     let name = props.name;
     let pos = props.pos;
     let db = props.db;
@@ -16,27 +17,35 @@ function RenderColumn(props) {
     let user = props.user;
     let pageList = props.pageList;
     let setPageList = props.setPageList;
+    
     console.log('position   ', pos)
     if (!pos) {
         pos = 0
     }
+
+    var tempPage;
+
     const [titleInput, setTitleInput] = useState('')
     const [widgetList, setWidgetList] = useState([])
+    const [serverUpdate, setServerUpdate] = useState(false)
 
-    var currentPage;
+    
     if (pageList) {
         pageList.map((item) => {
             if (item.id == pageID) {
-                currentPage = item
+                tempPage = item
                 // since pos starts at 1
-                if (currentPage[pos - 1].widgets != widgetList) {
-                    setWidgetList(currentPage[pos - 1].widgets)
+                if (tempPage[pos - 1].widgets != widgetList) {
+                    setWidgetList(tempPage[pos - 1].widgets)
                 }
 
             }
         })
 
     }
+
+    const [currentPage, setCurrentPage] = useState(tempPage)
+
 
 
 
@@ -57,10 +66,11 @@ function RenderColumn(props) {
         setTitleInput(document.getElementsByClassName('input-title')[pos - 1].value)
         console.log('creating widget', titleInput)
         var newWidget = {
+            id: widgetPos,
             title: titleInput,
-            type: 0,
             content: {}
         }
+        setWidgetPos(widgetPos + 1);
         console.log(titleInput)
         var temp = []
         if (widgetList.length > 0) {
@@ -74,40 +84,33 @@ function RenderColumn(props) {
         setWidgetList(temp)
         setTitleInput('')
         var temp = []
-        var targetPage;
+
         if (pageList) {
             pageList.map((item) => {
                 if (item.id == pageID) {
-                    targetPage = item;
-                    targetPage[pos - 1].widgets.push(newWidget)
-                    temp.push(targetPage)
-
+                    currentPage[pos - 1].widgets.push(newWidget)
+                    temp.push(currentPage)
                 } else {
                     temp.push(item)
                 }
             })
             setPageList(temp)
 
-            
-        // connect server
-        
-        db.collection("users").doc(user.uid).collection("pages")
-        .get()
-        .then(function (querySnapshot) {
-            querySnapshot.forEach(function (doc) {
-                console.log(doc.id, pageID)
-                if (doc.id == pageID) {
-                    console.log('found page')
-                    db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString()).set(targetPage).then(() => {
-                        console.log("widget successfully added!");
 
-                    }).catch((error) => {
-                        console.error("Error removing document: ", error);
-                    });
-                }
-            })
-        });
+            // connect server
 
+            db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString())
+                .get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        console.log('found page')
+                        db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString()).set(currentPage).then(() => {
+                            console.log("widget successfully added!");
+                        }).catch((error) => {
+                            console.error("Error removing document: ", error);
+                        });
+                    }
+                })
         }
 
 
@@ -117,6 +120,51 @@ function RenderColumn(props) {
         document.getElementsByClassName('widgetTitle')[pos - 1].classList.toggle('d-none')
 
     }
+
+
+    // update page when user close the modal
+    useEffect(() => {
+        console.log("current state of serverUpdate:  ", serverUpdate);
+        if (serverUpdate) {
+            console.log('update to local server (pagelist)', pos)
+            var tempPageList = [];
+            pageList.map((item) => {
+                if (item.id == pageID) {
+                    tempPageList.push(currentPage)
+                } else {
+                    tempPageList.push(item)
+                }
+            })
+            console.log(currentPage)
+            setPageList(tempPageList)
+
+            console.log("we need to update remote server");
+
+            //!!!!!!
+            // still testing, this code WORKS, it update selected page to the server, but the other 
+            // component are waited to be fix
+
+
+            // db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString())
+            //     .get()
+            //     .then((doc) => {
+            //         if (doc.exists) {
+            //             console.log('found page')
+            //             db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString()).set(currentPage).then(() => {
+            //                 console.log("updating test within modal!!!!!!!");
+
+            //             }).catch((error) => {
+            //                 console.error("Error updating tooltip ", error);
+            //             });
+            //         }
+
+            //     });
+            console.log(pageList)
+            setServerUpdate(false);
+
+        }
+    }, [serverUpdate])
+
 
 
 
@@ -167,8 +215,14 @@ function RenderColumn(props) {
                 {widgetList.map((item, index) => {
                     console.log('update widget')
                     return (
-                        <RenderWidget item={item} index={index} />
-
+                        <RenderWidget id={`widget${widgetPos}`} item={item} serverUpdate={serverUpdate} setServerUpdate={setServerUpdate} index={index}
+                            pageList={pageList}
+                            setPageList={setPageList}
+                            pos={pos}
+                            pageID={pageID}
+                            currentPage = {currentPage}
+                            setCurrentPage = {setCurrentPage}
+                            widgetPos = {widgetPos} />
                     )
                 })}
             </div>
@@ -188,6 +242,9 @@ function RenderColumn(props) {
 
 
     )
+
+
+
 }
 
 export default RenderColumn

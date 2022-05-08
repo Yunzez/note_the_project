@@ -152,7 +152,6 @@ function App() {
         }
         setPageList([defaultElement])
         db.collection("users").doc(user.uid).collection("pages").doc("0").set(defaultElement)
-
           .then(() => {
             console.log("Document written with ID: ", user.uid);
           })

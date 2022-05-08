@@ -16,13 +16,37 @@ import EditableInput from './EditableInput';
 
 // this function generate single widget as a functional element
 function RenderWidget(props) {
+    var pageList = props.pageList;
+    var setPageList = props.setPageList
     var item = props.item;
-    const target = useRef(null);
+    var setServerUpdate = props.setServerUpdate;
+    var pageID = props.pageID;
+    var widgetPos = props.widgetPos
+    var currentPage = props.currentPage;
+    // current page is the page that we are on right now, do not add another element to keep track
+    // use set Currentpage instead
+    var setCurrentPage = props.setCurrentPage;
+    var columnPos = props.pos // this keep tracks of column position
+
+
+
     const [toggle, setToggle] = useState(false);
-    const handleClose = () => setToggle(false);
-    const handleShow = () => setToggle(true);
+    const handleClose = (() => { setToggle(false); setServerUpdate(true) })
     const [component, setComponent] = useState(['']);
     const [position, setPosition] = useState(0)
+
+    // check all the content of this widget;
+   console.log(widgetPos)
+    const handleShow = (() => {
+        setToggle(true)
+        // console.log("position ", position)
+        // console.log("props.id ", props.id)
+        // console.log(currentPage[columnPos - 1].widgets[widgetPos])
+        // if (currentPage[columnPos - 1].widgets[widgetPos].content > 0) {
+        //     console.log('need to update component')
+        // }
+    });
+
 
     return (
         <div>
@@ -46,18 +70,18 @@ function RenderWidget(props) {
                 </Modal.Header>
                 <Modal.Body>
                     <div className='row'>
-                        <div className='col-9'>
+                        <div className='col-lg-9 col-xl-10'>
                             <div>
                                 <p>Description</p>
                                 <div>
-                                    <div  className="widget-input text-wrap rounded">
+                                    <div className="widget-input text-wrap rounded">
                                         <EditableInput className="widget-input text-wrap p-4" text='Give your widget a more detailed description' />
                                     </div>
                                     <input className="form-control d-none" type="text" placeholder="Give your widget a more detailed description" ></input>
                                 </div>
                             </div>
                             {component.map((item, index) => {
-                                console.log('in component mapping')
+
                                 return (
                                     <div key={index}>
                                         {item}
@@ -66,12 +90,12 @@ function RenderWidget(props) {
                             })}
 
                         </div>
-                        <div className='col-3'>
+                        <div className='col-lg-3 col-xl-2'>
                             <p>Add to Widget:</p>
                             <div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { getText() }}> <BsIcons.BsFileEarmarkFontFill className='me-2' />Normal Text </div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { getText() }}> <BsIcons.BsFileEarmarkFontFill className='me-2' />Plain Text </div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getTodoList() }}> <BsIcons.BsCheckSquareFill className='me-2' />Todo List</div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { getWebBookmark() }}> <BsIcons.BsFillBookmarkFill className='me-2' />Web Bookmark</div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { getWebBookmark() }}> <BsIcons.BsFillBookmarkFill className='me-2' />Bookmark</div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getCalendar() }}> <BsIcons.BsFillCalendarEventFill className='me-2' />Calendar </div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getMusicPlayer() }}> <BsIcons.BsDiscFill className='me-2' />Music</div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { }}> <BsIcons.BsPaletteFill className='me-2' />Cover</div>
@@ -89,7 +113,8 @@ function RenderWidget(props) {
 
     // action function to add comp
     function getText() {
-        var newComp = <RenderNormalTextComponent pos={position} />;
+        var newComp = <RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
+            content={currentPage} widgetPos={widgetPos} />;
         var output = [];
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
@@ -100,7 +125,8 @@ function RenderWidget(props) {
 
 
     function getTodoList() {
-        var newComp = <RenderTodoListComponent pos={position} />;
+        var newComp = <RenderTodoListComponent columnPos={columnPos} pos={position}
+            setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} />;
         var output = [];
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
@@ -109,7 +135,8 @@ function RenderWidget(props) {
     }
 
     function getWebBookmark() {
-        var newComp = <RenderBookMarkComponent pos={position} />;
+        var newComp = <RenderBookMarkComponent columnPos={columnPos} pos={position}
+            setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} />;
         var output = [];
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
@@ -118,7 +145,8 @@ function RenderWidget(props) {
     }
 
     function getCalendar() {
-        var newComp = <RenderCalendarComponent pos={position} />;
+        var newComp = <RenderCalendarComponent columnPos={columnPos} pos={position}
+            setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} />;
         var output = [];
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
@@ -127,13 +155,16 @@ function RenderWidget(props) {
     }
 
     function getMusicPlayer() {
-        var newComp = <RenderMusicPlayerComponent pos={position} />;
+        var newComp = <RenderMusicPlayerComponent columnPos={columnPos} pos={position}
+            setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} />;
         var output = [];
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
         setComponent(output)
         setPosition(position + 1);
     }
+
+
 }
 
 

@@ -7,16 +7,21 @@ import autosize from 'autosize';
 import TextArea from './AutoText'
 
 function RenderNormalTextComponent(props) {
-    // componentDidMount(){
-    //     this.textarea.focus();
-    //     autosize(this.textarea);
-    // };
+
 
     const [normalInput, setNormalInput] = useState('');
     var pos = props.pos
+    var columnPos = props.columnPos
+    var setContent = props.setContent;
+    var content = props.content; // content is the parent's currentpage
     var setupID = 'normaltext-setup' + pos;
     var showID = 'normaltext-show' + pos;
     var inputID = 'component-normal-textinput' + pos;
+    var widgetPos = props.widgetPos;
+    var tempContent = {
+        type: "plain_text",
+        text: ''
+    } 
 
 
     return (
@@ -24,8 +29,8 @@ function RenderNormalTextComponent(props) {
             <div id={setupID} >
                 <form>
                     <div className="form-group">
-                        
-                        <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput}/>
+
+                        <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput} />
                     </div>
                 </form>
                 <div className='d-flex flex-row-reverse'>
@@ -48,6 +53,26 @@ function RenderNormalTextComponent(props) {
     function setupTextBox() {
         document.getElementById(setupID).classList.add('d-none')
         document.getElementById(showID).classList.remove('d-none')
+        tempContent.text= normalInput;
+        var replaceContent = [];
+       
+
+        // this part update the current page, both local and remote server depend on this 
+        console.log(content[columnPos-1].widgets)// pos start at 1
+        var thisWidget = content[columnPos-1].widgets
+        thisWidget.forEach(item => {
+            console.log(item.id, widgetPos)
+            if (item.id == (widgetPos)){
+                console.log(tempContent)
+                item.content[pos] = tempContent
+            }
+        })
+        console.log(thisWidget)
+
+        replaceContent = content
+        replaceContent[columnPos-1].widgets = thisWidget;
+        
+        setContent(replaceContent);
     }
 }
 
