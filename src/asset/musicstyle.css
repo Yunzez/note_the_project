@@ -4,3 +4,8 @@
     height: 5vw;
     cursor: pointer;
 }
+
+.selected {
+    border-color: blue !important;
+    border-width: 0.4vh !important;
+}

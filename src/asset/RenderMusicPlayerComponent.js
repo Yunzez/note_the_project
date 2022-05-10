@@ -14,18 +14,18 @@ function RenderMusicPlayerComponent(props) {
     const [normalInput, setNormalInput] = useState('');
     const [song, setSong] = useState(undefined);
     const [more, setMore] = useState(0)
+    const [selected, setSelected] = useState(undefined)
+    const [saved, setSaved] = useState(undefined)
     var pos = props.pos
     var setupID = 'normaltext-setup' + pos;
     var showID = 'normaltext-show' + pos;
     var inputID = 'component-normal-textinput' + pos;
-    const state = { previewAudio: new Audio() };
+
 
     function search() {
+        setSelected(undefined)
         var musicList = []
         setMore(0)
-        if (!state.previewAudio.paused) {
-            state.previewAudio.pause();
-        }
         fetch("https://itunes.apple.com/search?term=" + normalInput.trim())
             .then(response => response.json())
             .then(data => {
@@ -37,24 +37,83 @@ function RenderMusicPlayerComponent(props) {
             })
     }
 
-    function playAudio(track) {
-        if (state.previewAudio.src !== track.previewUrl) { //if a new track to play
-            state.previewAudio.pause(); //pause current
-            state.previewAudio.src = track.previewUrl
-            // new Audio(track.previewUrl); //create new audio
-            state.previewAudio.play(); //play new
+    function playAudio(track, index) {
+        if (selected == undefined) {
+            console.log("undefined")
+            setSelected(index)
+            document.getElementById("item" + index).classList.add("selected")
+        } else {
+            document.getElementById("item" + selected).classList.remove("selected")
+            setSelected(index)
+            document.getElementById("item" + index).classList.add("selected")
+        }
+        var player = document.getElementById('player')
+        if (player.src == track.previewUrl) {
+            if (player.paused) {
+                player.play()
+            } else {
+                player.pause()
+            }
+        } else {
+            player.src = track.previewUrl
+            player.load()
+            player.play()
+        }
+    }
+
+    function save() {
+        let savedSong = song[selected]
+        setSaved(savedSong)
+        setSong(undefined)
+    }
+
+    var header = () => {
+        if (saved == undefined && song == undefined) {
+            return (
+                <div>
+                    <div>Search for a music:</div>
+                    <audio id="player" src="123"></audio>
+                    <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput} />
+                    <div className='d-flex justify-content-between'>
+                        <button onClick={() => { search() }} className='btn btn-primary mt-2 mb-2'><i class="fa fa-music" aria-hidden="true"></i> Search</button>
+                    </div>
+                </div>
+            )
+        } else if (saved == undefined) {
+            return (
+                <div>
+                    <div>Search for a music:</div>
+                    <audio id="player" src="123"></audio>
+                    <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput} />
+                    <div className='d-flex justify-content-between'>
+                        <button onClick={() => { search() }} className='btn btn-primary mt-2 mb-2'><i class="fa fa-music" aria-hidden="true"></i> Search</button>
+                        <button onClick={() => { save() }} className='btn btn-secondary mt-2 mb-2'>Save</button>
+                    </div>
+                </div>
+            )
         }
         else {
-            if (state.previewAudio.paused) {
-                state.previewAudio.play();
-            } else {
-                state.previewAudio.pause();
-            }
+            return (
+                <div>
+                    <div className='d-flex flex-row border mb-1 p-1' id={saved}>
+                        <img className='savedMusic' src={saved.artworkUrl100} alt={saved.trackName} title={saved.trackName} onClick={() => { playAudio(saved, 0) }} />
+                        <div className='ps-2'>
+                            <div>Name: {saved.trackName}</div>
+                            <div>Artist: {saved.artistName}</div>
+                            <div>Collection: {saved.collectionName}</div>
+                        </div>
+                    </div>
+                </div>
+            )
         }
     }
 
     var music = () => {
-        if (song == undefined) {
+        if (saved != undefined) {
+            return (
+                <div></div>
+            )
+        } else if (song == undefined) {
             return (
                 <div>
                     Search music from iTunes database
@@ -73,8 +132,8 @@ function RenderMusicPlayerComponent(props) {
                     <div className="d-flex flex-column">
                         {song5.map((item, index) => {
                             return (
-                                <div className='d-flex flex-row border mb-1 p-1'>
-                                    <img className='musicCover' src={item.artworkUrl100} alt={item.trackName} title={item.trackName} onClick={() => { playAudio(item) }} />
+                                <div className='d-flex flex-row border mb-1 p-1' id={"item" + index}>
+                                    <img className='musicCover' src={item.artworkUrl100} alt={item.trackName} title={item.trackName} onClick={() => { playAudio(item, index) }} />
                                     <div className='ps-2'>
                                         <div>Name: {item.trackName}</div>
                                         <div>Artist: {item.artistName}</div>
@@ -95,8 +154,8 @@ function RenderMusicPlayerComponent(props) {
                     <div className="d-flex flex-column">
                         {song.map((item, index) => {
                             return (
-                                <div className='d-flex flex-row border mb-1 p-1'>
-                                    <img className='musicCover' src={item.artworkUrl100} alt={item.trackName} title={item.trackName} onClick={() => { playAudio(item) }} />
+                                <div className='d-flex flex-row border mb-1 p-1' id={"item" + index}>
+                                    <img className='musicCover' src={item.artworkUrl100} alt={item.trackName} title={item.trackName} onClick={() => { playAudio(item, index) }} />
                                     <div className='ps-2'>
                                         <div>Name: {item.trackName}</div>
                                         <div>Artist: {item.artistName}</div>
@@ -113,12 +172,8 @@ function RenderMusicPlayerComponent(props) {
 
     return (
         <div>
-            <div>Search for a music:</div>
-            <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput} />
-            <button onClick={() => { search() }} className='btn btn-primary mt-2 mb-2'><i class="fa fa-music" aria-hidden="true"></i> Search</button>
+            {header()}
             {music()}
-            {/* <form class="form-inline" method="GET" action="https://itunes.apple.com/search">
-            </form> */}
         </div>
     )
 }
