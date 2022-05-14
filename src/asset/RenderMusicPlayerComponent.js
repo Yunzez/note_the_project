@@ -1,11 +1,9 @@
 import React, { useState, useRef } from 'react'
 import * as FaIcons from "react-icons/fa";
-import EditableInput from './EditableInput';
 import * as BsIcons from "react-icons/bs";
 import './columnstyle.css'
 import autosize from 'autosize';
 import TextArea from './AutoText'
-import { Progress } from 'reactstrap';
 import { checkActionCode } from '@firebase/auth';
 import './musicstyle.css';
 
@@ -23,7 +21,11 @@ function RenderMusicPlayerComponent(props) {
 
 
     function search() {
-        setSelected(undefined)
+        if (selected != undefined) {
+            document.getElementById("item" + selected).classList.remove("selected")
+            setSelected(undefined)
+        }
+
         var musicList = []
         setMore(0)
         fetch("https://itunes.apple.com/search?term=" + normalInput.trim())
@@ -38,26 +40,41 @@ function RenderMusicPlayerComponent(props) {
     }
 
     function playAudio(track, index) {
-        if (selected == undefined) {
-            console.log("undefined")
-            setSelected(index)
-            document.getElementById("item" + index).classList.add("selected")
-        } else {
-            document.getElementById("item" + selected).classList.remove("selected")
-            setSelected(index)
-            document.getElementById("item" + index).classList.add("selected")
-        }
-        var player = document.getElementById('player')
-        if (player.src == track.previewUrl) {
-            if (player.paused) {
-                player.play()
+        if (index == -1) {
+            var player = document.getElementById('player')
+            if (player.src == track.previewUrl) {
+                if (player.paused) {
+                    player.play()
+                } else {
+                    player.pause()
+                }
             } else {
-                player.pause()
+                player.src = track.previewUrl
+                player.load()
+                player.play()
             }
         } else {
-            player.src = track.previewUrl
-            player.load()
-            player.play()
+            if (selected == undefined) {
+                console.log("undefined")
+                setSelected(index)
+                document.getElementById("item" + index).classList.add("selected")
+            } else {
+                document.getElementById("item" + selected).classList.remove("selected")
+                setSelected(index)
+                document.getElementById("item" + index).classList.add("selected")
+            }
+            var player = document.getElementById('player')
+            if (player.src == track.previewUrl) {
+                if (player.paused) {
+                    player.play()
+                } else {
+                    player.pause()
+                }
+            } else {
+                player.src = track.previewUrl
+                player.load()
+                player.play()
+            }
         }
     }
 
@@ -67,8 +84,15 @@ function RenderMusicPlayerComponent(props) {
         setSong(undefined)
     }
 
+    function edit() {
+        setSong(undefined)
+        setSaved(undefined)
+        setSelected(undefined)
+        setMore(0)
+    }
+
     var header = () => {
-        if (saved == undefined && song == undefined) {
+        if (song == undefined && saved == undefined) {
             return (
                 <div>
                     <div>Search for a music:</div>
@@ -76,6 +100,18 @@ function RenderMusicPlayerComponent(props) {
                     <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput} />
                     <div className='d-flex justify-content-between'>
                         <button onClick={() => { search() }} className='btn btn-primary mt-2 mb-2'><i class="fa fa-music" aria-hidden="true"></i> Search</button>
+                    </div>
+                </div>
+            )
+        } else if (selected == undefined) {
+            return (
+                <div>
+                    <div>Search for a music:</div>
+                    <audio id="player" src="123"></audio>
+                    <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput} />
+                    <div className='d-flex justify-content-between'>
+                        <button onClick={() => { search() }} className='btn btn-primary mt-2 mb-2'><i class="fa fa-music" aria-hidden="true"></i> Search</button>
+                        {/* <button onClick={() => { save() }} className='btn btn-secondary mt-2 mb-2'>Save</button> */}
                     </div>
                 </div>
             )
@@ -95,12 +131,18 @@ function RenderMusicPlayerComponent(props) {
         else {
             return (
                 <div>
-                    <div className='d-flex flex-row border mb-1 p-1' id={saved}>
-                        <img className='savedMusic' src={saved.artworkUrl100} alt={saved.trackName} title={saved.trackName} onClick={() => { playAudio(saved, 0) }} />
-                        <div className='ps-2'>
-                            <div>Name: {saved.trackName}</div>
-                            <div>Artist: {saved.artistName}</div>
-                            <div>Collection: {saved.collectionName}</div>
+                    <div className='d-flex flex-row border mb-1 p-1 justify-content-between' id={saved}>
+                        <audio id="player" src="123"></audio>
+                        <div className='d-flex flex-row'>
+                            <img className='musicCover' src={saved.artworkUrl100} alt={saved.trackName} title={saved.trackName} onClick={() => { playAudio(saved, -1) }} />
+                            <div className='ps-2'>
+                                <div>Name: {saved.trackName}</div>
+                                <div>Artist: {saved.artistName}</div>
+                                <div>Collection: {saved.collectionName}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <button onClick={() => { edit() }} className='btn btn-secondary mt-2 mb-2'>Edit</button>
                         </div>
                     </div>
                 </div>
