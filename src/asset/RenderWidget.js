@@ -32,9 +32,9 @@ function RenderWidget(props) {
 
     const [toggle, setToggle] = useState(false);
     const handleClose = (() => { setToggle(false); setServerUpdate(true) })
-    const [component, setComponent] = useState(['']);
+    const [component, setComponent] = useState([]);
     const [position, setPosition] = useState(0)
-
+    const [update, setUpdate] = useState(true);
     // check all the content of this widget;
 
     const handleShow = (() => {
@@ -49,20 +49,31 @@ function RenderWidget(props) {
         console.log("current column: ", currentPage[columnPos - 1].widgets[widgetPos]);
         console.log("current widget position: ", widgetPos, position);
     });
-
+    var newComp = []
     var currentWidgetInfo = currentPage[columnPos - 1].widgets[widgetPos]["content"];
-    console.log( currentWidgetInfo, typeof (currentWidgetInfo))
-    if (Object.keys(currentWidgetInfo).length > 0) {
-        Object.keys(currentWidgetInfo).map((item, index) => {
-            console.log(currentWidgetInfo[item].text)
-            if (currentWidgetInfo[item].type == "plain_text") {
+    console.log(currentWidgetInfo, typeof (currentWidgetInfo))
+    if ( update) {
+        if (Object.keys(currentWidgetInfo).length > 0 ) {
+            Object.keys(currentWidgetInfo).map((item, index) => {
                 console.log(currentWidgetInfo[item].text)
-                getText(currentWidgetInfo[item].text);
-
-            }
-        })
-        console.log("step 3")
+                if (currentWidgetInfo[item].type == "plain_text") {
+                    console.log(currentWidgetInfo[item].text)
+                    var contentText = currentWidgetInfo[item].text
+                    // getText(contentText);
+                    newComp.push(<RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
+                        content={currentPage} widgetPos={widgetPos} text={contentText} />);
+                
+                }
+            })
+           
+        }
+        
+        setComponent(newComp)
+        setPosition(position + 1);
+        setUpdate(false);
     }
+    
+
     return (
         <div>
             <div className='widget bg-white p-1 rounded mb-2 d-flex justify-content-between'>
@@ -102,6 +113,9 @@ function RenderWidget(props) {
                                         <hr></hr>
                                     </div>)
                             })}
+                            {
+                                newComp
+                            }
 
                         </div>
                         <div className='col-lg-3 col-xl-2'>
@@ -127,24 +141,23 @@ function RenderWidget(props) {
 
     // action function to add comp
     function getText(text) {
-        console.log(text)
         var newComp
-        if (text) {
-            console.log("restore old one")
-            console.log(text)
-            newComp = <RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
-                content={currentPage} widgetPos={widgetPos} text={text} />;
-            console.log(text)
-        } else {
-            console.log("create new one")
-            newComp = <RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
-                content={currentPage} widgetPos={widgetPos} />;
-            var output = [];
-            component.map((item, index) => (output.push(item)));
-            output.push(newComp)
-            setComponent(output)
-            setPosition(position + 1);
+        if (!text) {
+            text = '';
         }
+        console.log(text)
+
+        console.log("create new one")
+        newComp = <RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
+            content={currentPage} widgetPos={widgetPos} text={text} />;
+        var output = [];
+        component.map((item, index) => (output.push(item)));
+        output.push(newComp)
+        setComponent(output)
+        setPosition(position + 1);
+
+
+        console.log(component)
     }
 
 

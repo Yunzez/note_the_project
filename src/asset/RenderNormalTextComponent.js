@@ -8,6 +8,7 @@ import TextArea from './AutoText'
 
 function RenderNormalTextComponent(props) {
     console.log(props.columnPos)
+    console.log(props)
     var text = props.text;
     console.log(text);
     const [normalInput, setNormalInput] = useState(text);
