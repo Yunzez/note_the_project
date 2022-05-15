@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import './columnstyle.css'
 import './NavBar.css'
 import { Overlay, Modal, Button } from 'react-bootstrap';
@@ -36,7 +36,7 @@ function RenderWidget(props) {
     const [position, setPosition] = useState(0)
 
     // check all the content of this widget;
-   console.log(widgetPos)
+
     const handleShow = (() => {
         setToggle(true)
         // console.log("position ", position)
@@ -45,9 +45,24 @@ function RenderWidget(props) {
         // if (currentPage[columnPos - 1].widgets[widgetPos].content > 0) {
         //     console.log('need to update component')
         // }
+        //console.log("current pages, selected column's widget: ", widgetPos, currentPage[columnPos-1].widgets[widgetPos-1] )
+        console.log("current column: ", currentPage[columnPos - 1].widgets[widgetPos]);
+        console.log("current widget position: ", widgetPos, position);
     });
 
+    var currentWidgetInfo = currentPage[columnPos - 1].widgets[widgetPos]["content"];
+    console.log( currentWidgetInfo, typeof (currentWidgetInfo))
+    if (Object.keys(currentWidgetInfo).length > 0) {
+        Object.keys(currentWidgetInfo).map((item, index) => {
+            console.log(currentWidgetInfo[item].text)
+            if (currentWidgetInfo[item].type == "plain_text") {
+                console.log(currentWidgetInfo[item].text)
+                getText(currentWidgetInfo[item].text);
 
+            }
+        })
+        console.log("step 3")
+    }
     return (
         <div>
             <div className='widget bg-white p-1 rounded mb-2 d-flex justify-content-between'>
@@ -81,7 +96,6 @@ function RenderWidget(props) {
                                 </div>
                             </div>
                             {component.map((item, index) => {
-
                                 return (
                                     <div key={index}>
                                         {item}
@@ -112,15 +126,25 @@ function RenderWidget(props) {
 
 
     // action function to add comp
-    function getText() {
-        var newComp = <RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
-            content={currentPage} widgetPos={widgetPos} />;
-        var output = [];
-        component.map((item, index) => (output.push(item)));
-        output.push(newComp)
-        setComponent(output)
-
-        setPosition(position + 1);
+    function getText(text) {
+        console.log(text)
+        var newComp
+        if (text) {
+            console.log("restore old one")
+            console.log(text)
+            newComp = <RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
+                content={currentPage} widgetPos={widgetPos} text={text} />;
+            console.log(text)
+        } else {
+            console.log("create new one")
+            newComp = <RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
+                content={currentPage} widgetPos={widgetPos} />;
+            var output = [];
+            component.map((item, index) => (output.push(item)));
+            output.push(newComp)
+            setComponent(output)
+            setPosition(position + 1);
+        }
     }
 
 

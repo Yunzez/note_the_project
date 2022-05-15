@@ -11,6 +11,7 @@ function RenderColumnTrigger(props) {
     var setColumnlist = props.setColumnlist;
     var db = props.db;
     var user = props.user;
+    var pageID = props.id
 
     const [input, setInput] = useState('')
     // give the window choice a hook
@@ -46,7 +47,7 @@ function RenderColumnTrigger(props) {
         //update new column
         var replaceColumn = [];
         var pos= columnlist.length
-        var newcolumn = <RenderColumn name={input} pos={pos+1}/>
+        var newcolumn = <RenderColumn pageID = {props.id} db={db} user={user} pageList={pageList} setPageList={setPageList} name={input} pos={pos+1}/>
         columnlist.map(function (column, index) {
             replaceColumn.push(column)
         })

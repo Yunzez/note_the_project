@@ -7,9 +7,12 @@ import autosize from 'autosize';
 import TextArea from './AutoText'
 
 function RenderNormalTextComponent(props) {
-
-
-    const [normalInput, setNormalInput] = useState('');
+    console.log(props.text)
+    var text = props.text;
+    console.log(text);
+    const [normalInput, setNormalInput] = useState(text);
+    
+    console.log(normalInput);
     var pos = props.pos
     var columnPos = props.columnPos
     var setContent = props.setContent;
@@ -21,58 +24,90 @@ function RenderNormalTextComponent(props) {
     var tempContent = {
         type: "plain_text",
         text: ''
-    } 
+    }
+
 
 
     return (
-        <div>
-            <div id={setupID} >
-                <form>
-                    <div className="form-group">
+        <React.Fragment>
+            {text ? (
+                 <div>
+                 <div id={setupID} className='d-none '>
+                     <form>
+                         <div className="form-group">
+ 
+                             <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput} />
+                         </div>
+                     </form>
+                     <div className='d-flex flex-row-reverse'>
+                         <button onClick={() => { setupTextBox() }} className='btn add-widget mt-2'>Save</button>
+                     </div>
+                 </div>
+                 <div id={showID} >
+                     {/* <EditableInput text={normalInput}/> */}
+                     <div className='d-flex justify-content-between'>
+                         <div>{normalInput}</div>
+                         <div className='btn' onClick={() => {
+                             document.getElementById(setupID).classList.remove("d-none")
+                             document.getElementById(showID).classList.add('d-none')
+                         }}><BsIcons.BsPencilSquare /></div>
+                     </div>
+                 </div>
+             </div>
+            ) : (
+                <div>
+                    <div id={setupID} >
+                        <form>
+                            <div className="form-group">
 
-                        <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput} />
+                                <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput} />
+                            </div>
+                        </form>
+                        <div className='d-flex flex-row-reverse'>
+                            <button onClick={() => { setupTextBox() }} className='btn add-widget mt-2'>Save</button>
+                        </div>
                     </div>
-                </form>
-                <div className='d-flex flex-row-reverse'>
-                    <button onClick={() => { setupTextBox() }} className='btn add-widget mt-2'>Save</button>
+                    <div id={showID} className='d-none '>
+                        {/* <EditableInput text={normalInput}/> */}
+                        <div className='d-flex justify-content-between'>
+                            <div>{normalInput}</div>
+                            <div className='btn' onClick={() => {
+                                document.getElementById(setupID).classList.remove("d-none")
+                                document.getElementById(showID).classList.add('d-none')
+                            }}><BsIcons.BsPencilSquare /></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div id={showID} className='d-none '>
-                {/* <EditableInput text={normalInput}/> */}
-                <div className='d-flex justify-content-between'>
-                    <div>{normalInput}</div>
-                    <div className='btn' onClick={() => {
-                        document.getElementById(setupID).classList.remove("d-none")
-                        document.getElementById(showID).classList.add('d-none')
-                    }}><BsIcons.BsPencilSquare /></div>
-                </div>
-            </div>
-        </div>
+            )}
+
+        </React.Fragment>
     )
 
     function setupTextBox() {
         document.getElementById(setupID).classList.add('d-none')
         document.getElementById(showID).classList.remove('d-none')
-        tempContent.text= normalInput;
+        tempContent.text = normalInput;
         var replaceContent = [];
-       
+
 
         // this part update the current page, both local and remote server depend on this 
-        console.log(content[columnPos-1].widgets)// pos start at 1
-        var thisWidget = content[columnPos-1].widgets
+        console.log(content[columnPos - 1].widgets)// pos start at 1
+        var thisWidget = content[columnPos - 1].widgets
         thisWidget.forEach(item => {
-            console.log(item.id, widgetPos)
-            if (item.id == (widgetPos)){
+            console.log(pos, item.id)
+            if (item.id == (pos)) {
                 console.log(tempContent)
+                console.log("detected pos", pos);
                 item.content[pos] = tempContent
             }
         })
         console.log(thisWidget)
 
         replaceContent = content
-        replaceContent[columnPos-1].widgets = thisWidget;
-        
+        replaceContent[columnPos - 1].widgets = thisWidget;
+
         setContent(replaceContent);
+        console.log("currentPage:", content)
     }
 }
 

@@ -10,14 +10,14 @@ function RenderColumn(props) {
     const target = useRef(null);
     const [columnToggle, setColumnToggle] = useState(false)
     const [widgetPos, setWidgetPos] = useState(0)
-    let name = props.name;
-    let pos = props.pos;
-    let db = props.db;
-    let pageID = props.pageID;
-    let user = props.user;
-    let pageList = props.pageList;
-    let setPageList = props.setPageList;
-    
+    var name = props.name;
+    var pos = props.pos;
+    var db = props.db;
+    var pageID = props.pageID;
+    var user = props.user;
+    var pageList = props.pageList;
+    var setPageList = props.setPageList;
+    console.log(pageList);
     console.log('position   ', pos)
     if (!pos) {
         pos = 0
@@ -128,6 +128,7 @@ function RenderColumn(props) {
         if (serverUpdate) {
             console.log('update to local server (pagelist)', pos)
             var tempPageList = [];
+            console.log(pageList)
             pageList.map((item) => {
                 if (item.id == pageID) {
                     tempPageList.push(currentPage)
@@ -214,6 +215,7 @@ function RenderColumn(props) {
             <div>
                 {widgetList.map((item, index) => {
                     console.log('update widget')
+                    
                     return (
                         <RenderWidget id={`widget${widgetPos}`} item={item} serverUpdate={serverUpdate} setServerUpdate={setServerUpdate} index={index}
                             pageList={pageList}
@@ -222,7 +224,7 @@ function RenderColumn(props) {
                             pageID={pageID}
                             currentPage = {currentPage}
                             setCurrentPage = {setCurrentPage}
-                            widgetPos = {widgetPos} />
+                            widgetPos = {index} />
                     )
                 })}
             </div>
