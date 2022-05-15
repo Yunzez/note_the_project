@@ -85,6 +85,7 @@ function RenderMusicPlayerComponent(props) {
     }
 
     function edit() {
+        setNormalInput('')
         setSong(undefined)
         setSaved(undefined)
         setSelected(undefined)
