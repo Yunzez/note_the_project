@@ -217,14 +217,18 @@ function RenderColumn(props) {
                     console.log('update widget')
                     
                     return (
-                        <RenderWidget id={`widget${widgetPos}`} item={item} serverUpdate={serverUpdate} setServerUpdate={setServerUpdate} index={index}
-                            pageList={pageList}
-                            setPageList={setPageList}
+                        <RenderWidget id={`widget${widgetPos}`} 
+                            item={item} 
+                            // serverUpdate={serverUpdate} 
+                            setServerUpdate={setServerUpdate} 
+                            index={index}
+                            // pageList={pageList}
+                            // setPageList={setPageList}
                             pos={pos}
-                            pageID={pageID}
+                            // pageID={pageID}
                             currentPage = {currentPage}
                             setCurrentPage = {setCurrentPage}
-                            widgetPos = {index} />
+                            widgetPos = {widgetPos} />
                     )
                 })}
             </div>

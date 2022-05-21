@@ -97,13 +97,12 @@ function RenderNormalTextComponent(props) {
         var thisWidget = content[columnPos - 1].widgets
         thisWidget.forEach(item => {
             console.log(pos, item.id)
-            if (item.id == (pos)) {
+            if (item.id == (pos-1)) {
                 console.log(tempContent)
                 console.log("detected pos", pos);
                 item.content[pos] = tempContent
             }
         })
-        console.log(thisWidget)
 
         replaceContent = content
         replaceContent[columnPos - 1].widgets = thisWidget;

@@ -1,8 +1,8 @@
 
-import React, { useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import './columnstyle.css'
 import './NavBar.css'
-import {Modal} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import * as BsIcons from "react-icons/bs";
 
 // import component widgets
@@ -15,11 +15,15 @@ import EditableInput from './EditableInput';
 
 // this function generate single widget as a functional element
 function RenderWidget(props) {
-    var pageList = props.pageList;
-    const setPageList = props.setPageList
+    console.log("in RenderWidget")
+    console.log(props.id)
+    // var pageList = props.pageList;
+    // const setPageList = props.setPageList
     var item = props.item;
+
     const setServerUpdate = props.setServerUpdate;
-    var pageID = props.pageID;
+    // var serverUpdate = props.serverUpdate;
+    // var pageID = props.pageID;
     var widgetPos = props.widgetPos
     var currentPage = props.currentPage;
     // current page is the page that we are on right now, do not add another element to keep track
@@ -30,48 +34,40 @@ function RenderWidget(props) {
 
 
     const [toggle, setToggle] = useState(false);
-    const handleClose = (() => { setToggle(false); setServerUpdate(true) })
+    const handleClose = (() => { setToggle(false); setServerUpdate(true); })
     const [component, setComponent] = useState([]);
     const [position, setPosition] = useState(0)
     const [update, setUpdate] = useState(true);
     // check all the content of this widget;
 
     const handleShow = (() => {
+        setUpdate(true);
         setToggle(true)
-        // console.log("position ", position)
-        // console.log("props.id ", props.id)
-        // console.log(currentPage[columnPos - 1].widgets[widgetPos])
-        // if (currentPage[columnPos - 1].widgets[widgetPos].content > 0) {
-        //     console.log('need to update component')
-        // }
-        //console.log("current pages, selected column's widget: ", widgetPos, currentPage[columnPos-1].widgets[widgetPos-1] )
-        console.log("current column: ", currentPage[columnPos - 1].widgets[widgetPos]);
+        console.log("current column: ", columnPos - 1, currentPage[columnPos - 1].widgets[widgetPos]);
         console.log("current widget position: ", widgetPos, position);
     });
 
     var newComp = []
-    var currentWidgetInfo = currentPage[columnPos - 1].widgets[widgetPos]["content"];
-    console.log(currentWidgetInfo, typeof (currentWidgetInfo))
-    if (update) {
-        if (Object.keys(currentWidgetInfo).length > 0 ) {
-            Object.keys(currentWidgetInfo).map((item, index) => {
-                console.log(currentWidgetInfo[item].text)
-                if (currentWidgetInfo[item].type === "plain_text") {
-                    console.log(currentWidgetInfo[item].text)
-                    var contentText = currentWidgetInfo[item].text
-                    // getText(contentText);
-                    newComp.push(<RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
-                        content={currentPage} widgetPos={widgetPos} text={contentText} />);
-                }
-            })
-           
-        }
-        
-        setComponent(newComp)
-        setPosition(position + 1);
-        setUpdate(false);
-    }
+    var currentWidgetInfo = currentPage[columnPos - 1].widgets[widgetPos];
+    console.log(update)
+    console.log(currentPage)
     
+        if (update && currentWidgetInfo) {
+            if (Object.keys(currentWidgetInfo).length > 0) {
+                Object.keys(currentWidgetInfo).map((item, index) => {
+                    console.log(currentWidgetInfo[item].text)
+                    if (currentWidgetInfo[item].type === "plain_text") {
+                        console.log(currentWidgetInfo[item].text)
+                        newComp.push(<RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
+                            content={currentPage} widgetPos={widgetPos} text={currentWidgetInfo[item].text} />);
+                    }
+                })
+
+            }
+            setComponent(newComp)
+            setUpdate(false);
+            setServerUpdate(true);
+        }
 
     return (
         <div>
@@ -85,7 +81,6 @@ function RenderWidget(props) {
             </div>
 
             <Modal show={toggle} onHide={handleClose}
-                {...props}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
