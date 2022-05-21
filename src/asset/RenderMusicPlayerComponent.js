@@ -1,6 +1,4 @@
 import React, { useState, useRef } from 'react'
-import * as FaIcons from "react-icons/fa";
-import * as BsIcons from "react-icons/bs";
 import './columnstyle.css'
 import autosize from 'autosize';
 import TextArea from './AutoText'
@@ -21,7 +19,7 @@ function RenderMusicPlayerComponent(props) {
 
 
     function search() {
-        if (selected != undefined) {
+        if (selected !== undefined) {
             document.getElementById("item" + selected).classList.remove("selected")
             setSelected(undefined)
         }
@@ -40,9 +38,9 @@ function RenderMusicPlayerComponent(props) {
     }
 
     function playAudio(track, index) {
-        if (index == -1) {
+        if (index === -1) {
             var player = document.getElementById('player')
-            if (player.src == track.previewUrl) {
+            if (player.src === track.previewUrl) {
                 if (player.paused) {
                     player.play()
                 } else {
@@ -54,7 +52,7 @@ function RenderMusicPlayerComponent(props) {
                 player.play()
             }
         } else {
-            if (selected == undefined) {
+            if (selected === undefined) {
                 console.log("undefined")
                 setSelected(index)
                 document.getElementById("item" + index).classList.add("selected")
@@ -63,8 +61,8 @@ function RenderMusicPlayerComponent(props) {
                 setSelected(index)
                 document.getElementById("item" + index).classList.add("selected")
             }
-            var player = document.getElementById('player')
-            if (player.src == track.previewUrl) {
+            player = document.getElementById('player')
+            if (player.src === track.previewUrl) {
                 if (player.paused) {
                     player.play()
                 } else {
@@ -93,7 +91,7 @@ function RenderMusicPlayerComponent(props) {
     }
 
     var header = () => {
-        if (song == undefined && saved == undefined) {
+        if (song === undefined && saved === undefined) {
             return (
                 <div>
                     <div>Search for a music:</div>
@@ -104,7 +102,7 @@ function RenderMusicPlayerComponent(props) {
                     </div>
                 </div>
             )
-        } else if (selected == undefined) {
+        } else if (selected === undefined) {
             return (
                 <div>
                     <div>Search for a music:</div>
@@ -116,7 +114,7 @@ function RenderMusicPlayerComponent(props) {
                     </div>
                 </div>
             )
-        } else if (saved == undefined) {
+        } else if (saved === undefined) {
             return (
                 <div>
                     <div>Search for a music:</div>
@@ -152,23 +150,23 @@ function RenderMusicPlayerComponent(props) {
     }
 
     var music = () => {
-        if (saved != undefined) {
+        if (saved !== undefined) {
             return (
                 <div></div>
             )
-        } else if (song == undefined) {
+        } else if (song === undefined) {
             return (
                 <div>
                     Search music from iTunes database
                 </div>
             )
-        } else if (song.length == 0) {
+        } else if (song.length === 0) {
             return (
                 <div>
                     No results found, please try again
                 </div>
             )
-        } else if (song.length > 5 && more == 0) {
+        } else if (song.length > 5 && more === 0) {
             const song5 = song.slice(0, 5)
             return (
                 <div>

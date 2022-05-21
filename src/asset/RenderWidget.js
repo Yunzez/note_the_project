@@ -1,10 +1,9 @@
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState} from 'react'
 import './columnstyle.css'
 import './NavBar.css'
-import { Overlay, Modal, Button } from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import * as BsIcons from "react-icons/bs";
-import * as FaIcons from "react-icons/fa";
 
 // import component widgets
 import RenderNormalTextComponent from './RenderNormalTextComponent';
@@ -17,15 +16,15 @@ import EditableInput from './EditableInput';
 // this function generate single widget as a functional element
 function RenderWidget(props) {
     var pageList = props.pageList;
-    var setPageList = props.setPageList
+    const setPageList = props.setPageList
     var item = props.item;
-    var setServerUpdate = props.setServerUpdate;
+    const setServerUpdate = props.setServerUpdate;
     var pageID = props.pageID;
     var widgetPos = props.widgetPos
     var currentPage = props.currentPage;
     // current page is the page that we are on right now, do not add another element to keep track
     // use set Currentpage instead
-    var setCurrentPage = props.setCurrentPage;
+    const setCurrentPage = props.setCurrentPage;
     var columnPos = props.pos // this keep tracks of column position
 
 
@@ -49,20 +48,20 @@ function RenderWidget(props) {
         console.log("current column: ", currentPage[columnPos - 1].widgets[widgetPos]);
         console.log("current widget position: ", widgetPos, position);
     });
+
     var newComp = []
     var currentWidgetInfo = currentPage[columnPos - 1].widgets[widgetPos]["content"];
     console.log(currentWidgetInfo, typeof (currentWidgetInfo))
-    if ( update) {
+    if (update) {
         if (Object.keys(currentWidgetInfo).length > 0 ) {
             Object.keys(currentWidgetInfo).map((item, index) => {
                 console.log(currentWidgetInfo[item].text)
-                if (currentWidgetInfo[item].type == "plain_text") {
+                if (currentWidgetInfo[item].type === "plain_text") {
                     console.log(currentWidgetInfo[item].text)
                     var contentText = currentWidgetInfo[item].text
                     // getText(contentText);
                     newComp.push(<RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
                         content={currentPage} widgetPos={widgetPos} text={contentText} />);
-                
                 }
             })
            
@@ -113,9 +112,6 @@ function RenderWidget(props) {
                                         <hr></hr>
                                     </div>)
                             })}
-                            {
-                                newComp
-                            }
 
                         </div>
                         <div className='col-lg-3 col-xl-2'>
