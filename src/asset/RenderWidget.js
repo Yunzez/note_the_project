@@ -100,10 +100,18 @@ function RenderWidget(props) {
                                     <input className="form-control d-none" type="text" placeholder="Give your widget a more detailed description" ></input>
                                 </div>
                             </div>
+                            <hr></hr>
                             {component.map((item, index) => {
                                 return (
                                     <div key={index}>
-                                        {item}
+                                        <div className='d-flex justify-content-between'>
+                                            <div className='flex-fill me-3'>
+                                                {item}
+                                            </div>
+                                            <div>
+                                                <BsIcons.BsX size={30} cursor='pointer' onClick={() => {deleteWidget(index)}}/>
+                                            </div>
+                                        </div>
                                         <hr></hr>
                                     </div>)
                             })}
@@ -128,6 +136,17 @@ function RenderWidget(props) {
             </Modal>
         </div>
     )
+
+
+    function deleteWidget(indexDelete) {
+        var componentNew = []
+        component.map((item, index) => {
+            if (index !== indexDelete) {
+                componentNew.push(item)
+            }
+        })
+        setComponent(componentNew)
+    }
 
 
     // action function to add comp
