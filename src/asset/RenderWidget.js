@@ -1,8 +1,8 @@
 
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import './columnstyle.css'
 import './NavBar.css'
-import {Modal} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import * as BsIcons from "react-icons/bs";
 
 // import component widgets
@@ -53,7 +53,7 @@ function RenderWidget(props) {
     var currentWidgetInfo = currentPage[columnPos - 1].widgets[widgetPos]["content"];
     console.log(currentWidgetInfo, typeof (currentWidgetInfo))
     if (update) {
-        if (Object.keys(currentWidgetInfo).length > 0 ) {
+        if (Object.keys(currentWidgetInfo).length > 0) {
             Object.keys(currentWidgetInfo).map((item, index) => {
                 console.log(currentWidgetInfo[item].text)
                 if (currentWidgetInfo[item].type === "plain_text") {
@@ -64,14 +64,14 @@ function RenderWidget(props) {
                         content={currentPage} widgetPos={widgetPos} text={contentText} />);
                 }
             })
-           
+
         }
-        
+
         setComponent(newComp)
         setPosition(position + 1);
         setUpdate(false);
     }
-    
+
 
     return (
         <div>
@@ -105,10 +105,18 @@ function RenderWidget(props) {
                                     <input className="form-control d-none" type="text" placeholder="Give your widget a more detailed description" ></input>
                                 </div>
                             </div>
+                            <hr></hr>
                             {component.map((item, index) => {
                                 return (
                                     <div key={index}>
-                                        {item}
+                                        <div className='d-flex justify-content-between'>
+                                            <div className='flex-fill me-3'>
+                                                {item}
+                                            </div>
+                                            <div>
+                                                <BsIcons.BsX size={30} cursor='pointer' onClick={() => {deleteWidget(index)}}/>
+                                            </div>
+                                        </div>
                                         <hr></hr>
                                     </div>)
                             })}
@@ -133,6 +141,17 @@ function RenderWidget(props) {
             </Modal>
         </div>
     )
+
+
+    function deleteWidget(indexDelete) {
+        var componentNew = []
+        component.map((item, index) => {
+            if (index !== indexDelete) {
+                componentNew.push(item)
+            }
+        })
+        setComponent(componentNew)
+    }
 
 
     // action function to add comp
