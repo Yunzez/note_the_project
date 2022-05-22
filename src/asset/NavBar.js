@@ -121,9 +121,17 @@ function NavBar(props) {
                                             <FaIcons.FaPenSquare className='m-1' />
 
                                         </a>
-                                        <a onClick={() => { like(index) }} className='dropdown-option d-flex justify-content-start m-1'>
+                                        {/* like button */}
+                                        <a onClick={() => {like(index) }} className='dropdown-option d-flex justify-content-start m-1'>
 
                                             <BsIcons.BsHeart className='m-1' />
+
+                                        </a>
+                                        {/* liked button */}
+                                        <a onClick={() => {like(index) }} className='d-none dropdown-option justify-content-start m-1'>
+
+                                            <BsIcons.BsHeartFill className='m-1' />
+                                         test
 
                                         </a>
                                         <a onClick={() => { deleteItem(index) }} className='dropdown-option d-flex justify-content-start m-1'>
@@ -185,8 +193,9 @@ function NavBar(props) {
 
     }
 
-    function like(index) {
-        console.log('in like  ', index)
+    function like(num) {
+        var pageID = pageList[num].id;
+        console.log(pageID)
     }
 
     // connect with the server and delete a page in the pagelist

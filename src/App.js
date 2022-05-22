@@ -202,7 +202,7 @@ function App() {
               loginWidget={<StyledFirebaseAuth uiConfig={uiConfig}
                 firebaseAuth={firebase.auth()} />} />} />
             <Route exact path='/home' element={<RenderHome />} />
-            <Route exact path='/favorite' element={<Favorite user={user} />} />
+            <Route exact path='/favorite' element={<Favorite user={user} pageList={pageList}/>} />
             <Route exact path='/setting' element={<Setting user={user} />} />
             <Route path='/pages' element={<DefaultPage pageList={pageList} output={output} setOutput={setOutput} />} >
               <Route path=':currentPageID' element={<RenderSelectedPage pageList={pageList} setPageList={setPageList} output={output} setOutput={setOutput} db={db} user={user}/>} />

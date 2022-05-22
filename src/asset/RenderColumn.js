@@ -17,13 +17,11 @@ function RenderColumn(props) {
     var user = props.user;
     var pageList = props.pageList;
     var setPageList = props.setPageList;
-    console.log(pageList);
-    console.log('position   ', pos)
     if (!pos) {
         pos = 0
     }
 
-    var tempPage;
+    let tempPage;
 
     const [titleInput, setTitleInput] = useState('')
     const [widgetList, setWidgetList] = useState([])
@@ -47,31 +45,25 @@ function RenderColumn(props) {
     const [currentPage, setCurrentPage] = useState(tempPage)
 
 
-
-
-
-
-
     if (name == '') {
         name = 'Untitle'
     }
 
     function handleAddWidget() {
-        console.log('adding widget')
         document.getElementsByClassName('addWidgetButton')[pos - 1].classList.toggle('d-none')
         document.getElementsByClassName('widgetTitle')[pos - 1].classList.toggle('d-none')
     }
 
     function handleGoWidget() {
         setTitleInput(document.getElementsByClassName('input-title')[pos - 1].value)
-        console.log('creating widget', titleInput)
+        // console.log('creating widget', titleInput)
         var newWidget = {
             id: widgetPos,
             title: titleInput,
             content: {}
         }
         setWidgetPos(widgetPos + 1);
-        console.log(titleInput)
+    
         var temp = []
         if (widgetList.length > 0) {
             widgetList.map((item, index) => {
@@ -103,7 +95,7 @@ function RenderColumn(props) {
                 .get()
                 .then((doc) => {
                     if (doc.exists) {
-                        console.log('found page')
+                        // console.log('found page')
                         db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString()).set(currentPage).then(() => {
                             console.log("widget successfully added!");
                         }).catch((error) => {
@@ -126,9 +118,7 @@ function RenderColumn(props) {
     useEffect(() => {
         console.log("current state of serverUpdate:  ", serverUpdate);
         if (serverUpdate) {
-            console.log('update to local server (pagelist)', pos)
             var tempPageList = [];
-            console.log(pageList)
             pageList.map((item) => {
                 if (item.id == pageID) {
                     tempPageList.push(currentPage)

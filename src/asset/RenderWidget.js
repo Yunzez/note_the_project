@@ -34,13 +34,14 @@ function RenderWidget(props) {
 
 
     const [toggle, setToggle] = useState(false);
-    const handleClose = (() => { setToggle(false); setServerUpdate(true); })
+    const handleClose = (() => { setToggle(false); setServerUpdate(true); setUpdate(true)})
     const [component, setComponent] = useState([]);
     const [position, setPosition] = useState(0)
     const [update, setUpdate] = useState(true);
     // check all the content of this widget;
 
     const handleShow = (() => {
+        console.log("handle show")
         setUpdate(true);
         setToggle(true)
         console.log("current column: ", columnPos - 1, currentPage[columnPos - 1].widgets[widgetPos]);
@@ -48,26 +49,30 @@ function RenderWidget(props) {
     });
 
     var newComp = []
-    var currentWidgetInfo = currentPage[columnPos - 1].widgets[widgetPos];
+    var currentWidgetInfo = currentPage[columnPos - 1].widgets[widgetPos]["content"];
     console.log(update)
     console.log(currentPage)
-    
-        if (update && currentWidgetInfo) {
-            if (Object.keys(currentWidgetInfo).length > 0) {
-                Object.keys(currentWidgetInfo).map((item, index) => {
-                    console.log(currentWidgetInfo[item].text)
-                    if (currentWidgetInfo[item].type === "plain_text") {
-                        console.log(currentWidgetInfo[item].text)
-                        newComp.push(<RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
-                            content={currentPage} widgetPos={widgetPos} text={currentWidgetInfo[item].text} />);
-                    }
-                })
 
-            }
-            setComponent(newComp)
-            setUpdate(false);
-            setServerUpdate(true);
+    
+    if (update && currentWidgetInfo) {
+        console.log("updating current page")
+        if (Object.keys(currentWidgetInfo).length > 0) {
+            Object.keys(currentWidgetInfo).map((item, index) => {
+                console.log(currentWidgetInfo[item].text)
+                if (currentWidgetInfo[item].type === "plain_text") {
+                    console.log(currentWidgetInfo[item].text)
+                    newComp.push(<RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
+                        content={currentPage} widgetPos={widgetPos} text={currentWidgetInfo[item].text} />);
+                }
+            })
+
         }
+        setComponent(newComp)
+        setUpdate(false);
+        setServerUpdate(true);
+    }
+
+
 
     return (
         <div>
@@ -109,7 +114,7 @@ function RenderWidget(props) {
                                                 {item}
                                             </div>
                                             <div>
-                                                <BsIcons.BsX size={30} cursor='pointer' onClick={() => {deleteWidget(index)}}/>
+                                                <BsIcons.BsX size={30} cursor='pointer' onClick={() => { deleteWidget(index) }} />
                                             </div>
                                         </div>
                                         <hr></hr>
@@ -120,7 +125,7 @@ function RenderWidget(props) {
                         <div className='col-lg-3 col-xl-2'>
                             <p>Add to Widget:</p>
                             <div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { getText() }}> <BsIcons.BsFileEarmarkFontFill className='me-2' />Plain Text </div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { getText("") }}> <BsIcons.BsFileEarmarkFontFill className='me-2' />Plain Text </div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getTodoList() }}> <BsIcons.BsCheckSquareFill className='me-2' />Todo List</div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getWebBookmark() }}> <BsIcons.BsFillBookmarkFill className='me-2' />Bookmark</div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getCalendar() }}> <BsIcons.BsFillCalendarEventFill className='me-2' />Calendar </div>

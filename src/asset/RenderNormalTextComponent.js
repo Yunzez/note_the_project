@@ -8,7 +8,6 @@ import TextArea from './AutoText'
 
 function RenderNormalTextComponent(props) {
     
-    console.log(props.columnPos)
     console.log(props)
     var text = props.text;
     console.log(text);
@@ -97,7 +96,7 @@ function RenderNormalTextComponent(props) {
         var thisWidget = content[columnPos - 1].widgets
         thisWidget.forEach(item => {
             console.log(pos, item.id)
-            if (item.id == (pos-1)) {
+            if (item.id == (pos)) {
                 console.log(tempContent)
                 console.log("detected pos", pos);
                 item.content[pos] = tempContent
