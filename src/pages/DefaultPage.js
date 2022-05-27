@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import RenderColumn from '../asset/RenderColumn'
-import RenderColumnTrigger from '../asset/RenderColumnTrigger'
-import RenderSelectedPage from './RenderSelectedPage'
+import React from 'react'
 import {Outlet, useParams } from 'react-router-dom'
 
 // it preloads all the pages

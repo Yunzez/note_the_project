@@ -15,8 +15,6 @@ import EditableInput from './EditableInput';
 
 // this function generate single widget as a functional element
 function RenderWidget(props) {
-    console.log("in RenderWidget")
-    console.log(props.id)
     // var pageList = props.pageList;
     // const setPageList = props.setPageList
     var item = props.item;
@@ -41,28 +39,29 @@ function RenderWidget(props) {
     // check all the content of this widget;
 
     const handleShow = (() => {
-        console.log("handle show")
         setUpdate(true);
         setToggle(true)
         console.log("current column: ", columnPos - 1, currentPage[columnPos - 1].widgets[widgetPos]);
-        console.log("current widget position: ", widgetPos, position);
+        console.log("current widget position: ", columnPos - 1, widgetPos, position);
     });
 
     var newComp = []
-    var currentWidgetInfo = currentPage[columnPos - 1].widgets[widgetPos]["content"];
-    console.log(update)
-    console.log(currentPage)
+    // solve edge case: when create a new column, there is no content
+    var currentWidget = currentPage[columnPos - 1].widgets[widgetPos];
+    if (currentWidget) {
+        var currentWidgetInfo = currentWidget["content"];
+    }
 
     
     if (update && currentWidgetInfo) {
-        console.log("updating current page")
+        console.log("updating current page", "Column number: ", columnPos - 1, "widget location: ", widgetPos, "add on position: ", position)
         if (Object.keys(currentWidgetInfo).length > 0) {
             Object.keys(currentWidgetInfo).map((item, index) => {
-                console.log(currentWidgetInfo[item].text)
+                console.log("preparing", currentWidgetInfo[item])
                 if (currentWidgetInfo[item].type === "plain_text") {
-                    console.log(currentWidgetInfo[item].text)
                     newComp.push(<RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
                         content={currentPage} widgetPos={widgetPos} text={currentWidgetInfo[item].text} />);
+                    setPosition(position + 1);
                 }
             })
 
@@ -160,9 +159,7 @@ function RenderWidget(props) {
         if (!text) {
             text = '';
         }
-        console.log(text)
 
-        console.log("create new one")
         newComp = <RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
             content={currentPage} widgetPos={widgetPos} text={text} />;
         var output = [];
@@ -171,8 +168,6 @@ function RenderWidget(props) {
         setComponent(output)
         setPosition(position + 1);
 
-
-        console.log(component)
     }
 
 

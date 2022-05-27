@@ -7,7 +7,6 @@ import * as FaIcons from "react-icons/fa";
 import { useParams } from 'react-router'
 function RenderSelectedPage(props) {
     const { currentPageID } = useParams()
-    console.log(props.pageList)
     var user = props.user
     var db = props.db
     var output = props.output;
@@ -18,24 +17,14 @@ function RenderSelectedPage(props) {
     pageList.map((page, index) => {
         var pageID = page.id
         pageListRendered[pageID] = <ConstructPage page={page} />
-        console.log(page)
     })
 
 
     useEffect(() => {
-        console.log('in use effect')
         setOutput(pageListRendered[currentPageID]);
         console.log('set output to ' + output)
         return (<div>{output}</div>)
     }, [currentPageID]);
-
-
-    console.log(!output)
-
-
-
-
-
 
 
     function ConstructPage(props) {
@@ -43,7 +32,6 @@ function RenderSelectedPage(props) {
         var columnCount = 0;
         var temp = [];
         while (page[columnCount]) {
-            console.log(page[columnCount])
             let name = page[columnCount].name
 
             // to match with render column trigger, which also has a pos to define the location of each column 
@@ -52,7 +40,6 @@ function RenderSelectedPage(props) {
             temp.push(newColumn)
             columnCount = columnCount + 1;
         }
-        console.log(temp)
         const [columnlist, setColumnlist] = useState(temp)
 
 

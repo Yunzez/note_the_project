@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import RenderHome from './Home'
 function PublicLoginPage(props) {
-    if (props.user != undefined) {
+    if (props.user !== undefined) {
         return (
             <>
                 <RenderHome />

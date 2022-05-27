@@ -5,8 +5,8 @@ import { BiArrowToTop } from "react-icons/bi";
 import { SiderbarInfo } from './SidebarInfo';
 import './NavBar.css';
 import { getSidebarPages } from './SidebarPages';
-//import Mui and Font awesome, we will be mainly using this ui
-// import * as MuiMaterial from '@mui/material';
+
+//import Font awesome, we will be mainly using this ui
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as FaiSolid from '@fortawesome/free-solid-svg-icons'
 import { Button, Modal, closeButton, Toast } from 'react-bootstrap';
@@ -15,9 +15,7 @@ import * as FcIcons from "react-icons/fc";
 import * as FaIcons from "react-icons/fa";
 import * as BsIcons from "react-icons/bs";
 import 'firebase/compat/firestore';
-//type rfce to set up the function like this 
-import RenderHome from '../pages/Home'
-import RenderSelectedPage from '../pages/RenderSelectedPage';
+
 
 function NavBar(props) {
 
@@ -85,12 +83,10 @@ function NavBar(props) {
     // initialize here to map all pages with defined appearence
     var pages = () => {
         if (!props.user) {
-            console.log(props.user)
             return (<div></div>)
         }
         else {
             if (pageList) {
-                console.log(pageList[0])
                 return (
                     <div>
                         {pageList.map((line, index) => {
@@ -100,7 +96,6 @@ function NavBar(props) {
                             } else {
                                 displayName = line.title;
                             }
-                            console.log(line)
                             return (
                                 <div>
                                     <div key={index} className={line.className + ' ' + 'd-flex'} >
@@ -174,7 +169,6 @@ function NavBar(props) {
     function handleNewName(num) {
         handleClose()
         var temp = []
-        console.log(pageList)
         pageList.map((item, index) => {
             if (index == num) {
                 item.title = rename
@@ -190,7 +184,6 @@ function NavBar(props) {
     function edit(index) {
         console.log('in edit  ', index)
         handleShow()
-
     }
 
     function like(num) {
@@ -200,7 +193,6 @@ function NavBar(props) {
 
     // connect with the server and delete a page in the pagelist
     function deleteItem(num) {
-        console.log('in deleteItem  ', num)
         var pageID = pageList[num].id;
         db.collection("users").doc(user.uid).collection("pages")
             .get()
@@ -208,7 +200,6 @@ function NavBar(props) {
                 querySnapshot.forEach(function (doc) {
                     console.log(doc.id, pageID)
                     if (doc.id == pageID) {
-                        console.log('found same')
                         db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString()).delete().then(() => {
                             console.log("Document successfully deleted!");
                             setFlow(pageList[num].title)
@@ -234,7 +225,6 @@ function NavBar(props) {
     // detect the icon the page uses
     var IconDetector = ({ name }) => {
         if (name == 'Ok') {
-            console.log('icon ok')
             return (
                 <div><FcIcons.FcOk /></div>
             )
@@ -257,16 +247,13 @@ function NavBar(props) {
                 // check the current id with database
                 .then(function (querySnapshot) {
                     querySnapshot.forEach(function (doc) {
-                        console.log(doc.id)
                         if (parseInt(doc.id) >= parseInt(currentID)) {
-                            console.log('in if', doc.id)
                             currentID = parseInt(doc.id)
                             currentID = parseInt(currentID) + 1;
                         }
                     });
 
                     // create a new element and add it to the local page list 
-                    console.log(currentID)
                     var newPageElement = {
                         id: currentID,
                         title: input,
@@ -321,12 +308,9 @@ function NavBar(props) {
 
     // final return, check user status and return all output 
     if (!props.user) {
-        console.log(props.user)
         return (<div></div>)
     } else {
         var CurrentDate = new Date();
-        console.log(props.login, 'normal sidebar')
-        console.log(props.user.displayName, CurrentDate.getHours())
         let str = null;
         if (CurrentDate.getHours() >= 5 && CurrentDate.getHours() <= 11) {
             str = "Good Morning, "

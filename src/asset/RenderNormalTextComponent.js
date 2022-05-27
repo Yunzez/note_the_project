@@ -11,6 +11,9 @@ function RenderNormalTextComponent(props) {
     console.log(props)
     var text = props.text;
     console.log(text);
+    if (!text) {
+        text = '';
+    }
     const [normalInput, setNormalInput] = useState(text);
     
     console.log(normalInput);
@@ -87,6 +90,7 @@ function RenderNormalTextComponent(props) {
     function setupTextBox() {
         document.getElementById(setupID).classList.add('d-none')
         document.getElementById(showID).classList.remove('d-none')
+        console.log("curret text is:", normalInput);
         tempContent.text = normalInput;
         var replaceContent = [];
 
@@ -94,14 +98,13 @@ function RenderNormalTextComponent(props) {
         // this part update the current page, both local and remote server depend on this 
         console.log(content[columnPos - 1].widgets)// pos start at 1
         var thisWidget = content[columnPos - 1].widgets
-        thisWidget.forEach(item => {
-            console.log(pos, item.id)
-            if (item.id == (pos)) {
-                console.log(tempContent)
-                console.log("detected pos", pos);
-                item.content[pos] = tempContent
-            }
-        })
+        var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
+
+        // use the length of the object as key for next element
+        var currentIndex = Object.keys(thisWidgetInfo).length;;
+
+        thisWidgetInfo[currentIndex] = tempContent;
+        
 
         replaceContent = content
         replaceContent[columnPos - 1].widgets = thisWidget;
