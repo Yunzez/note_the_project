@@ -79,7 +79,6 @@ function App() {
           getSidebarPages(userID, db, setPageList)
         }
         setIsLoading(false)
-
       } else {
         console.log('no user')
         setUser(null)
@@ -110,7 +109,6 @@ function App() {
   }
 
   function updateUserDB(user) {
-
     //console.log(JSON.parse(default_page))
     var docRef = db.collection("users").doc(user.uid)
     docRef.get().then((doc) => {
@@ -188,8 +186,6 @@ function App() {
       <BrowserRouter>
         <section className='main'>
 
-
-
           <NavBar
             user={user} userID={userID} db={db} pageList={pageList}
             setPageList={setPageList} handleSignOut={handleSignOut}
@@ -200,7 +196,7 @@ function App() {
             <Route exact path='/' element={<PublicLoginPage user={user}
               handleSignOut={handleSignOut}
               loginWidget={<StyledFirebaseAuth uiConfig={uiConfig}
-                firebaseAuth={firebase.auth()} />} />} />
+              firebaseAuth={firebase.auth()} />} />} />
             <Route exact path='/home' element={<RenderHome />} />
             <Route exact path='/favorite' element={<Favorite user={user} pageList={pageList}/>} />
             <Route exact path='/setting' element={<Setting user={user} />} />
