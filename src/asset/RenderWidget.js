@@ -62,6 +62,8 @@ function RenderWidget(props) {
                     newComp.push(<RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
                         content={currentPage} widgetPos={widgetPos} text={currentWidgetInfo[item].text} />);
                     setPosition(position + 1);
+                } else if (currentWidgetInfo[item].type === "music") {
+                    newComp.push(<RenderMusicPlayerComponent columnPos={columnPos} pos={position} setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} music={currentWidgetInfo[item]} />)
                 }
             })
 
@@ -201,7 +203,7 @@ function RenderWidget(props) {
         setPosition(position + 1);
     }
 
-    function getMusicPlayer() {
+    function getMusicPlayer(savedSong) {
         var newComp = <RenderMusicPlayerComponent columnPos={columnPos} pos={position}
             setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} />;
         var output = [];

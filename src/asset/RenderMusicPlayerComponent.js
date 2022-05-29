@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import './columnstyle.css'
 import autosize from 'autosize';
 import TextArea from './AutoText'
@@ -6,15 +6,46 @@ import './musicstyle.css';
 
 
 function RenderMusicPlayerComponent(props) {
-    const [normalInput, setNormalInput] = useState('');
-    const [song, setSong] = useState(undefined);
-    const [more, setMore] = useState(0)
-    const [selected, setSelected] = useState(undefined)
-    const [saved, setSaved] = useState(undefined)
+    var musicStored = props.music
+    var s = {
+        artworkUrl100: '',
+        trackName: '',
+        artistName: '',
+        collectionName: ''
+    }
+
+    if (musicStored) {
+        s.artworkUrl100 = musicStored.artworkUrl100
+        s.trackName = musicStored.trackName
+        s.artistName = musicStored.artistName
+        s.collectionName = musicStored.collectionName
+    } else {
+        s = undefined;
+    }
+    
+    const [normalInput, setNormalInput] = useState('');  // user input
+    const [song, setSong] = useState(undefined);  // display results
+    const [more, setMore] = useState(0)  // if more is shown
+    const [selected, setSelected] = useState(undefined)  // which one is selected
+    const [saved, setSaved] = useState(s)  // which one is saved
     var pos = props.pos
+    var columnPos = props.columnPos
+    var setContent = props.setContent;
+    var content = props.content;
+    var widgetPos = props.widgetPos;
     var setupID = 'normaltext-setup' + pos;
     var showID = 'normaltext-show' + pos;
     var inputID = 'component-normal-textinput' + pos;
+
+    
+
+    var tempContent = {
+        type: "music",
+        artworkUrl100: '',
+        trackName: '',
+        artistName: '',
+        collectionName: ''
+    }
 
 
     function search() {
@@ -32,7 +63,6 @@ function RenderMusicPlayerComponent(props) {
                     musicList.push(element);
                 });
                 setSong(musicList);
-                console.log(song)
             })
     }
 
@@ -77,8 +107,31 @@ function RenderMusicPlayerComponent(props) {
 
     function save() {
         let savedSong = song[selected]
+        console.log(savedSong)
         setSaved(savedSong)
         setSong(undefined)
+
+        tempContent.artworkUrl100 = savedSong.artworkUrl100
+        tempContent.artistName = savedSong.artistName
+        tempContent.trackName = savedSong.trackName
+        tempContent.collectionName = savedSong.collectionName
+        var replaceContent = []
+
+        // this part updates the current page, both local and remote server depend on this
+        console.log(content[columnPos - 1].widgets)
+        var thisWidget = content[columnPos - 1].widgets
+        var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
+
+        // use the length of the object as key for next element
+        var currentIndex = Object.keys(thisWidgetInfo).length;
+
+        thisWidgetInfo[currentIndex] = tempContent;
+
+        replaceContent = content
+        replaceContent[columnPos - 1].widgets = thisWidget;
+
+        setContent(replaceContent);
+        console.log("currentPage:", content)
     }
 
     function edit() {
@@ -101,7 +154,7 @@ function RenderMusicPlayerComponent(props) {
                     </div>
                 </div>
             )
-        } else if (selected === undefined) {
+        } else if (selected === undefined && saved === undefined) {
             return (
                 <div>
                     <div>Search for a music:</div>
