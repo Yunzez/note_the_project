@@ -101,7 +101,7 @@ function RenderNormalTextComponent(props) {
         var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
 
         // use the length of the object as key for next element
-        var currentIndex = Object.keys(thisWidgetInfo).length;;
+        var currentIndex = Object.keys(thisWidgetInfo).length;
 
         thisWidgetInfo[currentIndex] = tempContent;
         

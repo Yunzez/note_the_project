@@ -136,22 +136,22 @@ function RenderColumn(props) {
             // component are waited to be fix
 
 
-            db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString())
-                .get()
-                .then((doc) => {
-                    if (doc.exists) {
-                        console.log('found page')
-                        db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString()).set(currentPage).then(() => {
-                            console.log("updating test within modal!!!!!!!");
+            // db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString())
+            //     .get()
+            //     .then((doc) => {
+            //         if (doc.exists) {
+            //             console.log('found pages')
+            //             db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString()).set(currentPage).then(() => {
+            //                 console.log("updating test within modal!!!!!!!");
 
-                        }).catch((error) => {
-                            console.error("Error updating tooltip ", error);
-                        });
-                    }
+            //             }).catch((error) => {
+            //                 console.error("Error updating tooltip ", error);
+            //             });
+            //         }
 
-                });
-            console.log(pageList)
-            setServerUpdate(false);
+            //     });
+            // console.log(pageList)s
+            // setServerUpdate(false);
 
         }
     }, [serverUpdate])

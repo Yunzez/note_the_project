@@ -36,6 +36,7 @@ function RenderWidget(props) {
     const [component, setComponent] = useState([]);
     const [position, setPosition] = useState(0)
     const [update, setUpdate] = useState(true);
+    const [todoGroup, setTodoGroup] = useState(0);
     // check all the content of this widget;
 
     const handleShow = (() => {
@@ -61,7 +62,15 @@ function RenderWidget(props) {
                 if (currentWidgetInfo[item].type === "plain_text") {
                     newComp.push(<RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
                         content={currentPage} widgetPos={widgetPos} text={currentWidgetInfo[item].text} />);
+                    setPosition(position + 1); // this position has to be added, since react refresh by itself sometimes
+                }
+
+                if (currentWidgetInfo[item].type === "todo") {
+                   
+                    newComp.push(<RenderTodoListComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
+                        content={currentPage} widgetPos={widgetPos} todos={currentWidgetInfo[item].todos} todoGroup = {todoGroup}/>);
                     setPosition(position + 1);
+                    setTodoGroup(todoGroup + 1);
                 }
             })
 
@@ -125,7 +134,7 @@ function RenderWidget(props) {
                             <p>Add to Widget:</p>
                             <div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getText("") }}> <BsIcons.BsFileEarmarkFontFill className='me-2' />Plain Text </div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { getTodoList() }}> <BsIcons.BsCheckSquareFill className='me-2' />Todo List</div>
+                                <div className='add-widget m-2 rounded p-2' onClick={() => { getTodoList([]) }}> <BsIcons.BsCheckSquareFill className='me-2' />Todo List</div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getWebBookmark() }}> <BsIcons.BsFillBookmarkFill className='me-2' />Bookmark</div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getCalendar() }}> <BsIcons.BsFillCalendarEventFill className='me-2' />Calendar </div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getMusicPlayer() }}> <BsIcons.BsDiscFill className='me-2' />Music</div>
@@ -171,14 +180,15 @@ function RenderWidget(props) {
     }
 
 
-    function getTodoList() {
+    function getTodoList(todos) {
         var newComp = <RenderTodoListComponent columnPos={columnPos} pos={position}
-            setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} />;
+            setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos}  todos={todos} todoGroup= {todoGroup}/>;
         var output = [];
         component.map((item, index) => (output.push(item)));
         output.push(newComp)
         setComponent(output)
         setPosition(position + 1);
+        setTodoGroup(todoGroup + 1);
     }
 
     function getWebBookmark() {
