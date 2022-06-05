@@ -16,6 +16,24 @@
     font-family: "Nunito", sans-serif;
 }
 
+.logo-icon {
+    min-width: 5vw;
+    min-height: 5vw;
+}
+
+.login-panel {
+    margin-left: 5vw;
+    margin-right: 5vw;
+    height: 70vh;
+    padding: 5vw;
+    border-radius: 10px;
+    margin-bottom: 80px;
+}
+
+.logo-text {
+    height: 50vh;
+}
+
 .logo a {
     display: flex;
     align-items: center;
@@ -138,7 +156,7 @@ button:focus {
     outline: none;
 }
 
-main {
+.main {
     margin-top: 70px;
     margin-left: 300px;
     transition: 300ms;
@@ -148,6 +166,7 @@ main {
 .main-close {
     margin-top: 70px;
     margin-left: 0px;
+    margin-right: 0px;
     overflow: auto
 }
 

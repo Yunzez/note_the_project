@@ -2,7 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from 'react'
 import { Button } from 'reactstrap'
 import NavBar from './asset/NavBar';
-import { BrowserRouter, Routes, Route, Navigate, Link, NavLink, useParams } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, Link, NavLink, useParams, useNavigate } from 'react-router-dom'
 import * as FcIcons from "react-icons/fc";
 // Switch 在新版本中是 Routes 
 
@@ -92,14 +92,10 @@ function App() {
   }, [])
 
   //sign out function
-  const handleSignOut = () => {
+  const handleSignOut = (() => {
     console.log("click sign out")
     firebase.auth().signOut();
-  }
-
-
-
-
+  })
 
 
   if (isLoading) {
@@ -156,19 +152,19 @@ function App() {
           .catch((error) => {
             console.error("Error adding document: ", error);
           });
-      }else{
-        var temp=[]
-        querySnapshot.forEach((doc)=>{
+      } else {
+        var temp = []
+        querySnapshot.forEach((doc) => {
           console.log(doc.data())
           temp.push(doc.data())
         })
         setPageList(temp)
-        
-        
-          
+
+
+
       }
 
-      
+
     })
       .catch(function (error) {
         console.log("Error getting documents: ", error);
@@ -184,7 +180,7 @@ function App() {
   return (
     <main>
       <BrowserRouter>
-        <section className='main'>
+        <section>
 
           <NavBar
             user={user} userID={userID} db={db} pageList={pageList}
@@ -196,12 +192,13 @@ function App() {
             <Route exact path='/' element={<PublicLoginPage user={user}
               handleSignOut={handleSignOut}
               loginWidget={<StyledFirebaseAuth uiConfig={uiConfig}
-              firebaseAuth={firebase.auth()} />} />} />
+                firebaseAuth={firebase.auth()} />} />}
+            />
             <Route exact path='/home' element={<RenderHome />} />
-            <Route exact path='/favorite' element={<Favorite user={user} pageList={pageList}/>} />
+            <Route exact path='/favorite' element={<Favorite user={user} pageList={pageList} />} />
             <Route exact path='/setting' element={<Setting user={user} />} />
             <Route path='/pages' element={<DefaultPage pageList={pageList} output={output} setOutput={setOutput} />} >
-              <Route path=':currentPageID' element={<RenderSelectedPage pageList={pageList} setPageList={setPageList} output={output} setOutput={setOutput} db={db} user={user}/>} />
+              <Route path=':currentPageID' element={<RenderSelectedPage pageList={pageList} setPageList={setPageList} output={output} setOutput={setOutput} db={db} user={user} />} />
             </Route>
 
           </Routes>

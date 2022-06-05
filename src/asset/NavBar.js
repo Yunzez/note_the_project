@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Routes, Route, Navigate, Link, NavLink } from 'react-router-dom'
+import { Routes, Route, Navigate, Link, NavLink, useNavigate } from 'react-router-dom'
 import { FiMenu } from "react-icons/fi";
 import { BiArrowToTop } from "react-icons/bi";
 import { SiderbarInfo } from './SidebarInfo';
@@ -25,6 +25,7 @@ function NavBar(props) {
     const [rename, setRename] = useState('')
     const [toast, setToast] = useState(false)
     const [flow, setFlow] = useState('')
+    const nav = useNavigate();
     var pageList = props.pageList;
     var setPageList = props.setPageList;
     var pageID = props.pageID;
@@ -46,7 +47,15 @@ function NavBar(props) {
         var openmenuClass = document.getElementById('open-menu-arrow').classList;
         closemenuClass.toggle('d-none')
         openmenuClass.toggle('d-none')
-        document.querySelector('main').classList.toggle('main-close')
+        
+        let mainElem = document.querySelector('main')
+        if (mainElem.classList.contains('main-close')){
+            mainElem.classList.remove('main-close')
+            mainElem.classList.add('main')
+        }else{
+            mainElem.classList.add('main-close')
+            mainElem.classList.remove('main')
+        }
     }
 
     // detect login status
@@ -83,6 +92,7 @@ function NavBar(props) {
     // initialize here to map all pages with defined appearence
     var pages = () => {
         if (!props.user) {
+            nav('/')
             return (<div></div>)
         }
         else {
@@ -342,7 +352,9 @@ function NavBar(props) {
                             <div>
                                 {str}<b>{props.user.displayName}</b>.
                             </div>
+                            <Link to="/">
                             <Button onClick={handleSignOut} size="sm" className='menu-bars ms-3 me-3'>Sign Out</Button>
+                            </Link>
                         </div>
                     </div>
                 </header>
