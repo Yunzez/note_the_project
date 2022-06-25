@@ -60,6 +60,7 @@ function App() {
   const [pageList, setPageList] = useState([]);
   const [pageID, setPageID] = useState(1);
   const [output, setOutput] = useState([])
+  const [like, setLike] = useState([])
   var userID;
 
 
@@ -185,7 +186,8 @@ function App() {
           <NavBar
             user={user} userID={userID} db={db} pageList={pageList}
             setPageList={setPageList} handleSignOut={handleSignOut}
-            pageID={pageID} setPageID={setPageID}
+            pageID={pageID} setPageID={setPageID} like={like}
+            setLike={setLike}
           />
 
           <Routes>
@@ -195,7 +197,7 @@ function App() {
                 firebaseAuth={firebase.auth()} />} />}
             />
             <Route exact path='/home' element={<RenderHome />} />
-            <Route exact path='/favorite' element={<Favorite user={user} pageList={pageList} />} />
+            <Route exact path='/favorite' element={<Favorite user={user} pageList={pageList} like={like}/>} />
             <Route exact path='/setting' element={<Setting user={user} />} />
             <Route path='/pages' element={<DefaultPage pageList={pageList} output={output} setOutput={setOutput} />} >
               <Route path=':currentPageID' element={<RenderSelectedPage pageList={pageList} setPageList={setPageList} output={output} setOutput={setOutput} db={db} user={user} />} />

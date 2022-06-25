@@ -30,6 +30,8 @@ function NavBar(props) {
     var setPageList = props.setPageList;
     var pageID = props.pageID;
     var setPageID = props.setPageID;
+    var like = props.like;
+    var setLike = props.setLike;
     var user = props.user
     var db = props.db
 
@@ -127,18 +129,16 @@ function NavBar(props) {
 
                                         </a>
                                         {/* like button */}
-                                        <a onClick={() => {like(index) }} className='dropdown-option d-flex justify-content-start m-1'>
-
-                                            <BsIcons.BsHeart className='m-1' />
-
-                                        </a>
+                                        {like.indexOf(pageList[index].id) > -1 ? 
+                                                <a onClick={() => {clickLike(index, true) }} className='dropdown-option d-flex justify-content-start m-1'>
+                                                <BsIcons.BsHeartFill className='m-1' />
+                                                </a> : 
+                                                <a onClick={() => {clickLike(index, false) }} className='d-flex dropdown-option justify-content-start m-1'>
+                                                <BsIcons.BsHeart className='m-1' />
+                                                </a>}
+                                        
                                         {/* liked button */}
-                                        <a onClick={() => {like(index) }} className='d-none dropdown-option justify-content-start m-1'>
-
-                                            <BsIcons.BsHeartFill className='m-1' />
-                                         test
-
-                                        </a>
+                                        
                                         <a onClick={() => { deleteItem(index) }} className='dropdown-option d-flex justify-content-start m-1'>
                                             <FaIcons.FaTrash className='m-1' />
                                         </a>
@@ -196,9 +196,26 @@ function NavBar(props) {
         handleShow()
     }
 
-    function like(num) {
-        var pageID = pageList[num].id;
-        console.log(pageID)
+    function clickLike(num, isLiked) {
+        if (isLiked) {
+            var pageIDtemp = pageList[num].id;
+            var temp = []
+            like.map((item, index) => {
+                if (pageIDtemp != item) {
+                    temp.push(item)
+                }
+            })
+            setLike(temp)
+        } else {
+            var pageIDtemp = pageList[num].id;
+            var temp = []
+            like.map((item, index) => {
+                temp.push(item)
+            })
+            temp.push(pageIDtemp)
+            setLike(temp)
+        }
+        
     }
 
     // connect with the server and delete a page in the pagelist
