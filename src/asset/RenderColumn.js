@@ -56,7 +56,7 @@ function RenderColumn(props) {
 
     function handleGoWidget() {
         setTitleInput(document.getElementsByClassName('input-title')[pos - 1].value)
-        // console.log('creating widget', titleInput)
+        
         var newWidget = {
             id: widgetPos,
             title: titleInput,
@@ -105,8 +105,6 @@ function RenderColumn(props) {
                 })
         }
 
-
-
         document.getElementsByClassName('input-title')[pos - 1].value = ''
         document.getElementsByClassName('addWidgetButton')[pos - 1].classList.toggle('d-none')
         document.getElementsByClassName('widgetTitle')[pos - 1].classList.toggle('d-none')
@@ -129,7 +127,6 @@ function RenderColumn(props) {
             console.log(currentPage)
             setPageList(tempPageList)
 
-            console.log("we need to update remote server");
 
             //!!!!!!
             // still testing, this code WORKS, it update selected page to the server, but the other 
@@ -159,8 +156,6 @@ function RenderColumn(props) {
 
 
 
-    console.log(columnToggle)
-    console.log('rendering widgets')
     return (
         <div className='column p-2'>
             <div className='d-flex justify-content-between'>
@@ -205,7 +200,6 @@ function RenderColumn(props) {
             <div>
                 {widgetList.map((item, index) => {
                    
-                    console.log('update widget', widgetPos);
                     return (
                         <RenderWidget id={`widget${widgetPos}`} 
                             item={item} 
@@ -232,14 +226,9 @@ function RenderColumn(props) {
                 </div>
                 <button className="btn btn-primary" onClick={() => { handleGoWidget() }}>Go</button>
             </div>
-
-
         </div>
 
-
     )
-
-
 
 }
 

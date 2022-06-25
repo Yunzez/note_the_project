@@ -32,7 +32,7 @@ function RenderTodoListComponent(props) {
         console.log(content)
     }
     const [todo, setTodo] = useState(replaceTodo);
-    
+
 
 
 
@@ -53,7 +53,7 @@ function RenderTodoListComponent(props) {
                 document.getElementById(initialID).classList.toggle('d-none')
             }}><small>Add Item</small></div>
             <div id={setupID}>
-                <input id={inputID} ref={inputRef} type="text" class="form-control" onChange={() => { setInput(document.getElementById(inputID).value) }}
+                <input id={inputID} ref={inputRef} type="text" className="form-control" onChange={() => { setInput(document.getElementById(inputID).value) }}
                     placeholder="something to do" aria-label="something to do" aria-describedby="basic-addon2"></input>
                 <div className='d-flex'>
                     <div className='btn add-widget-small mt-1' onClick={() => { addElement(input) }}><small>Add a Todo</small></div>
@@ -82,48 +82,61 @@ function RenderTodoListComponent(props) {
         var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
         console.log(thisWidgetInfo)
         var currentTodo = [];
-        var count = 0;
-        var currentIndex = Object.keys(thisWidgetInfo).length;
         var tempContent = {
-            group: todoGroup,
             type: "todo",
             todos: []
         }
 
-        if (Object.keys(thisWidgetInfo).length != 0) {
-            Object.keys(thisWidgetInfo).map((key) => {
-                var item = thisWidgetInfo[key];
-                if (item.type == "todo") {
-                    if (item.group == todoGroup) {
-                        item.todos.map((text) =>{
-                            currentTodo.push(text)
-                        })
-                    }
+        var currWidget = content[columnPos - 1].widgets[widgetPos].content[pos]
+        if (currWidget) {
+            console.log("todo list exists", currWidget)
+            if (currWidget["type"] == "todo") {
+                if (currWidget["todos"].length != 0) {
+                    currWidget.todos.map((text) => {
+                        currentTodo.push(text)
+                    })
                 }
-                count += 1;
-            })
-            currentIndex = count-1;
+                currentTodo.push(input)
+            }
+            tempContent.todos = currentTodo;
+            var replaceContent = [];
+            var thisWidget = content[columnPos - 1].widgets
+            var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
+
+            // use the length of the object as key for next element
+
+            thisWidgetInfo[pos] = tempContent;
+
+            replaceContent = content
+            replaceContent[columnPos - 1].widgets = thisWidget;
+
+            setContent(replaceContent);
+            console.log("currentPage:", content)
+        } else {
+            var currentIndex = Object.keys(thisWidgetInfo).length;
+            currentTodo.push(input)
+            tempContent.todos = currentTodo;
+
+            console.log(tempContent)
+            var replaceContent = [];
+
+            // this part update the current page, both local and remote server depend on this 
+            console.log(content[columnPos - 1].widgets)// pos start at 1
+            var thisWidget = content[columnPos - 1].widgets
+            var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
+
+            // use the length of the object as key for next element
+
+            thisWidgetInfo[currentIndex] = tempContent;
+
+            replaceContent = content
+            replaceContent[columnPos - 1].widgets = thisWidget;
+
+            setContent(replaceContent);
+            console.log("currentPage:", content)
         }
-        currentTodo.push(input)
-        tempContent.todos = currentTodo;
-        
-        console.log(tempContent)
-        var replaceContent = [];
 
-        // this part update the current page, both local and remote server depend on this 
-        console.log(content[columnPos - 1].widgets)// pos start at 1
-        var thisWidget = content[columnPos - 1].widgets
-        var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
 
-        // use the length of the object as key for next element
-
-        thisWidgetInfo[currentIndex] = tempContent;
-
-        replaceContent = content
-        replaceContent[columnPos - 1].widgets = thisWidget;
-
-        setContent(replaceContent);
-        console.log("currentPage:", content)
         // if we just added a new item
     }
 

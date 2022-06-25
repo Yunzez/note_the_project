@@ -7,7 +7,7 @@ import autosize from 'autosize';
 import TextArea from './AutoText'
 
 function RenderNormalTextComponent(props) {
-    
+
     console.log(props)
     var text = props.text;
     console.log(text);
@@ -15,7 +15,7 @@ function RenderNormalTextComponent(props) {
         text = '';
     }
     const [normalInput, setNormalInput] = useState(text);
-    
+
     console.log(normalInput);
     var pos = props.pos
     var columnPos = props.columnPos
@@ -30,34 +30,36 @@ function RenderNormalTextComponent(props) {
         text: ''
     }
 
+    console.log('open with size', pos)
+
 
 
     return (
         <React.Fragment>
             {text ? (
-                 <div>
-                 <div id={setupID} className='d-none '>
-                     <form>
-                         <div className="form-group">
- 
-                             <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput} />
-                         </div>
-                     </form>
-                     <div className='d-flex flex-row-reverse'>
-                         <button onClick={() => { setupTextBox() }} className='btn add-widget mt-2'>Save</button>
-                     </div>
-                 </div>
-                 <div id={showID} >
-                     {/* <EditableInput text={normalInput}/> */}
-                     <div className='d-flex justify-content-between'>
-                         <div>{normalInput}</div>
-                         <div className='btn' onClick={() => {
-                             document.getElementById(setupID).classList.remove("d-none")
-                             document.getElementById(showID).classList.add('d-none')
-                         }}><BsIcons.BsPencilSquare /></div>
-                     </div>
-                 </div>
-             </div>
+                <div>
+                    <div id={setupID} className='d-none '>
+                        <form>
+                            <div className="form-group">
+
+                                <TextArea className="note form-control " id={inputID} normalInput={normalInput} setNormalInput={setNormalInput} />
+                            </div>
+                        </form>
+                        <div className='d-flex flex-row-reverse'>
+                            <button onClick={() => { setupTextBox() }} className='btn add-widget mt-2'>Save</button>
+                        </div>
+                    </div>
+                    <div id={showID} >
+                        {/* <EditableInput text={normalInput}/> */}
+                        <div className='d-flex justify-content-between'>
+                            <div>{normalInput}</div>
+                            <div className='btn' onClick={() => {
+                                document.getElementById(setupID).classList.remove("d-none")
+                                document.getElementById(showID).classList.add('d-none')
+                            }}><BsIcons.BsPencilSquare /></div>
+                        </div>
+                    </div>
+                </div>
             ) : (
                 <div>
                     <div id={setupID} >
@@ -68,7 +70,7 @@ function RenderNormalTextComponent(props) {
                             </div>
                         </form>
                         <div className='d-flex flex-row-reverse'>
-                            <button onClick={() => { setupTextBox() }} className='btn add-widget mt-2'>Save</button>
+                            <button onClick={() => { setupTextBox(this) }} className='btn add-widget mt-2'>Save</button>
                         </div>
                     </div>
                     <div id={showID} className='d-none '>
@@ -88,29 +90,49 @@ function RenderNormalTextComponent(props) {
     )
 
     function setupTextBox() {
+        console.log("this pos: ", pos)
+        console.log("this pos content: ", content[columnPos - 1].widgets[widgetPos].content[pos])
         document.getElementById(setupID).classList.add('d-none')
         document.getElementById(showID).classList.remove('d-none')
         console.log("curret text is:", normalInput);
         tempContent.text = normalInput;
         var replaceContent = [];
 
+        let currWidgetContent = content[columnPos - 1].widgets[widgetPos].content[pos]
+        if (currWidgetContent) {
 
-        // this part update the current page, both local and remote server depend on this 
-        console.log(content[columnPos - 1].widgets)// pos start at 1
-        var thisWidget = content[columnPos - 1].widgets
-        var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
+            var thisWidget = content[columnPos - 1].widgets //get all info of this widget
+            var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content // the content of current widget
 
-        // use the length of the object as key for next element
-        var currentIndex = Object.keys(thisWidgetInfo).length;;
+            currWidgetContent.text = normalInput; // set the new input to be in the current tooltip
+            thisWidgetInfo[pos] = currWidgetContent // assign new tooltip to the specific location of the content
+            thisWidget[widgetPos].content = thisWidgetInfo // exchange the old widget content with the new one
 
-        thisWidgetInfo[currentIndex] = tempContent;
-        
+            
+            console.log("this widget exist", thisWidgetInfo, "with pos", pos)
+            replaceContent = content // replace current page and update
+            replaceContent[columnPos - 1].widgets = thisWidget;
+            setContent(replaceContent);
+            console.log("currentPage:", content)
 
-        replaceContent = content
-        replaceContent[columnPos - 1].widgets = thisWidget;
+        } else {
+            // this part update the current page, both local and remote server depend on this 
+            console.log(content[columnPos - 1].widgets)// pos start at 1
+            var thisWidget = content[columnPos - 1].widgets
+            var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
 
-        setContent(replaceContent);
-        console.log("currentPage:", content)
+            // use the length of the object as key for next element
+            var currentIndex = Object.keys(thisWidgetInfo).length;;
+
+            thisWidgetInfo[currentIndex] = tempContent;
+
+
+            replaceContent = content
+            replaceContent[columnPos - 1].widgets = thisWidget;
+
+            setContent(replaceContent);
+            console.log("currentPage:", content)
+        }
     }
 }
 

@@ -33,8 +33,7 @@ function RenderWidget(props) {
 
     const [toggle, setToggle] = useState(false);
     const handleClose = (() => { setToggle(false); setServerUpdate(true); setUpdate(true)})
-    const [component, setComponent] = useState([]);
-    const [position, setPosition] = useState(0)
+    const [component, setComponent] = useState([]); // this keep track of all the component in a widget, as dom element
     const [update, setUpdate] = useState(true);
     const [todoGroup, setTodoGroup] = useState(0);
     // check all the content of this widget;
@@ -42,37 +41,48 @@ function RenderWidget(props) {
     const handleShow = (() => {
         setUpdate(true);
         setToggle(true)
-        console.log("current column: ", columnPos - 1, currentPage[columnPos - 1].widgets[widgetPos]);
         console.log("current widget position: ", columnPos - 1, widgetPos, position);
     });
 
     var newComp = []
     // solve edge case: when create a new column, there is no content
     var currentWidget = currentPage[columnPos - 1].widgets[widgetPos];
+    var currentWidgetSize = Object.keys(currentWidget["content"]).length;
+
+    const [position, setPosition] = useState(currentWidgetSize) // this keep track of a tooltip position
+    
+
+    console.log("current size ", position)
     if (currentWidget) {
         var currentWidgetInfo = currentWidget["content"];
     }
+    
 
     
     if (update && currentWidgetInfo) {
-        console.log("updating current page", "Column number: ", columnPos - 1, "widget location: ", widgetPos, "add on position: ", position)
+        console.log("updating widget by its given info")
+        console.log("current widget: (column position, widget info) ", columnPos - 1, currentPage[columnPos - 1].widgets[widgetPos]);
+        let count = 0;
         if (Object.keys(currentWidgetInfo).length > 0) {
             Object.keys(currentWidgetInfo).map((item, index) => {
                 console.log("preparing", currentWidgetInfo[item])
                 if (currentWidgetInfo[item].type === "plain_text") {
-                    newComp.push(<RenderNormalTextComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
+                    newComp.push(<RenderNormalTextComponent columnPos={columnPos} pos={count} setContent={setCurrentPage}
                         content={currentPage} widgetPos={widgetPos} text={currentWidgetInfo[item].text} />);
-                    setPosition(position + 1); // this position has to be added, since react refresh by itself sometimes
+                    count ++
+                    console.log(position)
+                    
                 }
                 if (currentWidgetInfo[item].type === "todo") {
                    
-                    newComp.push(<RenderTodoListComponent columnPos={columnPos} pos={position} setContent={setCurrentPage}
+                    newComp.push(<RenderTodoListComponent columnPos={columnPos} pos={count} setContent={setCurrentPage}
                         content={currentPage} widgetPos={widgetPos} todos={currentWidgetInfo[item].todos} todoGroup = {todoGroup}/>);
-                    setPosition(position + 1);
+                    count ++ 
                     setTodoGroup(todoGroup + 1);
                 } 
                 if (currentWidgetInfo[item].type === "music") {
-                    newComp.push(<RenderMusicPlayerComponent columnPos={columnPos} pos={position} setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} music={currentWidgetInfo[item]} />)
+                    newComp.push(<RenderMusicPlayerComponent columnPos={columnPos} pos={count} setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} music={currentWidgetInfo[item]} />)
+                    count ++
                 }
             })
 
