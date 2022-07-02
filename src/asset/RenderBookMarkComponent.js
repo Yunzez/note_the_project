@@ -94,22 +94,18 @@ function RenderBookMarkComponent(props) {
                 (result) => {
                     setIsLoaded(true);
                     setItems(result);
+                    // update feteched result into injestion
                     for (let i in result){
                         if (result[i]){
                             dataInjest[i] =result[i]
                         }
                     }
-                    // dataInjest.image = result.image
-                    // dataInjest.url = result.url
-                    // dataInjest.title = result.title
-                    // dataInjest.keywords = result.keywords
-                    // dataInjest.des = result.des
                     console.log("datainject:", dataInjest);
                     var thisWidget = content[columnPos - 1].widgets
                     var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
 
                     // use the length of the object as key for next element
-                    var currentIndex = Object.keys(thisWidgetInfo).length;;
+                    var currentIndex = Object.keys(thisWidgetInfo).length;
 
                     thisWidgetInfo[currentIndex] = dataInjest;
 

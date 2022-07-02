@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import './columnstyle.css'
 import './NavBar.css'
-import { Modal } from 'react-bootstrap';
+import { Modal, OverlayTrigger, Button, Popover } from 'react-bootstrap';
 import * as BsIcons from "react-icons/bs";
 
 // import component widgets
@@ -32,7 +32,7 @@ function RenderWidget(props) {
 
 
     const [toggle, setToggle] = useState(false);
-    const handleClose = (() => { setToggle(false); setServerUpdate(true); setUpdate(true)})
+    const handleClose = (() => { setToggle(false); setServerUpdate(true); setUpdate(true) })
     const [component, setComponent] = useState([]); // this keep track of all the component in a widget, as dom element
     const [update, setUpdate] = useState(true);
     const [todoGroup, setTodoGroup] = useState(0);
@@ -50,15 +50,15 @@ function RenderWidget(props) {
     var currentWidgetSize = Object.keys(currentWidget["content"]).length;
 
     const [position, setPosition] = useState(currentWidgetSize) // this keep track of a tooltip position
-    
+
 
     console.log("current size ", position)
     if (currentWidget) {
         var currentWidgetInfo = currentWidget["content"];
     }
-    
 
-    
+
+
     if (update && currentWidgetInfo) {
         console.log("updating widget by its given info")
         console.log("current widget: (column position, widget info) ", columnPos - 1, currentPage[columnPos - 1].widgets[widgetPos]);
@@ -69,24 +69,24 @@ function RenderWidget(props) {
                 if (currentWidgetInfo[item].type === "plain_text") {
                     newComp.push(<RenderNormalTextComponent columnPos={columnPos} pos={count} setContent={setCurrentPage}
                         content={currentPage} widgetPos={widgetPos} text={currentWidgetInfo[item].text} />);
-                    count ++
+                    count++
                     console.log(position)
-                    
+
                 }
                 if (currentWidgetInfo[item].type === "todo") {
-                   
+
                     newComp.push(<RenderTodoListComponent columnPos={columnPos} pos={count} setContent={setCurrentPage}
-                        content={currentPage} widgetPos={widgetPos} todos={currentWidgetInfo[item].todos} todoGroup = {todoGroup}/>);
-                    count ++ 
+                        content={currentPage} widgetPos={widgetPos} todos={currentWidgetInfo[item].todos} todoGroup={todoGroup} />);
+                    count++
                     setTodoGroup(todoGroup + 1);
-                } 
+                }
                 if (currentWidgetInfo[item].type === "music") {
                     newComp.push(<RenderMusicPlayerComponent columnPos={columnPos} pos={count} setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} music={currentWidgetInfo[item]} />)
-                    count ++
+                    count++
                 }
                 if (currentWidgetInfo[item].type === "bookmark") {
                     newComp.push(<RenderBookMarkComponent columnPos={columnPos} pos={count} setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} />)
-                    count ++
+                    count++
                 }
             })
 
@@ -95,6 +95,15 @@ function RenderWidget(props) {
         setUpdate(false);
         setServerUpdate(true);
     }
+
+
+    // popover content 
+    const popoverFocus = (
+        <Popover id="popover-trigger-focus" title="Popover bottom" positionLeft={200}
+        positionTop={50}>
+            <strong>Holy guacamole!</strong> Check this info.
+        </Popover>
+    );
 
 
 
@@ -115,7 +124,15 @@ function RenderWidget(props) {
                 centered
             >
                 <Modal.Header closeButton>
-                    <p>{item.title}</p>
+                    <div className='d-flex justify-content-between w-100'>
+                        <div><p>{item.title}</p></div>
+                        <OverlayTrigger trigger="focus" placement="bottom" overlay={popoverFocus}>
+                            <Button className='top-widget m-2 rounded p-2'><BsIcons.BsPaletteFill className='me-2' />Cover</Button>
+                        </OverlayTrigger>
+                        <Popover id="popover-trigger-focus" title="Popover bottom">
+                            <strong>Holy guacamole!</strong> Check this info.
+                        </Popover>
+                    </div>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='row'>
@@ -154,7 +171,6 @@ function RenderWidget(props) {
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getWebBookmark() }}> <BsIcons.BsFillBookmarkFill className='me-2' />Bookmark</div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getCalendar() }}> <BsIcons.BsFillCalendarEventFill className='me-2' />Calendar </div>
                                 <div className='add-widget m-2 rounded p-2' onClick={() => { getMusicPlayer() }}> <BsIcons.BsDiscFill className='me-2' />Music</div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { }}> <BsIcons.BsPaletteFill className='me-2' />Cover</div>
                             </div>
                         </div>
                     </div>
@@ -168,6 +184,7 @@ function RenderWidget(props) {
 
 
     function deleteWidget(indexDelete) {
+        // delete the widget locally
         var componentNew = []
         component.map((item, index) => {
             if (index !== indexDelete) {
@@ -175,6 +192,19 @@ function RenderWidget(props) {
             }
         })
         setComponent(componentNew)
+
+        // delete the widget remotely
+        // let newCurrentPage = []
+        // currentPage.map((item, index) => {
+        //     newCurrentPage.push(item)
+        // })
+        //newCurrentPage[columnPos][widgetPos]
+        //setCurrentPage(componentNew)
+    }
+
+
+    function getCoverOptions() {
+
     }
 
 
@@ -198,7 +228,7 @@ function RenderWidget(props) {
 
     function getTodoList(todos) {
         var newComp = <RenderTodoListComponent columnPos={columnPos} pos={position}
-            setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos}  todos={todos} todoGroup= {todoGroup}/>;
+            setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} todos={todos} todoGroup={todoGroup} />;
         var output = [];
         component.map((item, index) => (output.push(item)));
         output.push(newComp)

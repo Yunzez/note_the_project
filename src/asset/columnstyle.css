@@ -34,6 +34,20 @@
     vertical-align: middle;
 }
 
+.top-widget{
+    background-color: #c6cede;
+    display: block;
+    cursor: pointer;
+    border: 2px solid black;
+    transition: 0.3s ease;
+}
+
+.top-widget:hover{
+    background-color: #fff;
+    border: 2px solid #c6cede;
+    color: grey
+}
+
 .add-widget {
     background-color: #c6cede;
     width: auto;

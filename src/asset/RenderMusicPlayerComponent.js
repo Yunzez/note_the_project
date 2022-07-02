@@ -43,7 +43,6 @@ function RenderMusicPlayerComponent(props) {
     var setupID = 'normaltext-setup' + pos;
     var showID = 'normaltext-show' + pos;
     var inputID = 'component-normal-textinput' + pos;
-    var widgetPos = props.widgetPos;
 
     
     // template for saved content
@@ -125,23 +124,38 @@ function RenderMusicPlayerComponent(props) {
         tempContent.artistName = savedSong.artistName
         tempContent.trackName = savedSong.trackName
         tempContent.collectionName = savedSong.collectionName
+        let currWidgetContent = content[columnPos - 1].widgets[widgetPos].content[pos]
         var replaceContent = []
 
-        // this part updates the current page, both local and remote server depend on this
-        console.log(content[columnPos - 1].widgets)
-        var thisWidget = content[columnPos - 1].widgets
-        var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
+        if (currWidgetContent){ // if content exist 
+            var thisWidget = content[columnPos - 1].widgets
+            var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
 
-        // use the length of the object as key for next element
-        var currentIndex = Object.keys(thisWidgetInfo).length;
+            // use the length of the object as key for next element
+            var currentIndex = Object.keys(thisWidgetInfo).length - 1;
 
-        thisWidgetInfo[currentIndex] = tempContent;
+            thisWidgetInfo[currentIndex] = tempContent;
 
-        replaceContent = content
-        replaceContent[columnPos - 1].widgets = thisWidget;
+            replaceContent = content
+            replaceContent[columnPos - 1].widgets = thisWidget;
 
-        setContent(replaceContent);
-        console.log("currentPage:", content)
+            setContent(replaceContent);
+        } else {
+            // this part updates the current page, both local and remote server depend on this
+            console.log(content[columnPos - 1].widgets)
+            var thisWidget = content[columnPos - 1].widgets
+            var thisWidgetInfo = content[columnPos - 1].widgets[widgetPos].content
+
+            // use the length of the object as key for next element
+            var currentIndex = Object.keys(thisWidgetInfo).length;
+
+            thisWidgetInfo[currentIndex] = tempContent;
+
+            replaceContent = content
+            replaceContent[columnPos - 1].widgets = thisWidget;
+
+            setContent(replaceContent);
+        }
     }
 
     // edit the music content
