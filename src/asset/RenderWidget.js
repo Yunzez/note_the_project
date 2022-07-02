@@ -84,6 +84,10 @@ function RenderWidget(props) {
                     newComp.push(<RenderMusicPlayerComponent columnPos={columnPos} pos={count} setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} music={currentWidgetInfo[item]} />)
                     count ++
                 }
+                if (currentWidgetInfo[item].type === "bookmark") {
+                    newComp.push(<RenderBookMarkComponent columnPos={columnPos} pos={count} setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} />)
+                    count ++
+                }
             })
 
         }
@@ -204,8 +208,7 @@ function RenderWidget(props) {
     }
 
     function getWebBookmark() {
-        var newComp = <RenderBookMarkComponent columnPos={columnPos} pos={position}
-            setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} />;
+        var newComp = <RenderBookMarkComponent columnPos={columnPos} pos={position} setContent={setCurrentPage} content={currentPage} widgetPos={widgetPos} />;
         var output = [];
         component.map((item, index) => (output.push(item)));
         output.push(newComp)

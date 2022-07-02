@@ -6,7 +6,11 @@ import './musicstyle.css';
 
 
 function RenderMusicPlayerComponent(props) {
+    
+    // music data obtained from props, if rendering an existing module
     var musicStored = props.music
+
+    // place holder for saved data
     var s = {
         artworkUrl100: '',
         trackName: '',
@@ -14,6 +18,7 @@ function RenderMusicPlayerComponent(props) {
         collectionName: ''
     }
 
+    // if rendering an existing module, then place holder takes the data
     if (musicStored) {
         s.artworkUrl100 = musicStored.artworkUrl100
         s.trackName = musicStored.trackName
@@ -28,6 +33,8 @@ function RenderMusicPlayerComponent(props) {
     const [more, setMore] = useState(0)  // if more is shown
     const [selected, setSelected] = useState(undefined)  // which one is selected
     const [saved, setSaved] = useState(s)  // which one is saved
+
+    // positions taken from the props
     var pos = props.pos
     var columnPos = props.columnPos
     var setContent = props.setContent;
@@ -36,9 +43,10 @@ function RenderMusicPlayerComponent(props) {
     var setupID = 'normaltext-setup' + pos;
     var showID = 'normaltext-show' + pos;
     var inputID = 'component-normal-textinput' + pos;
+    var widgetPos = props.widgetPos;
 
     
-
+    // template for saved content
     var tempContent = {
         type: "music",
         artworkUrl100: '',
@@ -47,7 +55,7 @@ function RenderMusicPlayerComponent(props) {
         collectionName: ''
     }
 
-
+    // function for searching the music
     function search() {
         if (selected !== undefined) {
             document.getElementById("item" + selected).classList.remove("selected")
@@ -66,6 +74,7 @@ function RenderMusicPlayerComponent(props) {
             })
     }
 
+    // play audio
     function playAudio(track, index) {
         if (index === -1) {
             var player = document.getElementById('player')
@@ -105,6 +114,7 @@ function RenderMusicPlayerComponent(props) {
         }
     }
 
+    // save music content using tempContent
     function save() {
         let savedSong = song[selected]
         console.log(savedSong)
@@ -134,6 +144,7 @@ function RenderMusicPlayerComponent(props) {
         console.log("currentPage:", content)
     }
 
+    // edit the music content
     function edit() {
         setNormalInput('')
         setSong(undefined)
