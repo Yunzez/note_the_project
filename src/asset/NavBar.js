@@ -3,19 +3,18 @@ import { Routes, Route, Navigate, Link, NavLink, useNavigate } from 'react-route
 import { FiMenu } from "react-icons/fi";
 import { BiArrowToTop } from "react-icons/bi";
 import { SiderbarInfo } from './SidebarInfo';
-import './NavBar.css';
 import { getSidebarPages } from './SidebarPages';
 
 //import Font awesome, we will be mainly using this ui
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as FaiSolid from '@fortawesome/free-solid-svg-icons'
-import { Button, Modal, closeButton, Toast } from 'react-bootstrap';
+import { Button, Modal, closeButton, Toast, OverlayTrigger, Popover } from 'react-bootstrap';
 
 import * as FcIcons from "react-icons/fc";
 import * as FaIcons from "react-icons/fa";
 import * as BsIcons from "react-icons/bs";
 import 'firebase/compat/firestore';
-
+import './NavBar.css';
 
 function NavBar(props) {
 
@@ -49,12 +48,12 @@ function NavBar(props) {
         var openmenuClass = document.getElementById('open-menu-arrow').classList;
         closemenuClass.toggle('d-none')
         openmenuClass.toggle('d-none')
-        
+
         let mainElem = document.querySelector('main')
-        if (mainElem.classList.contains('main-close')){
+        if (mainElem.classList.contains('main-close')) {
             mainElem.classList.remove('main-close')
             mainElem.classList.add('main')
-        }else{
+        } else {
             mainElem.classList.add('main-close')
             mainElem.classList.remove('main')
         }
@@ -90,6 +89,9 @@ function NavBar(props) {
         document.getElementById(index).classList.toggle('d-none')
     }
 
+
+
+
     // pages are the element in the final return
     // initialize here to map all pages with defined appearence
     var pages = () => {
@@ -103,11 +105,36 @@ function NavBar(props) {
                     <div>
                         {pageList.map((line, index) => {
                             var displayName;
-                            if(line.title.length > 20){
-                                displayName = line.title.substring(0,17) + ' ...'
+                            if (line.title.length > 20) {
+                                displayName = line.title.substring(0, 17) + ' ...'
                             } else {
                                 displayName = line.title;
                             }
+                            const popoverMenu = (
+                                <Popover id="popover-trigger-focus" title="Popover bottom">
+                                    <div id={index} className="dropdown-content d-flex">
+                                        <a onClick={() => { edit(index) }} data-toggle="modal" data-target="#exampleModal" className='dropdown-option d-flex justify-content-start m-1'>
+
+                                            <FaIcons.FaPenSquare className='m-1' />
+
+                                        </a>
+                                        {/* like button */}
+                                        {like.indexOf(pageList[index].id) > -1 ?
+                                            <a onClick={() => { clickLike(index, true) }} className='dropdown-option d-flex justify-content-start m-1'>
+                                                <BsIcons.BsHeartFill className='m-1' />
+                                            </a> :
+                                            <a onClick={() => { clickLike(index, false) }} className='d-flex dropdown-option justify-content-start m-1'>
+                                                <BsIcons.BsHeart className='m-1' />
+                                            </a>}
+
+                                        {/* liked button */}
+
+                                        <a onClick={() => { deleteItem(index) }} className='dropdown-option d-flex justify-content-start m-1'>
+                                            <FaIcons.FaTrash className='m-1' />
+                                        </a>
+                                    </div>
+                                </Popover>
+                            );
                             return (
                                 <div>
                                     <div key={index} className={line.className + ' ' + 'd-flex'} >
@@ -118,31 +145,13 @@ function NavBar(props) {
                                             </div>
                                         </Link>
                                         <div>
-                                            <div className='sub-menu' onClick={() => { showDropDown(index) }}><BsIcons.BsThreeDotsVertical /></div>
+                                            <OverlayTrigger trigger="focus" placement="bottom"  overlay={popoverMenu}>
+                                                <button className='menu-bar'><BsIcons.BsThreeDotsVertical /></button>
+                                            </OverlayTrigger>
                                         </div>
 
                                     </div>
-                                    <div id={index} className="dropdown-content d-flex d-none position-absolute">
-                                        <a onClick={() => { edit(index) }} data-toggle="modal" data-target="#exampleModal" className='dropdown-option d-flex justify-content-start m-1'>
 
-                                            <FaIcons.FaPenSquare className='m-1' />
-
-                                        </a>
-                                        {/* like button */}
-                                        {like.indexOf(pageList[index].id) > -1 ? 
-                                                <a onClick={() => {clickLike(index, true) }} className='dropdown-option d-flex justify-content-start m-1'>
-                                                <BsIcons.BsHeartFill className='m-1' />
-                                                </a> : 
-                                                <a onClick={() => {clickLike(index, false) }} className='d-flex dropdown-option justify-content-start m-1'>
-                                                <BsIcons.BsHeart className='m-1' />
-                                                </a>}
-                                        
-                                        {/* liked button */}
-                                        
-                                        <a onClick={() => { deleteItem(index) }} className='dropdown-option d-flex justify-content-start m-1'>
-                                            <FaIcons.FaTrash className='m-1' />
-                                        </a>
-                                    </div>
 
                                     <Modal show={show} onHide={handleClose}>
                                         <Modal.Header closeButton>
@@ -215,7 +224,7 @@ function NavBar(props) {
             temp.push(pageIDtemp)
             setLike(temp)
         }
-        
+
     }
 
     // connect with the server and delete a page in the pagelist
@@ -248,7 +257,7 @@ function NavBar(props) {
         setPageList(temp)
     }
 
-    
+
     // detect the icon the page uses
     var IconDetector = ({ name }) => {
         if (name == 'Ok') {
@@ -370,7 +379,7 @@ function NavBar(props) {
                                 {str}<b>{props.user.displayName}</b>.
                             </div>
                             <Link to="/">
-                            <Button onClick={handleSignOut} size="sm" className='menu-bars ms-3 me-3'>Sign Out</Button>
+                                <Button onClick={handleSignOut} size="sm" className='menu-bars ms-3 me-3'>Sign Out</Button>
                             </Link>
                         </div>
                     </div>
@@ -397,12 +406,12 @@ function NavBar(props) {
                         <a className='position-absolute fixed-bottom m-2 btn btn-primary add-page-button' onClick={handleAddPage}>+ new page</a>
                     </div>
                     <Toast onClose={() => setToast(false)} show={toast} delay={2000} autohide className='position-absolute bottom-0 end-0'>
-                    <Toast.Header >
-                        <small className="me-auto">Delete Page: <strong>{flow}</strong> </small>
-                        <small>Seconds ago</small>
-                    </Toast.Header>
-                    <Toast.Body>Success</Toast.Body>
-                </Toast>
+                        <Toast.Header >
+                            <small className="me-auto">Delete Page: <strong>{flow}</strong> </small>
+                            <small>Seconds ago</small>
+                        </Toast.Header>
+                        <Toast.Body>Success</Toast.Body>
+                    </Toast>
                 </aside>
             </div>
 

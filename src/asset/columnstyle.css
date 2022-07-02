@@ -48,6 +48,13 @@
     color: grey
 }
 
+
+.popover-loc{
+    margin-top: -10vh;
+    width: 20vw;
+    height: 20vh;
+}
+
 .add-widget {
     background-color: #c6cede;
     width: auto;

@@ -9,6 +9,21 @@
     /* Search Bar */
 }
 
+.menu-bar{
+    background-color: rgba(1, 41, 112, 0.1);;
+    border: none;
+    padding: 2px;
+    border-radius: 10px;
+    transition: 0.2s ease;
+}
+
+.menu-bar:hover{
+    background-color: #fff;
+    border: 2px solid rgba(1, 41, 112, 0.1);
+    border-radius: 10px;
+    padding: 4px;
+}
+
 .header span {
     font-size: 26px;
     font-weight: 700;

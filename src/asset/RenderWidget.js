@@ -1,8 +1,8 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef} from 'react'
 import './columnstyle.css'
 import './NavBar.css'
-import { Modal, OverlayTrigger, Button, Popover } from 'react-bootstrap';
+import { Modal, OverlayTrigger, Button, Popover, Overlay } from 'react-bootstrap';
 import * as BsIcons from "react-icons/bs";
 
 // import component widgets
@@ -99,11 +99,19 @@ function RenderWidget(props) {
 
     // popover content 
     const popoverFocus = (
-        <Popover id="popover-trigger-focus" title="Popover bottom" positionLeft={200}
-        positionTop={50}>
-            <strong>Holy guacamole!</strong> Check this info.
+
+        <Popover id="popover-contained" className='popover-loc'>
+            <div className='p-4'>
+                <div>
+                    <h5>Change your cover</h5>
+                </div>
+                <div>
+                    <span> color options:</span>
+                </div>
+            </div>
         </Popover>
     );
+
 
 
 
@@ -129,9 +137,6 @@ function RenderWidget(props) {
                         <OverlayTrigger trigger="focus" placement="bottom" overlay={popoverFocus}>
                             <Button className='top-widget m-2 rounded p-2'><BsIcons.BsPaletteFill className='me-2' />Cover</Button>
                         </OverlayTrigger>
-                        <Popover id="popover-trigger-focus" title="Popover bottom">
-                            <strong>Holy guacamole!</strong> Check this info.
-                        </Popover>
                     </div>
                 </Modal.Header>
                 <Modal.Body>
