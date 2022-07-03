@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useRef} from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './columnstyle.css'
 import './NavBar.css'
 import { Modal, OverlayTrigger, Button, Popover, Overlay } from 'react-bootstrap';
@@ -36,6 +36,7 @@ function RenderWidget(props) {
     const [component, setComponent] = useState([]); // this keep track of all the component in a widget, as dom element
     const [update, setUpdate] = useState(true);
     const [todoGroup, setTodoGroup] = useState(0);
+    const [isCover, setIsCover] = useState(false)
     // check all the content of this widget;
 
     const handleShow = (() => {
@@ -96,23 +97,19 @@ function RenderWidget(props) {
         setServerUpdate(true);
     }
 
+    const duration = 300;
 
-    // popover content 
-    const popoverFocus = (
+    const defaultStyle = {
+        transition: `opacity ${duration}ms ease-in-out`,
+        opacity: 0,
+    }
 
-        <Popover id="popover-contained" className='popover-loc'>
-            <div className='p-4'>
-                <div>
-                    <h5>Change your cover</h5>
-                </div>
-                <div>
-                    <span> color options:</span>
-                </div>
-            </div>
-        </Popover>
-    );
-
-
+    const transitionStyles = {
+        entering: { opacity: 1 },
+        entered: { opacity: 1 },
+        exiting: { opacity: 0 },
+        exited: { opacity: 0 },
+    };
 
 
     return (
@@ -132,12 +129,18 @@ function RenderWidget(props) {
                 centered
             >
                 <Modal.Header closeButton>
-                    <div className='d-flex justify-content-between w-100'>
-                        <div><p>{item.title}</p></div>
-                        <OverlayTrigger trigger="focus" placement="bottom" overlay={popoverFocus}>
-                            <Button className='top-widget m-2 rounded p-2'><BsIcons.BsPaletteFill className='me-2' />Cover</Button>
-                        </OverlayTrigger>
+                    <div className='d-flex flex-column w-100 '>
+                        <div className='d-flex justify-content-between w-100'>
+                            <div><p>{item.title}</p></div>
+
+                            <div><Button className='top-widget m-2 rounded p-2 float-end' onClick={() => { if (isCover) { setIsCover(false) } else { setIsCover(true) }; console.log("click") }}><BsIcons.BsPaletteFill className='me-2' />Cover</Button></div>
+
+                        </div>
+                        <GetCoverOptions className="animated-cover-div" />
+
+
                     </div>
+
                 </Modal.Header>
                 <Modal.Body>
                     <div className='row'>
@@ -206,13 +209,30 @@ function RenderWidget(props) {
         console.log(Object.keys(newCurrentPage[columnPos - 1].widgets[widgetPos].content))
         delete newCurrentPage[columnPos - 1].widgets[widgetPos].content[Object.keys(newCurrentPage[columnPos - 1].widgets[widgetPos].content)[indexDelete]]
         console.log(newCurrentPage)
-        
+
         setCurrentPage(newCurrentPage)
     }
 
 
-    function getCoverOptions() {
-
+    function GetCoverOptions() {
+        if (isCover) {
+            return (
+                <div>
+                    <h5>Cover</h5>
+                    <div>Colors:
+                        <div className='d-flex justify-content-center flex-wrap'>
+                            <span className='pink color-option'><p></p> </span>
+                            <span className='green color-option'> </span>
+                            <span className='yellow color-option'> </span>
+                            <span className='black color-option'> </span>
+                            <span className='red color-option'> </span>
+                            <span className='blue color-option'> </span>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+        return (<></>)
     }
 
 

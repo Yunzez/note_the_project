@@ -42,12 +42,47 @@
     transition: 0.3s ease;
 }
 
+.color-option{
+    padding:3px;
+    margin: 5px;
+    display: block;
+    background-color: #212529;
+    min-height: 4vw;
+    min-width: 4vw;
+    border-radius: 5px;
+    border: 2px solid #888;
+}
+.color-option:hover{
+    border: 3px solid rgb(75, 42, 242);
+}
+.pink{
+    background-color: pink;
+}
+.green{
+    background-color: green;
+}
+.black{
+    background-color: black;
+}
+.red{
+    background-color: red;
+}
+.blue{
+    background-color: blue;
+}
+.yellow{
+    background-color: yellow;
+}
 .top-widget:hover{
     background-color: #fff;
     border: 2px solid #c6cede;
     color: grey
 }
 
+.animated-cover-div{
+    height: auto;
+    transition: 0.3s ease;
+}
 
 .popover-loc{
     margin-top: -10vh;
