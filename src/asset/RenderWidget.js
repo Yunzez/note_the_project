@@ -191,20 +191,23 @@ function RenderWidget(props) {
     function deleteWidget(indexDelete) {
         // delete the widget locally
         var componentNew = []
-        component.map((item, index) => {
+        component.map((currItem, index) => {
             if (index !== indexDelete) {
-                componentNew.push(item)
+                console.log(index, indexDelete)
+                componentNew.push(currItem)
             }
         })
+        console.log(componentNew)
         setComponent(componentNew)
 
         // delete the widget remotely
-        // let newCurrentPage = []
-        // currentPage.map((item, index) => {
-        //     newCurrentPage.push(item)
-        // })
-        //newCurrentPage[columnPos][widgetPos]
-        //setCurrentPage(componentNew)
+        console.log(currentPage[columnPos - 1].widgets[widgetPos].content)
+        let newCurrentPage = currentPage
+        console.log(Object.keys(newCurrentPage[columnPos - 1].widgets[widgetPos].content))
+        delete newCurrentPage[columnPos - 1].widgets[widgetPos].content[Object.keys(newCurrentPage[columnPos - 1].widgets[widgetPos].content)[indexDelete]]
+        console.log(newCurrentPage)
+        
+        setCurrentPage(newCurrentPage)
     }
 
 
