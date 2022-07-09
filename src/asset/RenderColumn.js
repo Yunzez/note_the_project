@@ -27,16 +27,17 @@ function RenderColumn(props) {
     const [widgetList, setWidgetList] = useState([])
     const [serverUpdate, setServerUpdate] = useState(false)
 
-    
+
     if (pageList) {
         pageList.map((item) => {
             if (item.id == pageID) {
                 tempPage = item
                 // since pos starts at 1
-                if (tempPage[pos - 1].widgets != widgetList) {
-                    setWidgetList(tempPage[pos - 1].widgets)
+                if (tempPage[pos - 1]) {
+                    if (tempPage[pos - 1].widgets != widgetList) {
+                        setWidgetList(tempPage[pos - 1].widgets)
+                    }
                 }
-
             }
         })
 
@@ -56,14 +57,14 @@ function RenderColumn(props) {
 
     function handleGoWidget() {
         setTitleInput(document.getElementsByClassName('input-title')[pos - 1].value)
-        
+
         var newWidget = {
             id: widgetPos,
             title: titleInput,
             content: {}
         }
         setWidgetPos(widgetPos + 1);
-    
+
         var temp = []
         if (widgetList.length > 0) {
             widgetList.map((item, index) => {
@@ -154,6 +155,16 @@ function RenderColumn(props) {
     }, [serverUpdate])
 
 
+    function deleteColumn() {
+        console.log(pos)
+        console.log(currentPage[pos - 1])
+        let newCurrentPage = currentPage
+        delete newCurrentPage[pos - 1]
+        console.log(newCurrentPage)
+        setCurrentPage(newCurrentPage)
+        console.log(currentPage)
+        setServerUpdate(true)
+    }
 
 
     return (
@@ -189,7 +200,7 @@ function RenderColumn(props) {
                             </a>
                             <a className='dropdown-option d-flex justify-content-start m-1 pe-1'>
                                 <FaIcons.FaTrash className='column-menuicon' />
-                                <p className='mb-1 me-3'>Delete</p>
+                                <p className='mb-1 me-3' onClick={() => deleteColumn()}>Delete</p>
                             </a>
                         </div>
                     </div>
@@ -199,20 +210,20 @@ function RenderColumn(props) {
 
             <div>
                 {widgetList.map((item, index) => {
-                   
+
                     return (
-                        <RenderWidget id={`widget${widgetPos}`} 
-                            item={item} 
+                        <RenderWidget id={`widget${widgetPos}`}
+                            item={item}
                             // serverUpdate={serverUpdate} 
-                            setServerUpdate={setServerUpdate} 
+                            setServerUpdate={setServerUpdate}
                             index={index}
                             // pageList={pageList}
                             // setPageList={setPageList}
                             pos={pos}
                             // pageID={pageID}
-                            currentPage = {currentPage}
-                            setCurrentPage = {setCurrentPage}
-                            widgetPos = {index} />
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            widgetPos={index} />
                     )
                 })}
             </div>
