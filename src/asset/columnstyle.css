@@ -52,27 +52,24 @@
     border-radius: 5px;
     border: 2px solid #888;
 }
-.color-option:hover{
-    border: 3px solid rgb(75, 42, 242);
-}
-.pink{
-    background-color: pink;
-}
-.green{
-    background-color: green;
-}
-.black{
-    background-color: black;
-}
-.red{
-    background-color: red;
-}
-.blue{
-    background-color: blue;
-}
-.yellow{
-    background-color: yellow;
-}
+
+.cover-color .react-colorful {
+    height: 240px;
+    width: 300px;
+  }
+  .cover-color .react-colorful__saturation {
+    border-radius: 8px 8px 0 0;
+  }
+  .cover-color .react-colorful__hue {
+    height: 40px;
+    border-radius: 0 0 4px 4px;
+  }
+  .cover-color .react-colorful__hue-pointer {
+    width: 10px;
+    height: inherit;
+    border-radius: 0;
+  }
+
 .top-widget:hover{
     background-color: #fff;
     border: 2px solid #c6cede;

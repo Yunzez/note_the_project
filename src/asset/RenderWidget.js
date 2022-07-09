@@ -2,9 +2,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './columnstyle.css'
 import './NavBar.css'
-import { Modal, OverlayTrigger, Button, Popover, Overlay } from 'react-bootstrap';
+import { Modal, OverlayTrigger, Button, Popover, Overlay, Form } from 'react-bootstrap';
 import * as BsIcons from "react-icons/bs";
-
+import { HexColorPicker } from "react-colorful";
 // import component widgets
 import RenderNormalTextComponent from './RenderNormalTextComponent';
 import RenderTodoListComponent from './RenderTodoListComponent';
@@ -37,6 +37,7 @@ function RenderWidget(props) {
     const [update, setUpdate] = useState(true);
     const [todoGroup, setTodoGroup] = useState(0);
     const [isCover, setIsCover] = useState(false)
+    const [color, setColor] = useState("#aabbcc");
     // check all the content of this widget;
 
     const handleShow = (() => {
@@ -57,7 +58,6 @@ function RenderWidget(props) {
     if (currentWidget) {
         var currentWidgetInfo = currentWidget["content"];
     }
-
 
 
     if (update && currentWidgetInfo) {
@@ -96,98 +96,88 @@ function RenderWidget(props) {
         setUpdate(false);
         setServerUpdate(true);
     }
-
-    const duration = 300;
-
-    const defaultStyle = {
-        transition: `opacity ${duration}ms ease-in-out`,
-        opacity: 0,
-    }
-
-    const transitionStyles = {
-        entering: { opacity: 1 },
-        entered: { opacity: 1 },
-        exiting: { opacity: 0 },
-        exited: { opacity: 0 },
-    };
-
-
+    let subcontainerBackground = `{ background-color: white}`
     return (
-        <div>
-            <div className='widget bg-white p-1 rounded mb-2 d-flex justify-content-between'>
-                <div>
-                    <p>{item.title}</p>
+        <React.Fragment>
+            <style>
+                {subcontainerBackground}
+            </style>
+            <div>
+                <div className='widget bg-white p-1 rounded mb-2 d-flex justify-content-between'>
+                    <div>
+                        <p>{item.title}</p>
+                    </div>
+                    <div>
+                        <div className='sub-menu pe-1 ps-1' onClick={handleShow}><BsIcons.BsFillCaretDownFill /></div>
+                    </div>
                 </div>
-                <div>
-                    <div className='sub-menu pe-1 ps-1' onClick={handleShow}><BsIcons.BsFillCaretDownFill /></div>
-                </div>
-            </div>
 
-            <Modal show={toggle} onHide={handleClose}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-            >
-                <Modal.Header closeButton>
-                    <div className='d-flex flex-column w-100 '>
-                        <div className='d-flex justify-content-between w-100'>
-                            <div><p>{item.title}</p></div>
+                <Modal show={toggle} onHide={handleClose}
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                >
+                    <Modal.Header id='info-modal'>
+                        <div className='d-flex flex-column w-100 '>
+                            <div className='d-flex justify-content-between w-100'>
+                                <div><p>{item.title}</p></div>
 
-                            <div><Button className='top-widget m-2 rounded p-2 float-end' onClick={() => { if (isCover) { setIsCover(false) } else { setIsCover(true) }; console.log("click") }}><BsIcons.BsPaletteFill className='me-2' />Cover</Button></div>
+                                <div><Button className='top-widget m-2 rounded p-2 float-end' onClick={() => { if (isCover) { setIsCover(false) } else { setIsCover(true) }; console.log("click") }}><BsIcons.BsPaletteFill className='me-2' />Cover</Button></div>
+
+                            </div>
+                            <GetCoverOptions className="animated-cover-div" />
+
 
                         </div>
-                        <GetCoverOptions className="animated-cover-div" />
 
-
-                    </div>
-
-                </Modal.Header>
-                <Modal.Body>
-                    <div className='row'>
-                        <div className='col-lg-9 col-xl-10'>
-                            <div>
-                                <p>Description</p>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className='row'>
+                            <div className='col-lg-9 col-xl-10'>
                                 <div>
-                                    <div className="widget-input text-wrap rounded">
-                                        <EditableInput className="widget-input text-wrap p-4" text='Give your widget a more detailed description' />
+                                    <p>Description</p>
+                                    <div>
+                                        <div className="widget-input text-wrap rounded">
+                                            <EditableInput className="widget-input text-wrap p-4" text='Give your widget a more detailed description' />
+                                        </div>
+                                        <input className="form-control d-none" type="text" placeholder="Give your widget a more detailed description" ></input>
                                     </div>
-                                    <input className="form-control d-none" type="text" placeholder="Give your widget a more detailed description" ></input>
+                                </div>
+                                <hr></hr>
+                                {component.map((item, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <div className='d-flex justify-content-between'>
+                                                <div className='flex-fill me-3'>
+                                                    {item}
+                                                </div>
+                                                <div>
+                                                    <BsIcons.BsX size={30} cursor='pointer' onClick={() => { deleteWidget(index) }} />
+                                                </div>
+                                            </div>
+                                            <hr></hr>
+                                        </div>)
+                                })}
+
+                            </div>
+                            <div className='col-lg-3 col-xl-2'>
+                                <p>Add to Widget:</p>
+                                <div>
+                                    <div className='add-widget m-2 rounded p-2' onClick={() => { getText("") }}> <BsIcons.BsFileEarmarkFontFill className='me-2' />Plain Text </div>
+                                    <div className='add-widget m-2 rounded p-2' onClick={() => { getTodoList([]) }}> <BsIcons.BsCheckSquareFill className='me-2' />Todo List</div>
+                                    <div className='add-widget m-2 rounded p-2' onClick={() => { getWebBookmark() }}> <BsIcons.BsFillBookmarkFill className='me-2' />Bookmark</div>
+                                    <div className='add-widget m-2 rounded p-2' onClick={() => { getCalendar() }}> <BsIcons.BsFillCalendarEventFill className='me-2' />Calendar </div>
+                                    <div className='add-widget m-2 rounded p-2' onClick={() => { getMusicPlayer() }}> <BsIcons.BsDiscFill className='me-2' />Music</div>
                                 </div>
                             </div>
-                            <hr></hr>
-                            {component.map((item, index) => {
-                                return (
-                                    <div key={index}>
-                                        <div className='d-flex justify-content-between'>
-                                            <div className='flex-fill me-3'>
-                                                {item}
-                                            </div>
-                                            <div>
-                                                <BsIcons.BsX size={30} cursor='pointer' onClick={() => { deleteWidget(index) }} />
-                                            </div>
-                                        </div>
-                                        <hr></hr>
-                                    </div>)
-                            })}
-
                         </div>
-                        <div className='col-lg-3 col-xl-2'>
-                            <p>Add to Widget:</p>
-                            <div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { getText("") }}> <BsIcons.BsFileEarmarkFontFill className='me-2' />Plain Text </div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { getTodoList([]) }}> <BsIcons.BsCheckSquareFill className='me-2' />Todo List</div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { getWebBookmark() }}> <BsIcons.BsFillBookmarkFill className='me-2' />Bookmark</div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { getCalendar() }}> <BsIcons.BsFillCalendarEventFill className='me-2' />Calendar </div>
-                                <div className='add-widget m-2 rounded p-2' onClick={() => { getMusicPlayer() }}> <BsIcons.BsDiscFill className='me-2' />Music</div>
-                            </div>
-                        </div>
-                    </div>
 
-                </Modal.Body>
-                <Modal.Footer>
-                </Modal.Footer>
-            </Modal>
-        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        </React.Fragment>
     )
 
 
@@ -213,21 +203,13 @@ function RenderWidget(props) {
         setCurrentPage(newCurrentPage)
     }
 
-
     function GetCoverOptions() {
         if (isCover) {
             return (
                 <div>
-                    <h5>Cover</h5>
-                    <div>Colors:
-                        <div className='d-flex justify-content-center flex-wrap'>
-                            <span className='pink color-option'><p></p> </span>
-                            <span className='green color-option'> </span>
-                            <span className='yellow color-option'> </span>
-                            <span className='black color-option'> </span>
-                            <span className='red color-option'> </span>
-                            <span className='blue color-option'> </span>
-                        </div>
+                    <h5>Choose a color for your cover</h5>
+                    <div className='cover-color'>
+                        <HexColorPicker color={color} onChange={selectColor} />
                     </div>
                 </div>
             )
@@ -235,6 +217,11 @@ function RenderWidget(props) {
         return (<></>)
     }
 
+    function selectColor(e) {
+        setColor(e)
+        const currModal = document.getElementById("info-modal")
+        currModal.style.background = color
+    }
 
     // action function to add comp
     function getText(text) {
