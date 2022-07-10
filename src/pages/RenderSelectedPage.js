@@ -16,7 +16,7 @@ function RenderSelectedPage(props) {
     var pageListRendered = {};
     pageList.map((page, index) => {
         var pageID = page.id
-        pageListRendered[pageID] = <ConstructPage page={page} />
+        pageListRendered[pageID] = <ConstructPage page={page} pageID={pageID} />
     })
 
 
@@ -27,21 +27,52 @@ function RenderSelectedPage(props) {
     }, [currentPageID]);
 
 
+
+
+
     function ConstructPage(props) {
+        const [deletePos, setDeletePos] = useState(-1)
         var page = props.page
         var columnCount = 0;
         var temp = [];
+        let pageID = props.pageID
+
         while (page[columnCount]) {
             let name = page[columnCount].name
 
             // to match with render column trigger, which also has a pos to define the location of each column 
-            var pos=columnCount + 1
-            let newColumn = <RenderColumn name={name} db={db} pageID={page.id} user={user} pageList={pageList} setPageList={setPageList} pos={pos}/>
+            var pos = columnCount + 1
+            let newColumn = <RenderColumn name={name} db={db} pageID={page.id} user={user} pageList={pageList} setPageList={setPageList} pos={pos} deleteColumn={deleteColumn} setDeletePos={setDeletePos} />
             temp.push(newColumn)
             columnCount = columnCount + 1;
         }
         const [columnlist, setColumnlist] = useState(temp)
 
+        function deleteColumn(pos) {
+            console.log(pos)
+            console.log("deleting")
+            if (pos >= 0) {
+                let newPageList = [];
+                console.log(pageList)
+                pageList.map((item) => {
+                    if (item.id == pageID) {
+                        delete item[pos - 1]
+                    }
+                    newPageList.push(item)
+                })
+
+                let newColumnList = []
+                for (let i in columnlist){
+                    if (i != pos-1){
+                        newColumnList.push(columnlist[i])
+                    }
+                }
+                setColumnlist(newColumnList)
+                console.log(newPageList)
+                setPageList(newPageList)
+            }
+
+        }
 
         var IconDetector = () => {
             if (page.icon == 'Ok') {
@@ -72,7 +103,7 @@ function RenderSelectedPage(props) {
                     }
 
                     <div className=" col-sm-4 col-md-3 ms-1 mt-1">
-                        <RenderColumnTrigger pageList={pageList} setPageList={setPageList} columnlist={columnlist} setColumnlist={setColumnlist} id={page.id} db={db} user={user}/>
+                        <RenderColumnTrigger pageList={pageList} setPageList={setPageList} columnlist={columnlist} setColumnlist={setColumnlist} id={page.id} db={db} user={user} deleteColumn={deleteColumn} setDeletePos={setDeletePos} />
                     </div>
                 </div>
             </div>

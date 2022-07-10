@@ -46,7 +46,7 @@ function RenderWidget(props) {
         console.log("current widget position: ", columnPos - 1, widgetPos, position);
     });
 
-    var newComp = []
+    let newComp = []
     // solve edge case: when create a new column, there is no content
     var currentWidget = currentPage[columnPos - 1].widgets[widgetPos];
     var currentWidgetSize = Object.keys(currentWidget["content"]).length;
@@ -99,9 +99,6 @@ function RenderWidget(props) {
     let subcontainerBackground = `{ background-color: white}`
     return (
         <React.Fragment>
-            <style>
-                {subcontainerBackground}
-            </style>
             <div>
                 <div className='widget bg-white p-1 rounded mb-2 d-flex justify-content-between'>
                     <div>

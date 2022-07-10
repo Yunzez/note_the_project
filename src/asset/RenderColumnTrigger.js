@@ -12,6 +12,8 @@ function RenderColumnTrigger(props) {
     var db = props.db;
     var user = props.user;
     var pageID = props.id
+    let deleteColumn= props.deleteColumn
+    let setDeletePos = props.setDeletePos
 
     const [input, setInput] = useState('')
     // give the window choice a hook
@@ -46,8 +48,8 @@ function RenderColumnTrigger(props) {
 
         //update new column
         var replaceColumn = [];
-        var pos= columnlist.length
-        var newcolumn = <RenderColumn pageID = {props.id} db={db} user={user} pageList={pageList} setPageList={setPageList} name={input} pos={pos+1}/>
+        var pos = columnlist.length
+        var newcolumn = <RenderColumn pageID={props.id} db={db} user={user} pageList={pageList} setPageList={setPageList} name={input} pos={pos + 1} deleteColumn={deleteColumn} setDeletePos = {setDeletePos}/>
         columnlist.map(function (column, index) {
             replaceColumn.push(column)
         })
@@ -56,14 +58,14 @@ function RenderColumnTrigger(props) {
 
         //update database pagelist
         var replacePageList = [];
-        
+
         pageList.map((page, index) => {
             replacePageList[page.id] = page
         })
 
         var pageID;
-        replacePageList.map((page, index)=>{
-             var columnCount = 0
+        replacePageList.map((page, index) => {
+            var columnCount = 0
             if (page.id == props.id) {
                 var usedPage = page
                 while (usedPage[columnCount]) {
@@ -89,7 +91,7 @@ function RenderColumnTrigger(props) {
                         console.log('found page')
                         db.collection("users").doc(user.uid).collection("pages").doc(pageID.toString()).set(updateTarget).then(() => {
                             console.log("column successfully added!");
-                            
+
                         }).catch((error) => {
                             console.error("Error removing document: ", error);
                         });
@@ -97,7 +99,7 @@ function RenderColumnTrigger(props) {
                 })
             });
 
-     
+
         console.log(replacePageList)
         setPageList(replacePageList);
 

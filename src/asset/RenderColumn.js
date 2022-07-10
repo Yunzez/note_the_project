@@ -6,6 +6,7 @@ import { Overlay } from 'react-bootstrap';
 import * as BsIcons from "react-icons/bs";
 import * as FcIcons from "react-icons/fc";
 import * as FaIcons from "react-icons/fa";
+
 function RenderColumn(props) {
     const target = useRef(null);
     const [columnToggle, setColumnToggle] = useState(false)
@@ -17,6 +18,9 @@ function RenderColumn(props) {
     var user = props.user;
     var pageList = props.pageList;
     var setPageList = props.setPageList;
+    let deleteColumn = props.deleteColumn;
+    let setDeletePos = props.setDeletePos
+
     if (!pos) {
         pos = 0
     }
@@ -26,7 +30,6 @@ function RenderColumn(props) {
     const [titleInput, setTitleInput] = useState('')
     const [widgetList, setWidgetList] = useState([])
     const [serverUpdate, setServerUpdate] = useState(false)
-
 
     if (pageList) {
         pageList.map((item) => {
@@ -40,7 +43,6 @@ function RenderColumn(props) {
                 }
             }
         })
-
     }
 
     const [currentPage, setCurrentPage] = useState(tempPage)
@@ -154,17 +156,21 @@ function RenderColumn(props) {
         }
     }, [serverUpdate])
 
-
-    function deleteColumn() {
-        console.log(pos)
-        console.log(currentPage[pos - 1])
-        let newCurrentPage = currentPage
-        delete newCurrentPage[pos - 1]
-        console.log(newCurrentPage)
-        setCurrentPage(newCurrentPage)
-        console.log(currentPage)
-        setServerUpdate(true)
-    }
+    // useEffect(() => {
+    //     pageList.map((item) => {
+    //         let temp = item
+    //         if (item.id == pageID) {
+    //             temp = item
+    //             // since pos starts at 1
+    //             if (temp[pos - 1]) {
+    //                 if (temp[pos - 1].widgets != widgetList) {
+    //                     setWidgetList(temp[pos - 1].widgets)
+    //                 }
+    //             }
+    //         }
+    //     })
+    //   }, [pageList]);
+    
 
 
     return (
@@ -200,7 +206,7 @@ function RenderColumn(props) {
                             </a>
                             <a className='dropdown-option d-flex justify-content-start m-1 pe-1'>
                                 <FaIcons.FaTrash className='column-menuicon' />
-                                <p className='mb-1 me-3' onClick={() => deleteColumn()}>Delete</p>
+                                <p className='mb-1 me-3' onClick={()=>{ deleteColumn(pos)}}>Delete</p>
                             </a>
                         </div>
                     </div>
@@ -238,7 +244,6 @@ function RenderColumn(props) {
                 <button className="btn btn-primary" onClick={() => { handleGoWidget() }}>Go</button>
             </div>
         </div>
-
     )
 
 }
