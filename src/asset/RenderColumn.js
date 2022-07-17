@@ -18,7 +18,6 @@ function RenderColumn(props) {
     var user = props.user;
     var pageList = props.pageList;
     var setPageList = props.setPageList;
-    let deleteColumn = props.deleteColumn;
     let setDeletePos = props.setDeletePos
 
     if (!pos) {
@@ -156,20 +155,35 @@ function RenderColumn(props) {
         }
     }, [serverUpdate])
 
-    // useEffect(() => {
-    //     pageList.map((item) => {
-    //         let temp = item
-    //         if (item.id == pageID) {
-    //             temp = item
-    //             // since pos starts at 1
-    //             if (temp[pos - 1]) {
-    //                 if (temp[pos - 1].widgets != widgetList) {
-    //                     setWidgetList(temp[pos - 1].widgets)
-    //                 }
-    //             }
-    //         }
-    //     })
-    //   }, [pageList]);
+    function deleteColumn(pos) {
+        console.log(pos)
+        console.log("deleting")
+        console.log('before')
+        console.log(currentPage)
+        let newCurrentPage = {}
+        for (let i in currentPage){
+            newCurrentPage[i] = currentPage[i]
+        }
+        delete newCurrentPage[pos - 1]
+        console.log(newCurrentPage)
+        setCurrentPage(newCurrentPage)
+        let newPageList = []
+        for (let i in pageList){
+            // console.log(pageList[i], newCurrentPage)
+            if (pageList[i].id == newCurrentPage.id){
+                console.log('find equal')
+                newPageList.push(newCurrentPage)
+            } else {
+                newPageList.push(pageList[i])
+            }
+        }
+        setPageList(newPageList)
+      
+        console.log('after', pageList, newPageList)
+        // refresh columnlist
+
+        setServerUpdate(true)
+    }
     
 
 

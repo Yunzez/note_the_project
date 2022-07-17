@@ -31,20 +31,29 @@ function RenderSelectedPage(props) {
 
 
     function ConstructPage(props) {
-        const [deletePos, setDeletePos] = useState(-1)
         var page = props.page
         var columnCount = 0;
         var temp = [];
         let pageID = props.pageID
 
-        while (page[columnCount]) {
-            let name = page[columnCount].name
+        for(let i in page) {
+            if (i>=0){
+                    console.log("page name ", page)
+                    columnCount = i
+                    let name = page[columnCount].name
+                    // to match with render column trigger, which also has a pos to define the location of each column 
+                    var pos = columnCount + 1
+                    let newColumn = <RenderColumn name={name} db={db} pageID={page.id} user={user} pageList={pageList} setPageList={setPageList} pos={pos} />
+                    temp.push(newColumn)
+                     
+            }
+            // let name = page[columnCount].name
 
-            // to match with render column trigger, which also has a pos to define the location of each column 
-            var pos = columnCount + 1
-            let newColumn = <RenderColumn name={name} db={db} pageID={page.id} user={user} pageList={pageList} setPageList={setPageList} pos={pos} deleteColumn={deleteColumn} setDeletePos={setDeletePos} />
-            temp.push(newColumn)
-            columnCount = columnCount + 1;
+            // // to match with render column trigger, which also has a pos to define the location of each column 
+            // var pos = columnCount + 1
+            // let newColumn = <RenderColumn name={name} db={db} pageID={page.id} user={user} pageList={pageList} setPageList={setPageList} pos={pos} />
+            // temp.push(newColumn)
+            // columnCount = columnCount + 1;
         }
         const [columnlist, setColumnlist] = useState(temp)
 
@@ -84,7 +93,7 @@ function RenderSelectedPage(props) {
                 return (<div><FaIcons.FaFileAlt /></div>)
             }
         }
-        console.log(IconDetector)
+        // console.log(IconDetector)
         return (
             <div>
                 <div className='container d-flex card-body'>
@@ -103,7 +112,7 @@ function RenderSelectedPage(props) {
                     }
 
                     <div className=" col-sm-4 col-md-3 ms-1 mt-1">
-                        <RenderColumnTrigger pageList={pageList} setPageList={setPageList} columnlist={columnlist} setColumnlist={setColumnlist} id={page.id} db={db} user={user} deleteColumn={deleteColumn} setDeletePos={setDeletePos} />
+                        <RenderColumnTrigger pageList={pageList} setPageList={setPageList} columnlist={columnlist} setColumnlist={setColumnlist} id={page.id} db={db} user={user} />
                     </div>
                 </div>
             </div>
