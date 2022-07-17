@@ -17,7 +17,7 @@
         "autosize": "^5.0.1",
         "bootstrap": "^5.1.3",
         "chalk": "^5.0.1",
-        "firebase": "^9.6.3",
+        "firebase": "^9.9.0",
         "fortawesome": "0.0.1-security",
         "html-react-parser": "^1.4.5",
         "metascraper": "^5.29.3",

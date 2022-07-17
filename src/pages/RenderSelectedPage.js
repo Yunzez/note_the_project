@@ -47,13 +47,6 @@ function RenderSelectedPage(props) {
                     temp.push(newColumn)
                      
             }
-            // let name = page[columnCount].name
-
-            // // to match with render column trigger, which also has a pos to define the location of each column 
-            // var pos = columnCount + 1
-            // let newColumn = <RenderColumn name={name} db={db} pageID={page.id} user={user} pageList={pageList} setPageList={setPageList} pos={pos} />
-            // temp.push(newColumn)
-            // columnCount = columnCount + 1;
         }
         const [columnlist, setColumnlist] = useState(temp)
 
